@@ -14,6 +14,8 @@ interface ProductGridProps {
   products: Array<Product>
   favorites?: Set<string>
   onFavoriteToggle?: (id: string) => void
+  onAddToCart?: (id: string) => void
+  onBuy?: (id: string) => void
   className?: string
 }
 
@@ -21,6 +23,8 @@ export function ProductGrid({
   products,
   favorites = new Set(),
   onFavoriteToggle,
+  onAddToCart,
+  onBuy,
   className,
 }: ProductGridProps) {
   return (
@@ -36,6 +40,8 @@ export function ProductGrid({
           {...product}
           isFavorite={favorites.has(product.id)}
           onFavoriteToggle={onFavoriteToggle}
+          onAddToCart={onAddToCart}
+          onBuy={onBuy}
         />
       ))}
     </div>

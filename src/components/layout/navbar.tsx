@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Link } from "@tanstack/react-router"
 import { MapPin, Menu, Plus, Search, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,8 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { AuthModal } from "@/components/auth/auth-modal"
 
 export function Navbar() {
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authModalTab, setAuthModalTab] = useState<"signin" | "signup">("signin")
+
   const technologies = [
     "Smartphones",
     "Laptops & Computers",
@@ -98,21 +103,34 @@ export function Navbar() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <Link to="/" className="w-full">
-                    Đăng nhập
-                  </Link>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setAuthModalTab("signin")
+                    setAuthModalOpen(true)
+                  }}
+                >
+                  Đăng nhập
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/" className="w-full">
-                    Đăng ký
-                  </Link>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setAuthModalTab("signup")
+                    setAuthModalOpen(true)
+                  }}
+                >
+                  Đăng ký
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        open={authModalOpen}
+        onOpenChange={setAuthModalOpen}
+        defaultTab={authModalTab}
+      />
 
       {/* Technologies & Products Menu */}
       <div className="border-t bg-muted/30">

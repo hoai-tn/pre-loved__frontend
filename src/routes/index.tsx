@@ -20,6 +20,16 @@ function App() {
     })
   }
 
+  const handleAddToCart = (id: string) => {
+    console.log("Add to cart:", id)
+    // TODO: Implement add to cart logic
+  }
+
+  const handleBuy = (id: string) => {
+    console.log("Buy product:", id)
+    // TODO: Implement buy logic
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
@@ -32,6 +42,8 @@ function App() {
         products={mockProducts}
         favorites={favorites}
         onFavoriteToggle={handleFavoriteToggle}
+        onAddToCart={handleAddToCart}
+        onBuy={handleBuy}
       />
     </div>
   )

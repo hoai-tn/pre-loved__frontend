@@ -1,8 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Link } from "@tanstack/react-router"
-import { MapPin, Menu, Plus, Search, User } from "lucide-react"
+import { Link, useNavigate } from "@tanstack/react-router"
+import { MapPin, Menu, Plus, Search, ShoppingCart, User } from "lucide-react"
+import { useCart } from "@/lib/contexts/cart-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -23,6 +24,13 @@ import { AuthModal } from "@/components/auth/auth-modal"
 export function Navbar() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalTab, setAuthModalTab] = useState<"signin" | "signup">("signin")
+  const { getItemCount } = useCart()
+  const navigate = useNavigate()
+  const cartItemCount = getItemCount()
+
+  const handleCartClick = () => {
+    navigate({ to: "/cart" as any })
+  }
 
   const technologies = [
     "Smartphones",
@@ -93,6 +101,21 @@ export function Navbar() {
             <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
               <Plus className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">Đăng tin</span>
+            </Button>
+
+            {/* Cart Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 relative"
+              onClick={handleCartClick}
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-white text-xs font-semibold flex items-center justify-center">
+                  {cartItemCount > 99 ? "99+" : cartItemCount}
+                </span>
+              )}
             </Button>
 
             {/* User Menu */}

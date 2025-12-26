@@ -73,7 +73,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
             onQuantityInputChange={handleQuantityInputChange}
           />
 
-          <ProductActionButtons price={product.price} />
+          <ProductActionButtons
+            productId={product.id}
+            image={product.images[0] || ""}
+            title={product.title}
+            price={product.price}
+            location={product.location}
+          />
         </div>
       </div>
 

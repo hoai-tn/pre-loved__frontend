@@ -1,12 +1,16 @@
+"use client"
+
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { ProductGrid } from "@/components/product/product-grid"
 import { mockProducts } from "@/lib/mock-products"
+import { useCart } from "@/lib/contexts/cart-context"
 
 export const Route = createFileRoute("/")({ component: App })
 
 function App() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
+  const { addItem } = useCart()
 
   const handleFavoriteToggle = (id: string) => {
     setFavorites((prev) => {
@@ -21,13 +25,22 @@ function App() {
   }
 
   const handleAddToCart = (id: string) => {
-    console.log("Add to cart:", id)
-    // TODO: Implement add to cart logic
+    const product = mockProducts.find((p) => p.id === id)
+    if (product) {
+      addItem({
+        id: `cart-${id}-${Date.now()}`,
+        productId: id,
+        image: product.image,
+        title: product.title,
+        price: product.price,
+        location: product.location,
+      })
+    }
   }
 
   const handleBuy = (id: string) => {
-    console.log("Buy product:", id)
-    // TODO: Implement buy logic
+    handleAddToCart(id)
+    // TODO: Navigate to checkout or cart
   }
 
   return (

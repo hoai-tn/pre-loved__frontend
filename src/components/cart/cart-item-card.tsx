@@ -1,10 +1,10 @@
 "use client"
 
-import { Trash2, Minus, Plus } from "lucide-react"
+import { Minus, Plus, Trash2 } from "lucide-react"
+import type { CartItem } from "@/lib/types/cart"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import type { CartItem } from "@/lib/types/cart"
 
 interface CartItemCardProps {
   item: CartItem
@@ -35,7 +35,7 @@ export function CartItemCard({ item, onRemove, onQuantityChange }: CartItemCardP
     <Card className="p-4">
       <div className="flex gap-4">
         {/* Product Image */}
-        <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border bg-muted">
+        <div className="relative w-24 h-24 shrink-0 rounded-lg overflow-hidden border bg-muted">
           <img
             src={item.image}
             alt={item.title}

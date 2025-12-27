@@ -3,6 +3,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { useState } from "react"
+import { useAuthStore } from "@/store/auth"
+import type { LoginRequest } from "@/services/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -21,8 +23,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { useAuth } from "@/lib/contexts/auth-context"
-import type { LoginRequest } from "@/services/api"
 
 export const Route = createFileRoute("/signin")({
   component: SignInPage,
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/signin")({
 
 function SignInPage() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const login = useAuthStore((state) => state.login)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form"
 import { useState } from "react"
 import type { RegisterRequest } from "@/services/api"
-import { useAuth } from "@/lib/contexts/auth-context"
+import { useAuthStore } from "@/store/auth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -21,7 +21,7 @@ interface SignUpFormProps {
 }
 
 export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
-  const { register: registerUser } = useAuth()
+  const registerUser = useAuthStore((state) => state.register)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

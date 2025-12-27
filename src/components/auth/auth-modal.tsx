@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { useNavigate } from "@tanstack/react-router"
+import { SignInForm } from "./signin-form"
+import { SignUpForm } from "./signup-form"
 import {
   Dialog,
   DialogContent,
@@ -15,8 +17,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { SignInForm } from "./signin-form"
-import { SignUpForm } from "./signup-form"
 
 interface AuthModalProps {
   open: boolean

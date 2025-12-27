@@ -3,6 +3,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { useState } from "react"
+import { useAuthStore } from "@/store/auth"
+import type { RegisterRequest } from "@/services/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,8 +24,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { useAuth } from "@/lib/contexts/auth-context"
-import type { RegisterRequest } from "@/services/api"
 
 export const Route = createFileRoute("/signup")({
   component: SignUpPage,
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/signup")({
 
 function SignUpPage() {
   const navigate = useNavigate()
-  const { register: registerUser } = useAuth()
+  const registerUser = useAuthStore((state) => state.register)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

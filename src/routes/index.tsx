@@ -4,13 +4,13 @@ import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { ProductGrid } from "@/components/product/product-grid"
 import { mockProducts } from "@/lib/mock-products"
-import { useCart } from "@/lib/contexts/cart-context"
+import { useCartStore } from "@/store/cart"
 
 export const Route = createFileRoute("/")({ component: App })
 
 function App() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
-  const { addItem } = useCart()
+  const addItem = useCartStore((state) => state.addItem)
 
   const handleFavoriteToggle = (id: string) => {
     setFavorites((prev) => {

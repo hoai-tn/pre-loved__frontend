@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { MapPin, Menu, Plus, Search, ShoppingCart, User, LogOut } from "lucide-react"
-import { useCart } from "@/lib/contexts/cart-context"
+import { useCartStore, selectCartItemCount } from "@/store/cart"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,10 +26,9 @@ import { AuthModal } from "@/components/auth/auth-modal"
 export function Navbar() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalTab, setAuthModalTab] = useState<"signin" | "signup">("signin")
-  const { getItemCount } = useCart()
+  const cartItemCount = useCartStore(selectCartItemCount)
   const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
-  const cartItemCount = getItemCount()
 
   const handleLogout = () => {
     logout()

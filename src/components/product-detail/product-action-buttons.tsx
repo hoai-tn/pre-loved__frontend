@@ -3,7 +3,7 @@
 import { ShoppingCart } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
-import { useCart } from "@/lib/contexts/cart-context"
+import { useCartStore } from "@/store/cart"
 
 interface ProductActionButtonsProps {
   productId: string
@@ -27,7 +27,7 @@ export function ProductActionButtons({
   price,
   location,
 }: ProductActionButtonsProps) {
-  const { addItem } = useCart()
+  const addItem = useCartStore((state) => state.addItem)
   const navigate = useNavigate()
 
   const handleAddToCart = () => {

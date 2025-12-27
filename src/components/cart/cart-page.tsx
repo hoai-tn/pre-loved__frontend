@@ -1,12 +1,16 @@
 "use client"
 
-import { useCart } from "@/lib/contexts/cart-context"
+import { ShoppingCart } from "lucide-react"
 import { CartItemCard } from "./cart-item-card"
 import { CartSummary } from "./cart-summary"
-import { ShoppingCart } from "lucide-react"
+import { useCartStore } from "@/store/cart"
 
 export function CartPage() {
-  const { items, removeItem, updateQuantity, getTotalPrice, getItemCount } = useCart()
+  const items = useCartStore((state) => state.items)
+  const removeItem = useCartStore((state) => state.removeItem)
+  const updateQuantity = useCartStore((state) => state.updateQuantity)
+  const getTotalPrice = useCartStore((state) => state.getTotalPrice)
+  const getItemCount = useCartStore((state) => state.getItemCount)
 
   const handleCheckout = () => {
     // TODO: Implement checkout logic

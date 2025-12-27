@@ -1,10 +1,9 @@
-import { post, get } from './api-client'
+import { get, post, setToken } from './api-client'
 import { API_ROUTES } from './routes.api'
-import { setToken } from './api-client'
 import type {
-  RegisterRequest,
-  LoginRequest,
   AuthResponse,
+  LoginRequest,
+  RegisterRequest,
   RegisterResponse,
   UserProfile,
 } from './types.api'
@@ -13,9 +12,12 @@ import type {
  * Register a new user
  */
 export async function register(
-  payload: RegisterRequest
+  payload: RegisterRequest,
 ): Promise<RegisterResponse> {
-  const response = await post<RegisterResponse>(API_ROUTES.USER.REGISTER, payload)
+  const response = await post<RegisterResponse>(
+    API_ROUTES.USER.REGISTER,
+    payload,
+  )
 
   if (response.error) {
     throw new Error(response.error)
@@ -35,12 +37,11 @@ export async function login(payload: LoginRequest): Promise<AuthResponse> {
   }
 
   const authData = response.data!
-  
+  console.log('authData', authData)
   // Store token if provided
-  if (authData.token) {
-    setToken(authData.token)
+  if (authData.accessToken) {
+    setToken(authData.accessToken)
   }
-
   return authData
 }
 

@@ -1,4 +1,6 @@
+import axios from 'axios'
 import { API_ROUTES } from './routes.api'
+import type { AxiosError, AxiosInstance } from 'axios'
 import type { ApiResponse } from './types.api'
 
 /**
@@ -23,41 +25,82 @@ export function removeToken(): void {
 }
 
 /**
- * Base API client using fetch
+ * Create axios instance with base configuration
+ */
+const axiosInstance: AxiosInstance = axios.create({
+  baseURL: API_ROUTES.BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+
+/**
+ * Request interceptor to add Authorization header
+ */
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getToken()
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
+
+/**
+ * Response interceptor for error handling
+ */
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  (error: AxiosError) => {
+    return Promise.reject(error)
+  },
+)
+
+/**
+ * Base API client using axios
  */
 async function apiClient<T = unknown>(
   endpoint: string,
-  options: RequestInit = {}
+  options: {
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+    body?: unknown
+    headers?: Record<string, string>
+  } = {},
 ): Promise<ApiResponse<T>> {
-  const token = getToken()
-  const url = `${API_ROUTES.BASE_URL}${endpoint}`
-
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...(options.headers as Record<string, string>),
-  }
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`
-  }
-
   try {
-    const response = await fetch(url, {
-      ...options,
-      headers,
+    const response = await axiosInstance.request<ApiResponse<T>>({
+      url: endpoint,
+      method: options.method || 'GET',
+      data: options.body,
+      headers: options.headers,
     })
+    return { data: response.data.data }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError<{
+        message?: string
+        error?: string
+        errors?: Record<string, Array<string>>
+      }>
 
-    const data = await response.json()
+      const responseData = axiosError.response?.data
 
-    if (!response.ok) {
       return {
-        error: data.message || data.error || 'Request failed',
-        errors: data.errors,
+        error:
+          responseData?.message ||
+          responseData?.error ||
+          axiosError.message ||
+          'Request failed',
+        errors: responseData?.errors,
       }
     }
 
-    return { data }
-  } catch (error) {
     return {
       error: error instanceof Error ? error.message : 'Network error occurred',
     }
@@ -67,7 +110,9 @@ async function apiClient<T = unknown>(
 /**
  * GET request
  */
-export async function get<T = unknown>(endpoint: string): Promise<ApiResponse<T>> {
+export async function get<T = unknown>(
+  endpoint: string,
+): Promise<ApiResponse<T>> {
   return apiClient<T>(endpoint, { method: 'GET' })
 }
 
@@ -76,11 +121,11 @@ export async function get<T = unknown>(endpoint: string): Promise<ApiResponse<T>
  */
 export async function post<T = unknown>(
   endpoint: string,
-  body?: unknown
+  body?: unknown,
 ): Promise<ApiResponse<T>> {
   return apiClient<T>(endpoint, {
     method: 'POST',
-    body: body ? JSON.stringify(body) : undefined,
+    body,
   })
 }
 
@@ -89,17 +134,19 @@ export async function post<T = unknown>(
  */
 export async function put<T = unknown>(
   endpoint: string,
-  body?: unknown
+  body?: unknown,
 ): Promise<ApiResponse<T>> {
   return apiClient<T>(endpoint, {
     method: 'PUT',
-    body: body ? JSON.stringify(body) : undefined,
+    body,
   })
 }
 
 /**
  * DELETE request
  */
-export async function del<T = unknown>(endpoint: string): Promise<ApiResponse<T>> {
+export async function del<T = unknown>(
+  endpoint: string,
+): Promise<ApiResponse<T>> {
   return apiClient<T>(endpoint, { method: 'DELETE' })
 }

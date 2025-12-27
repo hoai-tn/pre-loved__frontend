@@ -5,7 +5,7 @@ export interface ApiResponse<T = unknown> {
   data?: T
   message?: string
   error?: string
-  errors?: Record<string, string[]>
+  errors?: Record<string, Array<string>>
 }
 
 /**
@@ -38,9 +38,8 @@ export interface UserProfile {
  * Auth response with token
  */
 export interface AuthResponse {
-  token: string
+  accessToken: string
   user: UserProfile
-  message?: string
 }
 
 /**

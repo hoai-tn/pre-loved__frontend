@@ -14,7 +14,7 @@ export interface AuthActions {
   logout: () => void
   refreshProfile: () => Promise<void>
   checkAuth: () => Promise<void>
-  
+
   // Internal state setters
   setUser: (user: UserProfile | null) => void
   setLoading: (loading: boolean) => void
@@ -22,4 +22,3 @@ export interface AuthActions {
 }
 
 export type AuthStore = AuthState & AuthActions
-

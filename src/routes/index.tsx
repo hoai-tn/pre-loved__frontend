@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { createFileRoute } from "@tanstack/react-router"
-import { useState } from "react"
-import { ProductGrid } from "@/components/product/product-grid"
-import { mockProducts } from "@/lib/mock-products"
-import { useCartStore } from "@/store/cart"
+import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
+import { ProductGrid } from '@/components/product/product-grid'
+import { mockProducts } from '@/lib/mock-products'
+import { useCartStore } from '@/store/cart'
 
-export const Route = createFileRoute("/")({ component: App })
+export const Route = createFileRoute('/')({ component: App })
 
 function App() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set())

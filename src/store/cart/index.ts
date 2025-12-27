@@ -6,7 +6,7 @@ import type { CartStore } from './types'
 
 /**
  * Cart Store using Zustand
- * 
+ *
  * Features:
  * - Persistent cart data (localStorage)
  * - DevTools integration for debugging
@@ -30,12 +30,12 @@ export const useCartStore = create<CartStore>()(
       {
         name: 'cart-storage', // localStorage key
         partialize: (state) => ({ items: state.items }), // Only persist items
-      }
+      },
     ),
     {
       name: 'CartStore', // DevTools name
-    }
-  )
+    },
+  ),
 )
 
 // Selectors for optimized re-renders
@@ -47,4 +47,3 @@ export const selectCartError = (state: CartStore) => state.error
 
 // Export types
 export type { CartStore, CartState, CartActions } from './types'
-

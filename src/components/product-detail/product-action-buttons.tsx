@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { ShoppingCart } from "lucide-react"
-import { useNavigate } from "@tanstack/react-router"
-import { Button } from "@/components/ui/button"
-import { useCartStore } from "@/store/cart"
+import { ShoppingCart } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
+import { useCartStore } from '@/store/cart'
 
 interface ProductActionButtonsProps {
   productId: string
@@ -14,9 +14,9 @@ interface ProductActionButtonsProps {
 }
 
 const formatPrice = (amount: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
   }).format(amount)
 }
 
@@ -43,7 +43,7 @@ export function ProductActionButtons({
 
   const handleBuyNow = () => {
     handleAddToCart()
-    navigate({ to: "/cart" })
+    navigate({ to: '/cart' })
   }
 
   return (
@@ -67,4 +67,3 @@ export function ProductActionButtons({
     </div>
   )
 }
-

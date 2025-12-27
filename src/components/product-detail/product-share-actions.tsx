@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Facebook, Heart, MessageCircle, Share2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { useState } from 'react'
+import { Facebook, Heart, MessageCircle, Share2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export function ProductShareActions() {
   const [isFavorite, setIsFavorite] = useState(false)
@@ -25,15 +25,11 @@ export function ProductShareActions() {
         variant="ghost"
         size="sm"
         onClick={() => setIsFavorite(!isFavorite)}
-        className={cn(
-          "gap-2",
-          isFavorite && "text-red-500"
-        )}
+        className={cn('gap-2', isFavorite && 'text-red-500')}
       >
-        <Heart className={cn("h-4 w-4", isFavorite && "fill-red-500")} />
+        <Heart className={cn('h-4 w-4', isFavorite && 'fill-red-500')} />
         <span>Đã thích ({isFavorite ? 1 : 0})</span>
       </Button>
     </div>
   )
 }
-

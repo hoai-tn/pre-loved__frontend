@@ -40,11 +40,11 @@ function MyComponent() {
   // Direct state access
   const user = useAuthStore((state) => state.user)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  
+
   // Access actions
   const login = useAuthStore((state) => state.login)
   const logout = useAuthStore((state) => state.logout)
-  
+
   return (
     <div>
       {isAuthenticated ? (
@@ -67,20 +67,20 @@ function MyComponent() {
 For better performance, use the provided selectors to prevent unnecessary re-renders:
 
 ```tsx
-import { 
-  useAuthStore, 
-  selectUser, 
+import {
+  useAuthStore,
+  selectUser,
   selectIsAuthenticated,
-  selectIsLoading 
+  selectIsLoading,
 } from '@/store/auth'
 
 function UserProfile() {
   // This component will only re-render when user changes
   const user = useAuthStore(selectUser)
-  
+
   // This component will only re-render when auth status changes
   const isAuthenticated = useAuthStore(selectIsAuthenticated)
-  
+
   return (
     <div>
       {isAuthenticated && user ? (
@@ -100,10 +100,10 @@ function UserProfile() {
 
 ```typescript
 import {
-  selectUser,              // Get current user
-  selectIsAuthenticated,   // Get authentication status
-  selectIsLoading,         // Get loading state
-  selectAuthError,         // Get error state
+  selectUser, // Get current user
+  selectIsAuthenticated, // Get authentication status
+  selectIsLoading, // Get loading state
+  selectAuthError, // Get error state
 } from '@/store/auth'
 ```
 
@@ -134,7 +134,7 @@ interface UserProfile {
   - Authenticates a user with username and password
   - Updates user state on success
   - Throws error on failure
-  
+
   ```typescript
   interface LoginRequest {
     username: string
@@ -146,7 +146,7 @@ interface UserProfile {
   - Registers a new user account
   - After registration, user needs to login separately
   - Throws error on failure
-  
+
   ```typescript
   interface RegisterRequest {
     username: string
@@ -173,10 +173,8 @@ interface UserProfile {
 
 - **`setUser(user: UserProfile | null)`**
   - Sets the user and authentication status
-  
 - **`setLoading(loading: boolean)`**
   - Sets the loading state
-  
 - **`setError(error: string | null)`**
   - Sets the error state
 
@@ -192,13 +190,13 @@ function LoginForm() {
   const login = useAuthStore((state) => state.login)
   const isLoading = useAuthStore((state) => state.isLoading)
   const error = useAuthStore((state) => state.error)
-  
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     try {
       await login({ username, password })
       // Success - redirect or show success message
@@ -257,7 +255,11 @@ function UserMenu() {
 ### Protected Route Component
 
 ```tsx
-import { useAuthStore, selectIsAuthenticated, selectIsLoading } from '@/store/auth'
+import {
+  useAuthStore,
+  selectIsAuthenticated,
+  selectIsLoading,
+} from '@/store/auth'
 import { useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 
@@ -339,7 +341,7 @@ try {
 } catch (err) {
   // Error is automatically set in the store
   console.error('Login failed:', err)
-  
+
   // You can also access the error from the store
   const storeError = useAuthStore.getState().error
 }
@@ -360,17 +362,17 @@ import { useAuthStore } from '@/store/auth'
 describe('Auth Store', () => {
   beforeEach(() => {
     // Reset store state before each test
-    useAuthStore.setState({ 
-      user: null, 
-      isAuthenticated: false, 
+    useAuthStore.setState({
+      user: null,
+      isAuthenticated: false,
       isLoading: false,
-      error: null 
+      error: null,
     })
   })
 
   it('should set user on successful login', async () => {
     const { login } = useAuthStore.getState()
-    
+
     await login({ username: 'testuser', password: 'password' })
 
     const { user, isAuthenticated } = useAuthStore.getState()
@@ -381,13 +383,13 @@ describe('Auth Store', () => {
 
   it('should clear user on logout', () => {
     const { logout } = useAuthStore.getState()
-    
+
     // Set initial user
-    useAuthStore.setState({ 
+    useAuthStore.setState({
       user: { id: '1', username: 'test', email: 'test@test.com' },
-      isAuthenticated: true 
+      isAuthenticated: true,
     })
-    
+
     logout()
 
     const { user, isAuthenticated } = useAuthStore.getState()
@@ -439,4 +441,3 @@ All API interactions are handled through these service functions, keeping the st
 - [ ] Add user preferences to the store
 - [ ] Implement session timeout warnings
 - [ ] Add audit logging for auth events
-

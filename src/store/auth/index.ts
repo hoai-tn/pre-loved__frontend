@@ -6,7 +6,7 @@ import type { AuthStore } from './types'
 
 /**
  * Auth Store using Zustand
- * 
+ *
  * Features:
  * - DevTools integration for debugging
  * - Async actions support for API integration
@@ -31,8 +31,8 @@ export const useAuthStore = create<AuthStore>()(
     },
     {
       name: 'AuthStore', // DevTools name
-    }
-  )
+    },
+  ),
 )
 
 // Initialize auth check on first load
@@ -48,4 +48,3 @@ export const selectAuthError = (state: AuthStore) => state.error
 
 // Export types
 export type { AuthStore, AuthState, AuthActions } from './types'
-

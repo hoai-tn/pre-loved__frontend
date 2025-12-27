@@ -3,19 +3,17 @@ import type { CartItem } from '@/lib/types/cart'
 import type { StateCreator } from 'zustand'
 import type { CartStore } from './types'
 
-export const createCartActions: StateCreator<
-  CartStore,
-  [],
-  [],
-  CartStore
-> = (set, get) => ({
+export const createCartActions: StateCreator<CartStore, [], [], CartStore> = (
+  set,
+  get,
+) => ({
   ...initialCartState,
-  
+
   // Synchronous actions
   addItem: (newItem: Omit<CartItem, 'quantity'>) => {
     set((state) => {
       const existingItem = state.items.find(
-        (item) => item.productId === newItem.productId
+        (item) => item.productId === newItem.productId,
       )
 
       if (existingItem) {
@@ -23,7 +21,7 @@ export const createCartActions: StateCreator<
           items: state.items.map((item) =>
             item.productId === newItem.productId
               ? { ...item, quantity: item.quantity + 1 }
-              : item
+              : item,
           ),
         }
       }
@@ -48,7 +46,7 @@ export const createCartActions: StateCreator<
 
     set((state) => ({
       items: state.items.map((item) =>
-        item.id === id ? { ...item, quantity } : item
+        item.id === id ? { ...item, quantity } : item,
       ),
     }))
   },
@@ -86,4 +84,3 @@ export const createCartActions: StateCreator<
     // Placeholder
   },
 })
-

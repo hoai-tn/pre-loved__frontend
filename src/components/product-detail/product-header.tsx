@@ -22,4 +22,3 @@ export function ProductHeader({ title, sold, isMall }: ProductHeaderProps) {
     </div>
   )
 }
-

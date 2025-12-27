@@ -7,7 +7,7 @@ import type { CartStore } from './types'
 
 export const createAsyncActions = (
   get: () => CartStore,
-  set: (partial: Partial<CartStore>) => void
+  set: (partial: Partial<CartStore>) => void,
 ) => ({
   /**
    * Sync cart with server
@@ -15,20 +15,21 @@ export const createAsyncActions = (
    */
   syncCartWithServer: async () => {
     const { items, setLoading, setError } = get()
-    
+
     try {
       setLoading(true)
       setError(null)
-      
+
       // TODO: API call to sync cart
       // await apiClient.post('/cart/sync', { items })
-      
+
       console.log('Cart synced with server:', items)
-      
+
       // Save to localStorage as fallback
       localStorage.setItem('cart', JSON.stringify(items))
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to sync cart'
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to sync cart'
       setError(errorMessage)
       console.error('Error syncing cart:', error)
     } finally {
@@ -42,15 +43,15 @@ export const createAsyncActions = (
    */
   loadCartFromServer: async () => {
     const { setLoading, setError } = get()
-    
+
     try {
       setLoading(true)
       setError(null)
-      
+
       // TODO: API call to load cart
       // const response = await apiClient.get('/cart')
       // set({ items: response.data.items })
-      
+
       // Load from localStorage as fallback
       const savedCart = localStorage.getItem('cart')
       if (savedCart) {
@@ -58,7 +59,8 @@ export const createAsyncActions = (
         console.log('Cart loaded from localStorage')
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load cart'
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to load cart'
       setError(errorMessage)
       console.error('Error loading cart:', error)
     } finally {
@@ -66,4 +68,3 @@ export const createAsyncActions = (
     }
   },
 })
-

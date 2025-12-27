@@ -13,4 +13,3 @@ export function ProductBreadcrumb({ title }: ProductBreadcrumbProps) {
     </nav>
   )
 }
-

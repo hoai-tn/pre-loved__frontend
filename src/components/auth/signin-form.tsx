@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { useForm } from "react-hook-form"
-import { useState } from "react"
-import type { LoginRequest } from "@/services/api"
-import { useAuthStore } from "@/store/auth"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import type { LoginRequest } from '@/services/api'
+import { useAuthStore } from '@/store/auth'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Form,
   FormControl,
@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from '@/components/ui/form'
 
 interface SignInFormProps {
   onSuccess?: () => void
@@ -27,10 +27,10 @@ export function SignInForm({ onSuccess, onSwitchToSignUp }: SignInFormProps) {
 
   const form = useForm<LoginRequest>({
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
-    mode: "onBlur",
+    mode: 'onBlur',
   })
 
   const onSubmit = async (data: LoginRequest) => {
@@ -43,7 +43,9 @@ export function SignInForm({ onSuccess, onSwitchToSignUp }: SignInFormProps) {
       onSuccess?.()
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Đăng nhập thất bại. Vui lòng thử lại."
+        err instanceof Error
+          ? err.message
+          : 'Đăng nhập thất bại. Vui lòng thử lại.',
       )
     } finally {
       setIsLoading(false)
@@ -57,7 +59,7 @@ export function SignInForm({ onSuccess, onSwitchToSignUp }: SignInFormProps) {
           control={form.control}
           name="username"
           rules={{
-            required: "Tên đăng nhập là bắt buộc",
+            required: 'Tên đăng nhập là bắt buộc',
           }}
           render={({ field }) => (
             <FormItem>
@@ -78,7 +80,7 @@ export function SignInForm({ onSuccess, onSwitchToSignUp }: SignInFormProps) {
           control={form.control}
           name="password"
           rules={{
-            required: "Mật khẩu là bắt buộc",
+            required: 'Mật khẩu là bắt buộc',
           }}
           render={({ field }) => (
             <FormItem>
@@ -103,11 +105,11 @@ export function SignInForm({ onSuccess, onSwitchToSignUp }: SignInFormProps) {
         )}
 
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Đang xử lý..." : "Đăng nhập"}
+          {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
         </Button>
 
         <div className="text-sm text-center text-muted-foreground">
-          Chưa có tài khoản?{" "}
+          Chưa có tài khoản?{' '}
           <Button
             type="button"
             variant="link"

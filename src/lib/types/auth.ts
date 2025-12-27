@@ -33,5 +33,5 @@ export interface AuthResponse {
  */
 export interface AuthError {
   message: string
-  errors?: Record<string, string[]>
+  errors?: Record<string, Array<string>>
 }

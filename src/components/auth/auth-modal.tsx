@@ -1,53 +1,48 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { useNavigate } from "@tanstack/react-router"
-import { SignInForm } from "./signin-form"
-import { SignUpForm } from "./signup-form"
+import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
+import { SignInForm } from './signin-form'
+import { SignUpForm } from './signup-form'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
+} from '@/components/ui/dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface AuthModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  defaultTab?: "signin" | "signup"
+  defaultTab?: 'signin' | 'signup'
 }
 
 export function AuthModal({
   open,
   onOpenChange,
-  defaultTab = "signin",
+  defaultTab = 'signin',
 }: AuthModalProps) {
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState<"signin" | "signup">(defaultTab)
+  const [activeTab, setActiveTab] = useState<'signin' | 'signup'>(defaultTab)
 
   const handleSignInSuccess = () => {
     onOpenChange(false)
-    navigate({ to: "/" })
+    navigate({ to: '/' })
   }
 
   const handleSignUpSuccess = () => {
     // After successful signup, switch to signin tab
-    setActiveTab("signin")
+    setActiveTab('signin')
   }
 
   const handleSwitchToSignUp = () => {
-    setActiveTab("signup")
+    setActiveTab('signup')
   }
 
   const handleSwitchToSignIn = () => {
-    setActiveTab("signin")
+    setActiveTab('signin')
   }
 
   return (
@@ -55,18 +50,18 @@ export function AuthModal({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">
-            {activeTab === "signin" ? "Đăng nhập" : "Đăng ký"}
+            {activeTab === 'signin' ? 'Đăng nhập' : 'Đăng ký'}
           </DialogTitle>
           <DialogDescription className="text-center">
-            {activeTab === "signin"
-              ? "Nhập thông tin để đăng nhập vào tài khoản"
-              : "Tạo tài khoản mới để bắt đầu mua bán"}
+            {activeTab === 'signin'
+              ? 'Nhập thông tin để đăng nhập vào tài khoản'
+              : 'Tạo tài khoản mới để bắt đầu mua bán'}
           </DialogDescription>
         </DialogHeader>
 
         <Tabs
           value={activeTab}
-          onValueChange={(value) => setActiveTab(value as "signin" | "signup")}
+          onValueChange={(value) => setActiveTab(value as 'signin' | 'signup')}
           className="w-full"
         >
           <TabsList className="grid w-full grid-cols-2">

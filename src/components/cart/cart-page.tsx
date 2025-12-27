@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { ShoppingCart } from "lucide-react"
-import { CartItemCard } from "./cart-item-card"
-import { CartSummary } from "./cart-summary"
-import { useCartStore } from "@/store/cart"
+import { ShoppingCart } from 'lucide-react'
+import { CartItemCard } from './cart-item-card'
+import { CartSummary } from './cart-summary'
+import { useCartStore } from '@/store/cart'
 
 export function CartPage() {
   const items = useCartStore((state) => state.items)
@@ -14,7 +14,7 @@ export function CartPage() {
 
   const handleCheckout = () => {
     // TODO: Implement checkout logic
-    console.log("Checkout", items)
+    console.log('Checkout', items)
   }
 
   if (items.length === 0) {
@@ -65,4 +65,3 @@ export function CartPage() {
     </div>
   )
 }
-

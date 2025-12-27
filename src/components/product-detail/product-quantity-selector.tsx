@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Minus, Plus } from "lucide-react"
+import { Minus, Plus } from 'lucide-react'
 
 interface ProductQuantitySelectorProps {
   quantity: number
@@ -53,4 +53,3 @@ export function ProductQuantitySelector({
     </div>
   )
 }
-

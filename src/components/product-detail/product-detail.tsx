@@ -1,24 +1,26 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { ProductBreadcrumb } from "./product-breadcrumb"
-import { ProductImageCarousel } from "./product-image-carousel"
-import { ProductShareActions } from "./product-share-actions"
-import { ProductHeader } from "./product-header"
-import { ProductPricing } from "./product-pricing"
-import { ProductShippingInfo } from "./product-shipping-info"
-import { ProductColorSelector } from "./product-color-selector"
-import { ProductQuantitySelector } from "./product-quantity-selector"
-import { ProductActionButtons } from "./product-action-buttons"
-import { ProductSellerInfo } from "./product-seller-info"
-import type { ProductDetailData } from "./types"
+import { useState } from 'react'
+import { ProductBreadcrumb } from './product-breadcrumb'
+import { ProductImageCarousel } from './product-image-carousel'
+import { ProductShareActions } from './product-share-actions'
+import { ProductHeader } from './product-header'
+import { ProductPricing } from './product-pricing'
+import { ProductShippingInfo } from './product-shipping-info'
+import { ProductColorSelector } from './product-color-selector'
+import { ProductQuantitySelector } from './product-quantity-selector'
+import { ProductActionButtons } from './product-action-buttons'
+import { ProductSellerInfo } from './product-seller-info'
+import type { ProductDetailData } from './types'
 
 interface ProductDetailProps {
   product: ProductDetailData
 }
 
 export function ProductDetail({ product }: ProductDetailProps) {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]?.id || "")
+  const [selectedColor, setSelectedColor] = useState(
+    product.colors[0]?.id || '',
+  )
   const [quantity, setQuantity] = useState(1)
 
   const handleQuantityChange = (delta: number) => {
@@ -75,7 +77,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           <ProductActionButtons
             productId={product.id}
-            image={product.images[0] || ""}
+            image={product.images[0] || ''}
             title={product.title}
             price={product.price}
             location={product.location}
@@ -87,4 +89,3 @@ export function ProductDetail({ product }: ProductDetailProps) {
     </div>
   )
 }
-

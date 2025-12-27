@@ -1,6 +1,6 @@
-import { Check } from "lucide-react"
-import { Card } from "@/components/ui/card"
-import type { Shipping } from "./types"
+import { Check } from 'lucide-react'
+import type { Shipping } from './types'
+import { Card } from '@/components/ui/card'
 
 interface ProductShippingInfoProps {
   shipping: Shipping
@@ -8,13 +8,16 @@ interface ProductShippingInfoProps {
 }
 
 const formatPrice = (amount: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
   }).format(amount)
 }
 
-export function ProductShippingInfo({ shipping, warranty }: ProductShippingInfoProps) {
+export function ProductShippingInfo({
+  shipping,
+  warranty,
+}: ProductShippingInfoProps) {
   return (
     <Card className="p-4 space-y-2">
       <div className="text-sm font-medium">Vận Chuyển</div>
@@ -32,4 +35,3 @@ export function ProductShippingInfo({ shipping, warranty }: ProductShippingInfoP
     </Card>
   )
 }
-

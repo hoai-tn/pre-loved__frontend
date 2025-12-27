@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { Minus, Plus, Trash2 } from "lucide-react"
-import type { CartItem } from "@/lib/types/cart"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+import { Minus, Plus, Trash2 } from 'lucide-react'
+import type { CartItem } from '@/lib/types/cart'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 interface CartItemCardProps {
   item: CartItem
@@ -13,19 +13,25 @@ interface CartItemCardProps {
 }
 
 const formatPrice = (amount: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
   }).format(amount)
 }
 
-export function CartItemCard({ item, onRemove, onQuantityChange }: CartItemCardProps) {
+export function CartItemCard({
+  item,
+  onRemove,
+  onQuantityChange,
+}: CartItemCardProps) {
   const handleQuantityChange = (delta: number) => {
     const newQuantity = Math.max(1, item.quantity + delta)
     onQuantityChange(item.id, newQuantity)
   }
 
-  const handleQuantityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQuantityInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const value = parseInt(e.target.value) || 1
     const newQuantity = Math.max(1, value)
     onQuantityChange(item.id, newQuantity)
@@ -45,11 +51,15 @@ export function CartItemCard({ item, onRemove, onQuantityChange }: CartItemCardP
 
         {/* Product Info */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-base mb-1 line-clamp-2">{item.title}</h3>
+          <h3 className="font-medium text-base mb-1 line-clamp-2">
+            {item.title}
+          </h3>
           {item.location && (
-            <p className="text-sm text-muted-foreground mb-2">{item.location}</p>
+            <p className="text-sm text-muted-foreground mb-2">
+              {item.location}
+            </p>
           )}
-          
+
           {/* Price */}
           <div className="mb-3">
             <span className="text-lg font-bold text-primary">
@@ -64,8 +74,8 @@ export function CartItemCard({ item, onRemove, onQuantityChange }: CartItemCardP
                 onClick={() => handleQuantityChange(-1)}
                 disabled={item.quantity <= 1}
                 className={cn(
-                  "p-2 hover:bg-muted transition-colors",
-                  item.quantity <= 1 && "opacity-50 cursor-not-allowed"
+                  'p-2 hover:bg-muted transition-colors',
+                  item.quantity <= 1 && 'opacity-50 cursor-not-allowed',
                 )}
               >
                 <Minus className="h-4 w-4" />
@@ -111,4 +121,3 @@ export function CartItemCard({ item, onRemove, onQuantityChange }: CartItemCardP
     </Card>
   )
 }
-

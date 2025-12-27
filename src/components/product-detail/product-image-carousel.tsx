@@ -1,20 +1,23 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import { cn } from "@/lib/utils"
+import { useEffect, useState } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
+import { cn } from '@/lib/utils'
 
 interface ProductImageCarouselProps {
   images: Array<string>
   title: string
 }
 
-export function ProductImageCarousel({ images, title }: ProductImageCarouselProps) {
+export function ProductImageCarousel({
+  images,
+  title,
+}: ProductImageCarouselProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false })
   const [thumbRef] = useEmblaCarousel({
-    containScroll: "keepSnaps",
+    containScroll: 'keepSnaps',
     dragFree: true,
   })
 
@@ -25,11 +28,11 @@ export function ProductImageCarousel({ images, title }: ProductImageCarouselProp
       setSelectedImageIndex(emblaApi.selectedScrollSnap())
     }
 
-    emblaApi.on("select", onSelect)
+    emblaApi.on('select', onSelect)
     onSelect()
 
     return () => {
-      emblaApi.off("select", onSelect)
+      emblaApi.off('select', onSelect)
     }
   }, [emblaApi])
 
@@ -47,12 +50,15 @@ export function ProductImageCarousel({ images, title }: ProductImageCarouselProp
           <div className="embla__container flex h-full">
             {images.map((image, index) => {
               // Use larger image size for main display
-              const mainImageUrl = image.includes('?') 
+              const mainImageUrl = image.includes('?')
                 ? image.replace(/w=\d+/, 'w=800').replace(/h=\d+/, 'h=800')
                 : `${image}?w=800&h=800&fit=crop`
-              
+
               return (
-                <div key={index} className="embla__slide flex-[0_0_100%] min-w-0 relative">
+                <div
+                  key={index}
+                  className="embla__slide flex-[0_0_100%] min-w-0 relative"
+                >
                   <img
                     src={mainImageUrl}
                     alt={`${title} - ${index + 1}`}
@@ -70,19 +76,19 @@ export function ProductImageCarousel({ images, title }: ProductImageCarouselProp
         <div className="embla-thumb__container flex gap-2">
           {images.map((image, index) => {
             // Use smaller image size for thumbnails
-            const thumbnailUrl = image.includes('?') 
+            const thumbnailUrl = image.includes('?')
               ? image.replace(/w=\d+/, 'w=80').replace(/h=\d+/, 'h=80')
               : `${image}?w=80&h=80&fit=crop`
-            
+
             return (
               <button
                 key={index}
                 onClick={() => handleThumbClick(index)}
                 className={cn(
-                  "embla-thumb__slide flex-[0_0_auto] min-w-0 relative w-20 h-20 rounded border-2 overflow-hidden bg-muted transition-all shrink-0",
+                  'embla-thumb__slide flex-[0_0_auto] min-w-0 relative w-20 h-20 rounded border-2 overflow-hidden bg-muted transition-all shrink-0',
                   selectedImageIndex === index
-                    ? "border-primary"
-                    : "border-transparent hover:border-primary/50"
+                    ? 'border-primary'
+                    : 'border-transparent hover:border-primary/50',
                 )}
               >
                 <img
@@ -98,4 +104,3 @@ export function ProductImageCarousel({ images, title }: ProductImageCarouselProp
     </div>
   )
 }
-

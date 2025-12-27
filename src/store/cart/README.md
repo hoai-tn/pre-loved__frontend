@@ -38,14 +38,14 @@ import { useCartStore } from '@/store/cart'
 function MyComponent() {
   // Direct state access
   const items = useCartStore((state) => state.items)
-  
+
   // Access actions
   const addItem = useCartStore((state) => state.addItem)
   const removeItem = useCartStore((state) => state.removeItem)
-  
+
   // Use computed values
   const getTotalPrice = useCartStore((state) => state.getTotalPrice)
-  
+
   return (
     <div>
       <p>Total: {getTotalPrice()}</p>
@@ -60,15 +60,19 @@ function MyComponent() {
 For better performance, use the provided selectors to prevent unnecessary re-renders:
 
 ```tsx
-import { useCartStore, selectCartItemCount, selectCartTotalPrice } from '@/store/cart'
+import {
+  useCartStore,
+  selectCartItemCount,
+  selectCartTotalPrice,
+} from '@/store/cart'
 
 function CartSummary() {
   // This component will only re-render when item count changes
   const itemCount = useCartStore(selectCartItemCount)
-  
+
   // This component will only re-render when total price changes
   const totalPrice = useCartStore(selectCartTotalPrice)
-  
+
   return (
     <div>
       <p>Items: {itemCount}</p>
@@ -82,11 +86,11 @@ function CartSummary() {
 
 ```typescript
 import {
-  selectCartItems,        // Get all cart items
-  selectCartItemCount,    // Get total item count
-  selectCartTotalPrice,   // Get total price
-  selectCartLoading,      // Get loading state
-  selectCartError,        // Get error state
+  selectCartItems, // Get all cart items
+  selectCartItemCount, // Get total item count
+  selectCartTotalPrice, // Get total price
+  selectCartLoading, // Get loading state
+  selectCartError, // Get error state
 } from '@/store/cart'
 ```
 
@@ -108,13 +112,10 @@ interface CartState {
 
 - **`addItem(item: Omit<CartItem, 'quantity'>)`**
   - Adds an item to the cart or increments quantity if it already exists
-  
 - **`removeItem(id: string)`**
   - Removes an item from the cart by ID
-  
 - **`updateQuantity(id: string, quantity: number)`**
   - Updates the quantity of an item (removes if quantity <= 0)
-  
 - **`clearCart()`**
   - Removes all items from the cart
 
@@ -122,7 +123,6 @@ interface CartState {
 
 - **`getTotalPrice()`**
   - Returns the total price of all items in the cart
-  
 - **`getItemCount()`**
   - Returns the total number of items in the cart
 
@@ -130,7 +130,6 @@ interface CartState {
 
 - **`syncCartWithServer()`**
   - Syncs cart data with the backend (placeholder for API integration)
-  
 - **`loadCartFromServer()`**
   - Loads cart data from the backend (placeholder for API integration)
 
@@ -138,7 +137,6 @@ interface CartState {
 
 - **`setLoading(loading: boolean)`**
   - Sets the loading state
-  
 - **`setError(error: string | null)`**
   - Sets the error state
 
@@ -168,12 +166,8 @@ import { useCartStore, selectCartItemCount } from '@/store/cart'
 
 function Navbar() {
   const cartItemCount = useCartStore(selectCartItemCount)
-  
-  return (
-    <button>
-      Cart ({cartItemCount})
-    </button>
-  )
+
+  return <button>Cart ({cartItemCount})</button>
 }
 ```
 
@@ -187,7 +181,7 @@ function CartPage() {
   const removeItem = useCartStore((state) => state.removeItem)
   const updateQuantity = useCartStore((state) => state.updateQuantity)
   const getTotalPrice = useCartStore((state) => state.getTotalPrice)
-  
+
   return (
     <div>
       {items.map((item) => (
@@ -266,7 +260,7 @@ describe('Cart Store', () => {
 
   it('should add item to cart', () => {
     const { addItem } = useCartStore.getState()
-    
+
     addItem({
       id: 'test-1',
       productId: 'prod-1',
@@ -303,4 +297,3 @@ The store includes Redux DevTools integration. To debug:
 4. **Optimize Selectors**: Create reusable selectors for commonly accessed state
 5. **Test Thoroughly**: Write tests for all actions and edge cases
 6. **Document Changes**: Update this README when adding new features
-

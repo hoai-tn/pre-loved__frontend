@@ -2,20 +2,17 @@ import { initialAuthState } from './state'
 import type { StateCreator } from 'zustand'
 import type { AuthStore } from './types'
 
-export const createAuthActions: StateCreator<
-  AuthStore,
-  [],
-  [],
-  AuthStore
-> = (set) => ({
+export const createAuthActions: StateCreator<AuthStore, [], [], AuthStore> = (
+  set,
+) => ({
   ...initialAuthState,
 
   // Internal state setters
   setUser: (user) => {
-    set({ 
-      user, 
+    set({
+      user,
       isAuthenticated: !!user,
-      error: null 
+      error: null,
     })
   },
 
@@ -48,4 +45,3 @@ export const createAuthActions: StateCreator<
     // Placeholder
   },
 })
-

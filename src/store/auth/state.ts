@@ -6,4 +6,3 @@ export const initialAuthState: AuthState = {
   isLoading: true, // Start as loading to check auth on mount
   error: null,
 }
-

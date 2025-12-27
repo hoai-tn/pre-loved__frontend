@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import type { Seller } from "./types"
+import type { Seller } from './types'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 
 interface ProductSellerInfoProps {
   seller: Seller
@@ -62,7 +62,9 @@ export function ProductSellerInfo({ seller }: ProductSellerInfoProps) {
             </div>
             <div>
               <div className="text-muted-foreground">Người Theo Dõi</div>
-              <div className="font-semibold">{seller.followers.toLocaleString()}</div>
+              <div className="font-semibold">
+                {seller.followers.toLocaleString()}
+              </div>
             </div>
           </div>
         </div>
@@ -70,4 +72,3 @@ export function ProductSellerInfo({ seller }: ProductSellerInfoProps) {
     </Card>
   )
 }
-

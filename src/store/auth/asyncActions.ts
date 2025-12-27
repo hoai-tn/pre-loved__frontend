@@ -5,9 +5,7 @@ import { getProfile, login, register, removeToken } from '@/services/api'
 /**
  * Async actions for auth store
  */
-export const createAsyncActions = (
-  get: () => AuthStore,
-) => ({
+export const createAsyncActions = (get: () => AuthStore) => ({
   /**
    * Check if user is authenticated on mount
    */

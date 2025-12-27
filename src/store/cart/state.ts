@@ -5,4 +5,3 @@ export const initialCartState: CartState = {
   isLoading: false,
   error: null,
 }
-

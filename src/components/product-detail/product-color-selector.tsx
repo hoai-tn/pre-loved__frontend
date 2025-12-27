@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { Check } from "lucide-react"
-import { cn } from "@/lib/utils"
-import type { ColorOption } from "./types"
+import { Check } from 'lucide-react'
+import type { ColorOption } from './types'
+import { cn } from '@/lib/utils'
 
 interface ProductColorSelectorProps {
   colors: Array<ColorOption>
@@ -25,11 +25,11 @@ export function ProductColorSelector({
             onClick={() => onColorChange(color.id)}
             disabled={!color.available}
             className={cn(
-              "px-4 py-2 rounded border-2 text-sm font-medium transition-all",
+              'px-4 py-2 rounded border-2 text-sm font-medium transition-all',
               selectedColor === color.id
-                ? "border-red-500 bg-red-50 text-red-700"
-                : "border-gray-300 hover:border-red-300",
-              !color.available && "opacity-50 cursor-not-allowed"
+                ? 'border-red-500 bg-red-50 text-red-700'
+                : 'border-gray-300 hover:border-red-300',
+              !color.available && 'opacity-50 cursor-not-allowed',
             )}
           >
             {selectedColor === color.id && (
@@ -42,4 +42,3 @@ export function ProductColorSelector({
     </div>
   )
 }
-

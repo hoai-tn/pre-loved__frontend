@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { Heart, ShoppingCart } from "lucide-react"
-import { Link } from "@tanstack/react-router"
-import { ProductCardIconButton } from "./product-card-icon-button"
-import { BuyButton } from "./buy-button"
-import { cn } from "@/lib/utils"
-import { formatRelativeTime } from "@/lib/date-utils"
+import { Heart, ShoppingCart } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { ProductCardIconButton } from './product-card-icon-button'
+import { BuyButton } from './buy-button'
+import { cn } from '@/lib/utils'
+import { formatRelativeTime } from '@/lib/date-utils'
 
 interface ProductCardProps {
   id: string
@@ -35,9 +35,9 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
     }).format(amount)
   }
 
@@ -62,11 +62,15 @@ export function ProductCard({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-all duration-200 hover:shadow-lg hover:border-primary/50 cursor-pointer flex flex-col",
-        className
+        'group relative overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-all duration-200 hover:shadow-lg hover:border-primary/50 cursor-pointer flex flex-col',
+        className,
       )}
     >
-      <Link to="/products/$productId" params={{ productId: id }} className="block">
+      <Link
+        to="/products/$productId"
+        params={{ productId: id }}
+        className="block"
+      >
         {/* Image Container with Icons */}
         <div className="relative aspect-square w-full overflow-hidden bg-muted rounded-t-xl">
           <img
@@ -75,17 +79,17 @@ export function ProductCard({
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
-          
+
           {/* Heart Icon - Top Right */}
           <ProductCardIconButton
             icon={Heart}
             onClick={handleFavoriteClick}
-            ariaLabel={isFavorite ? "Bỏ yêu thích" : "Yêu thích"}
+            ariaLabel={isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}
             position="top-right"
             iconClassName={cn(
               isFavorite
-                ? "fill-red-500 text-red-500"
-                : "text-muted-foreground group-hover:text-red-500"
+                ? 'fill-red-500 text-red-500'
+                : 'text-muted-foreground group-hover:text-red-500',
             )}
           />
 
@@ -104,11 +108,9 @@ export function ProductCard({
           <h3 className="font-medium text-sm line-clamp-2 min-h-10 text-foreground group-hover:text-primary transition-colors">
             {title}
           </h3>
-          
+
           {location && (
-            <p className="text-xs text-muted-foreground truncate">
-              {location}
-            </p>
+            <p className="text-xs text-muted-foreground truncate">{location}</p>
           )}
         </div>
 
@@ -124,7 +126,7 @@ export function ProductCard({
               </p>
             </div>
           </div>
-          
+
           {/* Buy Button */}
           {/* <BuyButton onClick={handleBuyClick} /> */}
         </div>

@@ -1,24 +1,24 @@
-import { Link } from "@tanstack/react-router"
+import { Link } from '@tanstack/react-router'
 
 export function Footer() {
   const footerLinks = {
     about: [
-      { label: "Giới thiệu", href: "/" },
-      { label: "Blog", href: "/" },
-      { label: "Tuyển dụng", href: "/" },
-      { label: "Liên hệ", href: "/" },
+      { label: 'Giới thiệu', href: '/' },
+      { label: 'Blog', href: '/' },
+      { label: 'Tuyển dụng', href: '/' },
+      { label: 'Liên hệ', href: '/' },
     ],
     support: [
-      { label: "Trung tâm trợ giúp", href: "/" },
-      { label: "An toàn mua bán", href: "/" },
-      { label: "Quy định đăng tin", href: "/" },
-      { label: "Quy chế hoạt động", href: "/" },
+      { label: 'Trung tâm trợ giúp', href: '/' },
+      { label: 'An toàn mua bán', href: '/' },
+      { label: 'Quy định đăng tin', href: '/' },
+      { label: 'Quy chế hoạt động', href: '/' },
     ],
     follow: [
-      { label: "Facebook", href: "/" },
-      { label: "Instagram", href: "/" },
-      { label: "Youtube", href: "/" },
-      { label: "TikTok", href: "/" },
+      { label: 'Facebook', href: '/' },
+      { label: 'Instagram', href: '/' },
+      { label: 'Youtube', href: '/' },
+      { label: 'TikTok', href: '/' },
     ],
   }
 

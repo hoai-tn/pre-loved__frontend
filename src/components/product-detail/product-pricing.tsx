@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 
 interface ProductPricingProps {
   price: number
@@ -8,13 +8,18 @@ interface ProductPricingProps {
 }
 
 const formatPrice = (amount: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
   }).format(amount)
 }
 
-export function ProductPricing({ price, originalPrice, discount, vouchers }: ProductPricingProps) {
+export function ProductPricing({
+  price,
+  originalPrice,
+  discount,
+  vouchers,
+}: ProductPricingProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-baseline gap-3">
@@ -54,4 +59,3 @@ export function ProductPricing({ price, originalPrice, discount, vouchers }: Pro
     </div>
   )
 }
-

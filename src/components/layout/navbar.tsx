@@ -1,31 +1,41 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Link, useNavigate } from "@tanstack/react-router"
-import { MapPin, Menu, Plus, Search, ShoppingCart, User, LogOut } from "lucide-react"
-import { useAuthStore, selectUser, selectIsAuthenticated } from "@/store/auth"
-import { useCartStore, selectCartItemCount } from "@/store/cart"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useState } from 'react'
+import { Link, useNavigate } from '@tanstack/react-router'
+import {
+  LogOut,
+  MapPin,
+  Menu,
+  Plus,
+  Search,
+  ShoppingCart,
+  User,
+} from 'lucide-react'
+import { selectIsAuthenticated, selectUser, useAuthStore } from '@/store/auth'
+import { selectCartItemCount, useCartStore } from '@/store/cart'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { AuthModal } from "@/components/auth/auth-modal"
+} from '@/components/ui/select'
+import { AuthModal } from '@/components/auth/auth-modal'
 
 export function Navbar() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
-  const [authModalTab, setAuthModalTab] = useState<"signin" | "signup">("signin")
+  const [authModalTab, setAuthModalTab] = useState<'signin' | 'signup'>(
+    'signin',
+  )
   const cartItemCount = useCartStore(selectCartItemCount)
   const user = useAuthStore(selectUser)
   const isAuthenticated = useAuthStore(selectIsAuthenticated)
@@ -34,33 +44,33 @@ export function Navbar() {
 
   const handleLogout = () => {
     logout()
-    navigate({ to: "/" })
+    navigate({ to: '/' })
   }
 
   const handleCartClick = () => {
-    navigate({ to: "/cart" as any })
+    navigate({ to: '/cart' as any })
   }
 
   const technologies = [
-    "Smartphones",
-    "Laptops & Computers",
-    "Smart Home",
-    "Audio & Headphones",
-    "Cameras & Drones",
-    "Gaming Consoles",
-    "Tablets & E-readers",
-    "Wearables",
+    'Smartphones',
+    'Laptops & Computers',
+    'Smart Home',
+    'Audio & Headphones',
+    'Cameras & Drones',
+    'Gaming Consoles',
+    'Tablets & E-readers',
+    'Wearables',
   ]
 
   const products = [
-    "Electronics",
-    "Appliances",
-    "Home & Furniture",
-    "Fashion & Accessories",
-    "Sports & Outdoors",
-    "Books & Media",
-    "Toys & Games",
-    "Health & Beauty",
+    'Electronics',
+    'Appliances',
+    'Home & Furniture',
+    'Fashion & Accessories',
+    'Sports & Outdoors',
+    'Books & Media',
+    'Toys & Games',
+    'Health & Beauty',
   ]
 
   return (
@@ -122,7 +132,7 @@ export function Navbar() {
               <ShoppingCart className="h-5 w-5" />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-white text-xs font-semibold flex items-center justify-center">
-                  {cartItemCount > 99 ? "99+" : cartItemCount}
+                  {cartItemCount > 99 ? '99+' : cartItemCount}
                 </span>
               )}
             </Button>
@@ -139,7 +149,9 @@ export function Navbar() {
                   <>
                     <div className="px-2 py-1.5 text-sm">
                       <div className="font-medium">{user.username}</div>
-                      <div className="text-xs text-muted-foreground">{user.email}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {user.email}
+                      </div>
                     </div>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
@@ -151,7 +163,7 @@ export function Navbar() {
                   <>
                     <DropdownMenuItem
                       onClick={() => {
-                        setAuthModalTab("signin")
+                        setAuthModalTab('signin')
                         setAuthModalOpen(true)
                       }}
                     >
@@ -159,7 +171,7 @@ export function Navbar() {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => {
-                        setAuthModalTab("signup")
+                        setAuthModalTab('signup')
                         setAuthModalOpen(true)
                       }}
                     >

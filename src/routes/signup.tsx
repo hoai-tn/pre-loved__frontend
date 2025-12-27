@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { useForm } from "react-hook-form"
-import { useState } from "react"
-import { useAuthStore } from "@/store/auth"
-import type { RegisterRequest } from "@/services/api"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import type { RegisterRequest } from '@/services/api'
+import { useAuthStore } from '@/store/auth'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -23,9 +23,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from '@/components/ui/form'
 
-export const Route = createFileRoute("/signup")({
+export const Route = createFileRoute('/signup')({
   component: SignUpPage,
 })
 
@@ -37,11 +37,11 @@ function SignUpPage() {
 
   const form = useForm<RegisterRequest>({
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: '',
     },
-    mode: "onBlur",
+    mode: 'onBlur',
   })
 
   const onSubmit = async (data: RegisterRequest) => {
@@ -51,10 +51,12 @@ function SignUpPage() {
     try {
       await registerUser(data)
       // Success - redirect to sign in
-      navigate({ to: "/signin" })
+      navigate({ to: '/signin' })
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Đăng ký thất bại. Vui lòng thử lại."
+        err instanceof Error
+          ? err.message
+          : 'Đăng ký thất bại. Vui lòng thử lại.',
       )
     } finally {
       setIsLoading(false)
@@ -79,10 +81,10 @@ function SignUpPage() {
                 control={form.control}
                 name="username"
                 rules={{
-                  required: "Tên đăng nhập là bắt buộc",
+                  required: 'Tên đăng nhập là bắt buộc',
                   minLength: {
                     value: 3,
-                    message: "Tên đăng nhập phải có ít nhất 3 ký tự",
+                    message: 'Tên đăng nhập phải có ít nhất 3 ký tự',
                   },
                 }}
                 render={({ field }) => (
@@ -104,10 +106,10 @@ function SignUpPage() {
                 control={form.control}
                 name="email"
                 rules={{
-                  required: "Email là bắt buộc",
+                  required: 'Email là bắt buộc',
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Email không hợp lệ",
+                    message: 'Email không hợp lệ',
                   },
                 }}
                 render={({ field }) => (
@@ -130,10 +132,10 @@ function SignUpPage() {
                 control={form.control}
                 name="password"
                 rules={{
-                  required: "Mật khẩu là bắt buộc",
+                  required: 'Mật khẩu là bắt buộc',
                   minLength: {
                     value: 6,
-                    message: "Mật khẩu phải có ít nhất 6 ký tự",
+                    message: 'Mật khẩu phải có ít nhất 6 ký tự',
                   },
                 }}
                 render={({ field }) => (
@@ -158,23 +160,19 @@ function SignUpPage() {
                 </div>
               )}
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? "Đang xử lý..." : "Đăng ký"}
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Đang xử lý...' : 'Đăng ký'}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-muted-foreground">
-            Đã có tài khoản?{" "}
+            Đã có tài khoản?{' '}
             <Button
               variant="link"
               className="p-0 h-auto font-semibold"
-              onClick={() => navigate({ to: "/signin" })}
+              onClick={() => navigate({ to: '/signin' })}
             >
               Đăng nhập ngay
             </Button>

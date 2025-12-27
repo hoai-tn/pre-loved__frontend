@@ -2,8 +2,8 @@
 
 import { useForm } from "react-hook-form"
 import { useState } from "react"
-import type { SignUpRequest } from "@/lib/types/auth"
-import { signUp } from "@/lib/api/auth"
+import type { RegisterRequest } from "@/services/api"
+import { useAuth } from "@/lib/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -21,10 +21,11 @@ interface SignUpFormProps {
 }
 
 export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
+  const { register: registerUser } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const form = useForm<SignUpRequest>({
+  const form = useForm<RegisterRequest>({
     defaultValues: {
       username: "",
       email: "",
@@ -33,16 +34,14 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
     mode: "onBlur",
   })
 
-  const onSubmit = async (data: SignUpRequest) => {
+  const onSubmit = async (data: RegisterRequest) => {
     setIsLoading(true)
     setError(null)
 
     try {
-      const response = await signUp(data)
-      if (response.message) {
-        // Success - switch to sign in tab
-        onSuccess?.()
-      }
+      await registerUser(data)
+      // Success - switch to sign in tab
+      onSuccess?.()
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Đăng ký thất bại. Vui lòng thử lại."

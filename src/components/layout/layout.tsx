@@ -1,6 +1,7 @@
 import { Navbar } from "./navbar"
 import { Footer } from "./footer"
 import { CartProvider } from "@/lib/contexts/cart-context"
+import { AuthProvider } from "@/lib/contexts/auth-context"
 
 interface LayoutProps {
   children: React.ReactNode
@@ -8,12 +9,14 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <CartProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-      </div>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
+      </CartProvider>
+    </AuthProvider>
   )
 }

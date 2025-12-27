@@ -22,8 +22,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { signUp } from "@/lib/api/auth"
-import type { SignUpRequest } from "@/lib/types/auth"
+import { useAuth } from "@/lib/contexts/auth-context"
+import type { RegisterRequest } from "@/services/api"
 
 export const Route = createFileRoute("/signup")({
   component: SignUpPage,
@@ -31,10 +31,11 @@ export const Route = createFileRoute("/signup")({
 
 function SignUpPage() {
   const navigate = useNavigate()
+  const { register: registerUser } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const form = useForm<SignUpRequest>({
+  const form = useForm<RegisterRequest>({
     defaultValues: {
       username: "",
       email: "",
@@ -43,16 +44,14 @@ function SignUpPage() {
     mode: "onBlur",
   })
 
-  const onSubmit = async (data: SignUpRequest) => {
+  const onSubmit = async (data: RegisterRequest) => {
     setIsLoading(true)
     setError(null)
 
     try {
-      const response = await signUp(data)
-      if (response.message) {
-        // Success - redirect to sign in or home
-        navigate({ to: "/signin" })
-      }
+      await registerUser(data)
+      // Success - redirect to sign in
+      navigate({ to: "/signin" })
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Đăng ký thất bại. Vui lòng thử lại."

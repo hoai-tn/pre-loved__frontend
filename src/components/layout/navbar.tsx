@@ -2,14 +2,16 @@
 
 import { useState } from "react"
 import { Link, useNavigate } from "@tanstack/react-router"
-import { MapPin, Menu, Plus, Search, ShoppingCart, User } from "lucide-react"
+import { MapPin, Menu, Plus, Search, ShoppingCart, User, LogOut } from "lucide-react"
 import { useCart } from "@/lib/contexts/cart-context"
+import { useAuth } from "@/lib/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -25,8 +27,14 @@ export function Navbar() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalTab, setAuthModalTab] = useState<"signin" | "signup">("signin")
   const { getItemCount } = useCart()
+  const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
   const cartItemCount = getItemCount()
+
+  const handleLogout = () => {
+    logout()
+    navigate({ to: "/" })
+  }
 
   const handleCartClick = () => {
     navigate({ to: "/cart" as any })
@@ -126,22 +134,38 @@ export function Navbar() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  onClick={() => {
-                    setAuthModalTab("signin")
-                    setAuthModalOpen(true)
-                  }}
-                >
-                  Đăng nhập
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    setAuthModalTab("signup")
-                    setAuthModalOpen(true)
-                  }}
-                >
-                  Đăng ký
-                </DropdownMenuItem>
+                {isAuthenticated && user ? (
+                  <>
+                    <div className="px-2 py-1.5 text-sm">
+                      <div className="font-medium">{user.username}</div>
+                      <div className="text-xs text-muted-foreground">{user.email}</div>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Đăng xuất
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setAuthModalTab("signin")
+                        setAuthModalOpen(true)
+                      }}
+                    >
+                      Đăng nhập
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setAuthModalTab("signup")
+                        setAuthModalOpen(true)
+                      }}
+                    >
+                      Đăng ký
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -1,11 +1,13 @@
 'use client'
 
 import { ShoppingCart } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
 import { CartItemCard } from './cart-item-card'
 import { CartSummary } from './cart-summary'
 import { useCartStore } from '@/store/cart'
 
 export function CartPage() {
+  const navigate = useNavigate()
   const items = useCartStore((state) => state.items)
   const removeItem = useCartStore((state) => state.removeItem)
   const updateQuantity = useCartStore((state) => state.updateQuantity)
@@ -13,8 +15,7 @@ export function CartPage() {
   const getItemCount = useCartStore((state) => state.getItemCount)
 
   const handleCheckout = () => {
-    // TODO: Implement checkout logic
-    console.log('Checkout', items)
+    navigate({ to: '/checkout' })
   }
 
   if (items.length === 0) {

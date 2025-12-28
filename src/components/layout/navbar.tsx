@@ -6,6 +6,7 @@ import {
   LogOut,
   MapPin,
   Menu,
+  Package,
   Plus,
   Search,
   ShoppingCart,
@@ -153,6 +154,13 @@ export function Navbar() {
                         {user.email}
                       </div>
                     </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/user/purchase" className="cursor-pointer">
+                        <Package className="h-4 w-4 mr-2" />
+                        Đơn hàng của tôi
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
                       <LogOut className="h-4 w-4 mr-2" />

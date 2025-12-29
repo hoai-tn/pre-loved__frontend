@@ -1,5 +1,6 @@
 import type { CartItem } from '@/lib/types/cart'
 import type { CheckoutStore } from './types'
+import { useCartStore } from '@/store/cart'
 import { createOrder } from '@/services/api'
 
 /**
@@ -33,6 +34,9 @@ export const createAsyncActions = (
 
       // Reset checkout state after successful order
       get().reset()
+
+      // Clear cart items after successful order
+      useCartStore.getState().clearCart()
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to place order'

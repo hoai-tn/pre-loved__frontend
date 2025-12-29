@@ -1,6 +1,6 @@
 import { get } from './api-client'
 import { API_ROUTES } from './routes.api'
-import type { ApiProduct } from './types.api'
+import type { ApiProduct } from './types'
 
 /**
  * Get all products

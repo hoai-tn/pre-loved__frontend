@@ -22,8 +22,12 @@ export const createAsyncActions = (
 
       // TODO: API call to sync cart
       // await apiClient.post('/cart/sync', { items })
-
-      console.log('Cart synced with server:', items)
+      new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('Cart synced with server:', items)
+          resolve(items)
+        }, 1000)
+      })
 
       // Save to localStorage as fallback
       localStorage.setItem('cart', JSON.stringify(items))

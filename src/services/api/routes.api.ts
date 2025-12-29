@@ -15,4 +15,9 @@ export const API_ROUTES = {
     UPDATE: '/products/:id',
     DELETE: '/products/:id',
   },
+  ORDER: {
+    CREATE: '/orders',
+    GET_ALL: '/orders',
+    GET_BY_ID: '/orders/:id',
+  },
 } as const

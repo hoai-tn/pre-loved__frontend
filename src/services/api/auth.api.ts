@@ -6,7 +6,7 @@ import type {
   RegisterRequest,
   RegisterResponse,
   UserProfile,
-} from './types.api'
+} from './types'
 
 /**
  * Register a new user

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, lazy, useState } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
   LogOut,
@@ -30,7 +30,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { AuthModal } from '@/components/auth/auth-modal'
+
+const AuthModal = lazy(() =>
+  import('@/components/auth/auth-modal').then((module) => ({
+    default: module.AuthModal,
+  })),
+)
 
 export function Navbar() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
@@ -194,11 +199,15 @@ export function Navbar() {
       </div>
 
       {/* Auth Modal */}
-      <AuthModal
-        open={authModalOpen}
-        onOpenChange={setAuthModalOpen}
-        defaultTab={authModalTab}
-      />
+      {authModalOpen && (
+        <Suspense fallback={null}>
+          <AuthModal
+            open={authModalOpen}
+            onOpenChange={setAuthModalOpen}
+            defaultTab={authModalTab}
+          />
+        </Suspense>
+      )}
 
       {/* Technologies & Products Menu */}
       <div className="border-t bg-muted/30">

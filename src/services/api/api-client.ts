@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { API_ROUTES } from './routes.api'
 import type { AxiosError, AxiosInstance } from 'axios'
-import type { ApiResponse } from './types.api'
+import type { ApiResponse } from './types'
 import {
   getLocalStorage,
   removeLocalStorage,

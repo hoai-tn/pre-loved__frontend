@@ -17,19 +17,25 @@ interface AuthModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   defaultTab?: 'signin' | 'signup'
+  onSignInSuccess?: () => void
 }
 
 export function AuthModal({
   open,
   onOpenChange,
   defaultTab = 'signin',
+  onSignInSuccess,
 }: AuthModalProps) {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>(defaultTab)
 
   const handleSignInSuccess = () => {
     onOpenChange(false)
-    navigate({ to: '/' })
+    if (onSignInSuccess) {
+      onSignInSuccess()
+    } else {
+      navigate({ to: '/' })
+    }
   }
 
   const handleSignUpSuccess = () => {

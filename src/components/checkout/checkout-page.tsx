@@ -1,15 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import { DeliveryAddressSection } from './delivery-address-section'
 import { ProductListSection } from './product-list-section'
 import { ShippingMethodSection } from './shipping-method-section'
 import { PaymentMethodSection } from './payment-method-section'
 import { OrderSummarySection } from './order-summary-section'
+import type { PaymentMethod, ShippingMethod } from '@/store/checkout/types'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { useAuthStore } from '@/store/auth'
+import { selectCartItems, useCartStore } from '@/store/cart'
+import { useCheckoutStore } from '@/store/checkout'
 
 // Mock data - will be replaced with store data later
 const mockUser = {
@@ -20,43 +24,50 @@ const mockUser = {
   isDefault: true,
 }
 
-const mockProducts = [
-  {
-    id: '1',
-    title: 'Đồng Hồ Thông Minh HUAWEI WATCH GT6 Series',
-    image: '/api/placeholder/80/80',
-    price: 8070000,
-    quantity: 1,
-    category: 'Phân loại: Pro Deri/Cao Sang',
-  },
-]
-
 export function CheckoutPage() {
-  const [shippingMethod, setShippingMethod] = useState('nhanh')
-  const [paymentMethod, setPaymentMethod] = useState('cod')
-  const [note, setNote] = useState('')
-  const [voucherCode, setVoucherCode] = useState('')
+  const navigate = useNavigate()
+  const { user } = useAuthStore()
+  const cartItems = useCartStore(selectCartItems)
 
-  // Calculate totals - will be handled by store later
-  const subtotal = mockProducts.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  )
-  const shippingFee = shippingMethod === 'nhanh' ? 77800 : 50000
-  const discount = 0 // Will calculate based on voucher
-  const total = subtotal + shippingFee - discount
+  // Checkout store
+  const {
+    shippingMethod,
+    paymentMethod,
+    note,
+    voucherCode,
+    isLoading,
+    error,
+    setShippingMethod,
+    setPaymentMethod,
+    setNote,
+    setVoucherCode,
+    getSubtotal,
+    getShippingFee,
+    getDiscount,
+    getTotal,
+    placeOrder,
+  } = useCheckoutStore()
 
-  const handlePlaceOrder = () => {
-    // TODO: Implement order placement with store
-    console.log('Place order:', {
-      products: mockProducts,
-      shippingMethod,
-      paymentMethod,
-      note,
-      voucherCode,
-      total,
-    })
-    // Navigate to success page or show confirmation
+  // Calculate totals using store methods
+  const subtotal = getSubtotal(cartItems)
+  const shippingFee = getShippingFee()
+  const discount = getDiscount()
+  const total = getTotal(cartItems)
+
+  const handlePlaceOrder = async () => {
+    if (!user?.id) {
+      return
+    }
+
+    try {
+      await placeOrder(cartItems, Number(user.id))
+      // Navigate to success page or order confirmation
+      // TODO: Navigate to order success page when available
+      navigate({ to: '/user/purchase' })
+    } catch (err) {
+      // Error is already handled in the store
+      console.error('Failed to place order:', err)
+    }
   }
 
   return (
@@ -80,19 +91,32 @@ export function CheckoutPage() {
             />
 
             {/* Product List */}
-            <ProductListSection products={mockProducts} />
+            <ProductListSection
+              products={cartItems.map((item) => ({
+                id: item.id,
+                title: item.title,
+                image: item.image,
+                price: item.price,
+                quantity: item.quantity,
+                category: item.location,
+              }))}
+            />
 
             {/* Shipping Method */}
             <ShippingMethodSection
               selectedMethod={shippingMethod}
-              onMethodChange={setShippingMethod}
+              onMethodChange={(method) =>
+                setShippingMethod(method as ShippingMethod)
+              }
               shippingFee={shippingFee}
             />
 
             {/* Payment Method */}
             <PaymentMethodSection
               selectedMethod={paymentMethod}
-              onMethodChange={setPaymentMethod}
+              onMethodChange={(method) =>
+                setPaymentMethod(method as PaymentMethod)
+              }
             />
 
             {/* Voucher Section */}
@@ -109,8 +133,19 @@ export function CheckoutPage() {
                   value={voucherCode}
                   onChange={(e) => setVoucherCode(e.target.value)}
                 />
-                <Button variant="outline">Áp dụng</Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    // TODO: Implement voucher validation
+                    console.log('Apply voucher:', voucherCode)
+                  }}
+                >
+                  Áp dụng
+                </Button>
               </div>
+              {error && (
+                <p className="text-sm text-destructive mt-2">{error}</p>
+              )}
             </Card>
 
             {/* Note Section */}
@@ -136,6 +171,7 @@ export function CheckoutPage() {
                 discount={discount}
                 total={total}
                 onPlaceOrder={handlePlaceOrder}
+                isLoading={isLoading}
               />
             </div>
           </div>

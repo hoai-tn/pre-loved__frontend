@@ -9,7 +9,8 @@ interface OrderSummarySectionProps {
   shippingFee: number
   discount: number
   total: number
-  onPlaceOrder: () => void
+  onPlaceOrder: () => void | Promise<void>
+  isLoading?: boolean
 }
 
 const formatPrice = (amount: number) => {
@@ -25,6 +26,7 @@ export function OrderSummarySection({
   discount,
   total,
   onPlaceOrder,
+  isLoading = false,
 }: OrderSummarySectionProps) {
   return (
     <Card className="p-4">
@@ -77,8 +79,9 @@ export function OrderSummarySection({
         size="lg"
         className="w-full bg-primary hover:bg-primary/90 text-white font-semibold"
         onClick={onPlaceOrder}
+        disabled={isLoading}
       >
-        Đặt hàng
+        {isLoading ? 'Đang xử lý...' : 'Đặt hàng'}
       </Button>
 
       {/* Additional Info */}

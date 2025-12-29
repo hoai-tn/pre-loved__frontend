@@ -1,8 +1,4 @@
-import type {
-  AuthResponse,
-  SignInRequest,
-  SignUpRequest,
-} from '../types/auth'
+import type { AuthResponse, SignInRequest, SignUpRequest } from '../types/auth'
 
 /**
  * Sign Up API call

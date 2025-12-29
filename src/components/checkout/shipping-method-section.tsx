@@ -41,7 +41,6 @@ const shippingMethods = [
 export function ShippingMethodSection({
   selectedMethod,
   onMethodChange,
-  shippingFee,
 }: ShippingMethodSectionProps) {
   return (
     <Card className="p-4">

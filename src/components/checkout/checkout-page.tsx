@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
-import { ChevronRight, Edit, MapPin } from 'lucide-react'
 import { DeliveryAddressSection } from './delivery-address-section'
 import { ProductListSection } from './product-list-section'
 import { ShippingMethodSection } from './shipping-method-section'
@@ -34,7 +32,6 @@ const mockProducts = [
 ]
 
 export function CheckoutPage() {
-  const navigate = useNavigate()
   const [shippingMethod, setShippingMethod] = useState('nhanh')
   const [paymentMethod, setPaymentMethod] = useState('cod')
   const [note, setNote] = useState('')

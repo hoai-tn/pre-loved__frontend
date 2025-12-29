@@ -1,6 +1,6 @@
 'use client'
 
-import { Link, useNavigate, useParams } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import {
   ArrowLeft,
   CheckCircle,
@@ -126,7 +126,7 @@ const getStatusInfo = (status: OrderStatus) => {
 }
 
 export function OrderDetailPage() {
-  const params = useParams({ from: '/user/purchase/$orderId' })
+  // const params = useParams({ from: '/user/purchase/$orderId' })
   const navigate = useNavigate()
   const order = mockOrder // TODO: Fetch order by params.orderId from store
 

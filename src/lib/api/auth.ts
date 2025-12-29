@@ -1,5 +1,4 @@
 import type {
-  AuthError,
   AuthResponse,
   SignInRequest,
   SignUpRequest,

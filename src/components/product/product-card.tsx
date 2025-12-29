@@ -3,7 +3,6 @@
 import { Heart, ShoppingCart } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { ProductCardIconButton } from './product-card-icon-button'
-import { BuyButton } from './buy-button'
 import { cn } from '@/lib/utils'
 import { formatRelativeTime } from '@/lib/date-utils'
 
@@ -31,7 +30,7 @@ export function ProductCard({
   isFavorite = false,
   onFavoriteToggle,
   onAddToCart,
-  onBuy,
+  // onBuy,
   className,
 }: ProductCardProps) {
   const formatPrice = (amount: number) => {
@@ -53,11 +52,11 @@ export function ProductCard({
     onAddToCart?.(id)
   }
 
-  const handleBuyClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    onBuy?.(id)
-  }
+  // const handleBuyClick = (e: React.MouseEvent) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   onBuy?.(id)
+  // }
 
   return (
     <div

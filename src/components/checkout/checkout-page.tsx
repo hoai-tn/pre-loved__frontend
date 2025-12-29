@@ -2,16 +2,16 @@
 
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { MapPin, ChevronRight, Edit } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { ChevronRight, Edit, MapPin } from 'lucide-react'
 import { DeliveryAddressSection } from './delivery-address-section'
 import { ProductListSection } from './product-list-section'
 import { ShippingMethodSection } from './shipping-method-section'
 import { PaymentMethodSection } from './payment-method-section'
 import { OrderSummarySection } from './order-summary-section'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 // Mock data - will be replaced with store data later
 const mockUser = {
@@ -147,4 +147,3 @@ export function CheckoutPage() {
     </div>
   )
 }
-

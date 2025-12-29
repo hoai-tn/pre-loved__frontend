@@ -81,4 +81,3 @@ export function ProductListSection({ products }: ProductListSectionProps) {
     </Card>
   )
 }
-

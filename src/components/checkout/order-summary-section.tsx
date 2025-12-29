@@ -42,7 +42,9 @@ export function OrderSummarySection({
 
         {/* Shipping Fee */}
         <div className="flex items-center justify-between text-sm">
-          <span className="text-muted-foreground">Tổng tiền phí vận chuyển</span>
+          <span className="text-muted-foreground">
+            Tổng tiền phí vận chuyển
+          </span>
           <span className="font-medium">{formatPrice(shippingFee)}</span>
         </div>
 
@@ -83,7 +85,9 @@ export function OrderSummarySection({
       <div className="mt-4 space-y-2">
         <div className="flex items-start gap-2 text-xs text-muted-foreground">
           <span>•</span>
-          <span>Bằng việc tiến hành đặt mua hàng, bạn đồng ý với Điều khoản dịch vụ</span>
+          <span>
+            Bằng việc tiến hành đặt mua hàng, bạn đồng ý với Điều khoản dịch vụ
+          </span>
         </div>
         <div className="flex items-start gap-2 text-xs text-muted-foreground">
           <span>•</span>
@@ -93,4 +97,3 @@ export function OrderSummarySection({
     </Card>
   )
 }
-

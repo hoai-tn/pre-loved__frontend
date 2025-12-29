@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import { Package, Search } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { OrderCard } from './order-card'
 import type { Order } from './types'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 // Mock orders data - will be replaced with store/API later
-const mockOrders: Order[] = [
+const mockOrders: Array<Order> = [
   {
     id: 'ORD-2024-001',
     orderDate: '2024-12-20T10:30:00',
@@ -212,4 +212,3 @@ export function PurchaseHistoryPage() {
     </div>
   )
 }
-

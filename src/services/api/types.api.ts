@@ -114,7 +114,7 @@ export interface ApiProduct {
   ratingCount: number
   createdAt: string
   updatedAt: string
-  brand: Brand
-  category: Category
+  brand: Brand | null
+  category: Category | null
   user: ProductUser
 }

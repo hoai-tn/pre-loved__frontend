@@ -6,4 +6,3 @@ import { CheckoutPage } from '@/components/checkout/checkout-page'
 export const Route = createFileRoute('/checkout')({
   component: CheckoutPage,
 })
-

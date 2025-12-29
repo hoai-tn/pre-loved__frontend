@@ -2,26 +2,31 @@ import axios from 'axios'
 import { API_ROUTES } from './routes.api'
 import type { AxiosError, AxiosInstance } from 'axios'
 import type { ApiResponse } from './types.api'
+import {
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage,
+} from '@/lib/storage'
 
 /**
  * Get stored auth token
  */
 function getToken(): string | null {
-  return localStorage.getItem('token')
+  return getLocalStorage('token')
 }
 
 /**
  * Set auth token
  */
 export function setToken(token: string): void {
-  localStorage.setItem('token', token)
+  setLocalStorage('token', token)
 }
 
 /**
  * Remove auth token
  */
 export function removeToken(): void {
-  localStorage.removeItem('token')
+  removeLocalStorage('token')
 }
 
 /**

@@ -2,19 +2,19 @@
 
 import { Link } from '@tanstack/react-router'
 import {
-  Package,
-  Clock,
-  Truck,
   CheckCircle,
-  XCircle,
   ChevronRight,
+  Clock,
   MessageSquare,
+  Package,
   RefreshCw,
+  Truck,
+  XCircle,
 } from 'lucide-react'
+import type { Order, OrderStatus } from './types'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import type { Order, OrderStatus } from './types'
 
 interface OrderCardProps {
   order: Order
@@ -83,7 +83,7 @@ const getStatusInfo = (status: OrderStatus) => {
     },
   }
 
-  return statusMap[status] || statusMap.pending
+  return statusMap[status]
 }
 
 export function OrderCard({ order }: OrderCardProps) {
@@ -208,4 +208,3 @@ export function OrderCard({ order }: OrderCardProps) {
     </Card>
   )
 }
-

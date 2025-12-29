@@ -26,7 +26,7 @@ export interface Order {
   id: string
   orderDate: string
   status: OrderStatus
-  items: OrderItem[]
+  items: Array<OrderItem>
   total: number
   shippingFee: number
   discount?: number
@@ -46,4 +46,3 @@ export interface OrderStatusInfo {
   bgColor: string
   icon: string
 }
-

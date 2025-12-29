@@ -1,6 +1,6 @@
 'use client'
 
-import { Truck, Clock } from 'lucide-react'
+import { Clock, Truck } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -23,7 +23,8 @@ const shippingMethods = [
     id: 'nhanh',
     name: 'Nhanh',
     description: 'Nhận từ 31 Th12 - 3 Th01',
-    subDescription: 'Nhận Voucher trị giá 15.000đ nếu đơn hàng được giao đến bạn sau ngày 3 Tháng 1 2026.',
+    subDescription:
+      'Nhận Voucher trị giá 15.000đ nếu đơn hàng được giao đến bạn sau ngày 3 Tháng 1 2026.',
     price: 77800,
     icon: Truck,
   },
@@ -45,9 +46,7 @@ export function ShippingMethodSection({
   return (
     <Card className="p-4">
       <div className="mb-4">
-        <h3 className="font-semibold text-lg mb-1">
-          Phương thức vận chuyển
-        </h3>
+        <h3 className="font-semibold text-lg mb-1">Phương thức vận chuyển</h3>
         <p className="text-sm text-muted-foreground">
           Chọn phương thức giao hàng phù hợp với bạn
         </p>
@@ -104,4 +103,3 @@ export function ShippingMethodSection({
     </Card>
   )
 }
-

@@ -1,23 +1,23 @@
 'use client'
 
-import { useParams, useNavigate, Link } from '@tanstack/react-router'
+import { Link, useNavigate, useParams } from '@tanstack/react-router'
 import {
   ArrowLeft,
-  Package,
-  MapPin,
-  Truck,
-  CreditCard,
   CheckCircle,
   Clock,
-  XCircle,
-  MessageSquare,
-  RefreshCw,
   Copy,
+  CreditCard,
+  MapPin,
+  MessageSquare,
+  Package,
+  RefreshCw,
+  Truck,
+  XCircle,
 } from 'lucide-react'
+import type { Order, OrderStatus } from './types'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import type { Order, OrderStatus } from './types'
 
 // Mock order data - will be replaced with store/API later
 const mockOrder: Order = {
@@ -122,7 +122,7 @@ const getStatusInfo = (status: OrderStatus) => {
     },
   }
 
-  return statusMap[status] || statusMap.pending
+  return statusMap[status as keyof typeof statusMap]
 }
 
 export function OrderDetailPage() {
@@ -205,7 +205,10 @@ export function OrderDetailPage() {
               </h3>
               <div className="space-y-4">
                 {order.items.map((item) => (
-                  <div key={item.id} className="flex gap-4 pb-4 border-b last:border-0 last:pb-0">
+                  <div
+                    key={item.id}
+                    className="flex gap-4 pb-4 border-b last:border-0 last:pb-0"
+                  >
                     <Link
                       to="/products/$productId"
                       params={{ productId: item.productId }}
@@ -254,7 +257,9 @@ export function OrderDetailPage() {
                 Địa Chỉ Nhận Hàng
               </h3>
               <div className="space-y-2">
-                <div className="font-semibold">{order.deliveryAddress.name}</div>
+                <div className="font-semibold">
+                  {order.deliveryAddress.name}
+                </div>
                 <div className="text-sm text-muted-foreground">
                   {order.deliveryAddress.phone}
                 </div>
@@ -272,18 +277,24 @@ export function OrderDetailPage() {
               </h3>
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Phương thức thanh toán:</span>
+                  <span className="text-muted-foreground">
+                    Phương thức thanh toán:
+                  </span>
                   <span className="font-medium">{order.paymentMethod}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Phương thức vận chuyển:</span>
+                  <span className="text-muted-foreground">
+                    Phương thức vận chuyển:
+                  </span>
                   <span className="font-medium">{order.shippingMethod}</span>
                 </div>
                 {order.trackingNumber && (
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Mã vận đơn:</span>
                     <div className="flex items-center gap-1">
-                      <span className="font-medium">{order.trackingNumber}</span>
+                      <span className="font-medium">
+                        {order.trackingNumber}
+                      </span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -313,7 +324,9 @@ export function OrderDetailPage() {
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Phí vận chuyển:</span>
+                    <span className="text-muted-foreground">
+                      Phí vận chuyển:
+                    </span>
                     <span className="font-medium">
                       {order.shippingFee > 0
                         ? formatPrice(order.shippingFee)
@@ -360,10 +373,7 @@ export function OrderDetailPage() {
                   </Button>
                 )}
                 {order.status === 'processing' && (
-                  <Button
-                    className="w-full"
-                    variant="destructive"
-                  >
+                  <Button className="w-full" variant="destructive">
                     <XCircle className="h-4 w-4 mr-2" />
                     Hủy đơn hàng
                   </Button>
@@ -439,4 +449,3 @@ function OrderTimeline({ order }: { order: Order }) {
     </div>
   )
 }
-

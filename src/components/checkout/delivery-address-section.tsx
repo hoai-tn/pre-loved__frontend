@@ -1,6 +1,6 @@
 'use client'
 
-import { MapPin, Edit } from 'lucide-react'
+import { Edit, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -52,4 +52,3 @@ export function DeliveryAddressSection({
     </Card>
   )
 }
-

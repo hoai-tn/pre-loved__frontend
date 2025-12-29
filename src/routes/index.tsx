@@ -2,11 +2,11 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import type { ApiProduct } from '@/services/api/types.api'
+import type { Product } from '@/lib/mock-products'
 import { ProductGrid } from '@/components/product/product-grid'
 import { useCartStore } from '@/store/cart'
 import { getProducts } from '@/services/api/products.api'
-import type { ApiProduct } from '@/services/api/types.api'
-import type { Product } from '@/lib/mock-products'
 
 /**
  * Map API product to Product interface for components

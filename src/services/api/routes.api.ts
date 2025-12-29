@@ -8,4 +8,11 @@ export const API_ROUTES = {
     LOGIN: '/user/login',
     PROFILE: '/user/profile',
   },
+  PRODUCT: {
+    GET_ALL: '/products',
+    GET_BY_ID: '/products/:id',
+    CREATE: '/products',
+    UPDATE: '/products/:id',
+    DELETE: '/products/:id',
+  },
 } as const

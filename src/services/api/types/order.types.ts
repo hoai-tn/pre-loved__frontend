@@ -17,7 +17,54 @@ export interface CreateOrderRequest {
 }
 
 /**
- * Order item response
+ * Order item response from API (snake_case)
+ */
+export interface ApiOrderItem {
+  id: number
+  order_id: number
+  product_id: string
+  quantity: number
+  price: string
+}
+
+/**
+ * Order response from API (snake_case)
+ */
+export interface ApiOrder {
+  id: number
+  user_id: string
+  status: string
+  total: string
+  created_at: string
+  updated_at: string
+  items: Array<ApiOrderItem>
+}
+
+/**
+ * User info in orders response
+ */
+export interface ApiUser {
+  id: number
+  username: string
+  password: string
+  email: string
+  name: string | null
+  avatar: string | null
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+/**
+ * Get orders response structure
+ */
+export interface GetOrdersResponse {
+  user: ApiUser
+  orders: Array<ApiOrder>
+}
+
+/**
+ * Order item response (camelCase for internal use)
  */
 export interface OrderItemResponse {
   id: string
@@ -28,7 +75,7 @@ export interface OrderItemResponse {
 }
 
 /**
- * Order response
+ * Order response (camelCase for internal use)
  */
 export interface OrderResponse {
   id: string

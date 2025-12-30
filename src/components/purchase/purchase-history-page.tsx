@@ -1,141 +1,144 @@
 'use client'
 
-import { useState } from 'react'
-import { Package, Search } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Loader2, Package, Search } from 'lucide-react'
 import { OrderCard } from './order-card'
 import type { Order } from './types'
+import type { ApiProduct, OrderResponse } from '@/services/api/types'
+import { getOrders } from '@/services/api/orders.api'
+import { getProductById } from '@/services/api/products.api'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useAuthStore } from '@/store/auth'
 
-// Mock orders data - will be replaced with store/API later
-const mockOrders: Array<Order> = [
-  {
-    id: 'ORD-2024-001',
-    orderDate: '2024-12-20T10:30:00',
-    status: 'delivered',
-    items: [
-      {
-        id: '1',
-        productId: 'p1',
-        title: 'Đồng Hồ Thông Minh HUAWEI WATCH GT6 Series',
-        image: '/api/placeholder/80/80',
-        price: 8070000,
-        quantity: 1,
-        category: 'Phân loại: Pro Deri/Cao Sang',
-      },
-      {
-        id: '2',
-        productId: 'p2',
-        title: 'iPhone 15 Pro Max 256GB - Chính Hãng VN/A',
-        image: '/api/placeholder/80/80',
-        price: 29990000,
-        quantity: 1,
-        category: 'Phân loại: Titan Xanh',
-      },
-    ],
-    total: 38060000,
-    shippingFee: 0,
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    trackingNumber: 'SPX123456789',
-    estimatedDelivery: '2024-12-25',
-  },
-  {
-    id: 'ORD-2024-002',
-    orderDate: '2024-12-15T14:20:00',
-    status: 'shipping',
-    items: [
-      {
-        id: '3',
-        productId: 'p3',
-        title: 'MacBook Pro 14" M3 Pro 18GB/512GB - Space Black',
-        image: '/api/placeholder/80/80',
-        price: 52990000,
-        quantity: 1,
-        category: 'Phân loại: M3 Pro',
-      },
-    ],
-    total: 52990000,
-    shippingFee: 0,
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    trackingNumber: 'SPX987654321',
-    estimatedDelivery: '2024-12-28',
-  },
-  {
-    id: 'ORD-2024-003',
-    orderDate: '2024-12-10T09:15:00',
-    status: 'processing',
-    items: [
-      {
-        id: '4',
-        productId: 'p4',
-        title: 'AirPods Pro (2nd generation) - USB-C',
-        image: '/api/placeholder/80/80',
-        price: 6490000,
-        quantity: 2,
-        category: 'Phân loại: Chính Hãng',
-      },
-    ],
-    total: 12980000,
-    shippingFee: 0,
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    estimatedDelivery: '2024-12-30',
-  },
-  {
-    id: 'ORD-2024-004',
-    orderDate: '2024-11-28T16:45:00',
-    status: 'cancelled',
-    items: [
-      {
-        id: '5',
-        productId: 'p5',
-        title: 'Samsung Galaxy S23 Ultra 256GB',
-        image: '/api/placeholder/80/80',
-        price: 25990000,
-        quantity: 1,
-        category: 'Phân loại: Phantom Black',
-      },
-    ],
-    total: 25990000,
-    shippingFee: 0,
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    cancelledAt: '2024-11-29T10:00:00',
-    cancelReason: 'Khách hàng yêu cầu hủy',
-  },
-]
+/**
+ * Transform API order response to component Order type
+ */
+async function transformOrderToComponentOrder(
+  apiOrder: OrderResponse,
+): Promise<Order> {
+  // Default placeholder image
+  const defaultImage =
+    'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop'
 
-const orderTabs = [
-  { value: 'all', label: 'Tất cả', count: 4 },
-  { value: 'processing', label: 'Chờ xử lý', count: 1 },
-  { value: 'shipping', label: 'Đang giao', count: 1 },
-  { value: 'delivered', label: 'Đã giao', count: 1 },
-  { value: 'cancelled', label: 'Đã hủy', count: 1 },
-]
+  // Fetch product details for each item
+  const items = await Promise.all(
+    apiOrder.items.map(async (item) => {
+      let product: ApiProduct | null = null
+      try {
+        product = await getProductById(item.productId)
+      } catch (error) {
+        // If product fetch fails, use placeholder data
+        console.warn(`Failed to fetch product ${item.productId}:`, error)
+      }
+
+      return {
+        id: item.id,
+        productId: item.productId,
+        title: product?.name || `Sản phẩm #${item.productId}`,
+        image: product?.imageUrl || defaultImage,
+        price: item.price,
+        quantity: item.quantity,
+        category: product?.category?.name
+          ? `Phân loại: ${product.category.name}`
+          : undefined,
+      }
+    }),
+  )
+
+  // Map status from API to component status
+  const statusMap: Record<string, Order['status']> = {
+    pending: 'pending',
+    processing: 'processing',
+    shipping: 'shipping',
+    delivered: 'delivered',
+    cancelled: 'cancelled',
+    refunded: 'refunded',
+  }
+
+  const orderStatus: Order['status'] = statusMap[apiOrder.status] ?? 'pending'
+
+  return {
+    id: apiOrder.id,
+    orderDate: apiOrder.createdAt,
+    status: orderStatus,
+    items,
+    total: apiOrder.totalAmount,
+    shippingFee: 0, // API doesn't provide shipping fee separately
+    deliveryAddress: {
+      name: 'Người nhận',
+      phone: 'Chưa cập nhật',
+      address: 'Chưa cập nhật',
+    },
+  }
+}
 
 export function PurchaseHistoryPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeTab, setActiveTab] = useState('all')
+  const [orders, setOrders] = useState<Array<Order>>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const { user } = useAuthStore()
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        setIsLoading(true)
+        setError(null)
+          if (!user?.id) {
+            throw new Error('Đăng nhập để xem lịch sử mua hàng')
+        }
 
-  const filteredOrders = mockOrders.filter((order) => {
+        const apiOrders = await getOrders(user.id)
+        const transformedOrders = await Promise.all(
+          apiOrders.map(transformOrderToComponentOrder),
+        )
+        setOrders(transformedOrders)
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : 'Không thể tải danh sách đơn hàng',
+        )
+        console.error('Error fetching orders:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchOrders()
+  }, [])
+
+  // Calculate tab counts
+  const orderTabs = [
+    {
+      value: 'all',
+      label: 'Tất cả',
+      count: orders.length,
+    },
+    {
+      value: 'processing',
+      label: 'Chờ xử lý',
+      count: orders.filter((o) => o.status === 'processing').length,
+    },
+    {
+      value: 'shipping',
+      label: 'Đang giao',
+      count: orders.filter((o) => o.status === 'shipping').length,
+    },
+    {
+      value: 'delivered',
+      label: 'Đã giao',
+      count: orders.filter((o) => o.status === 'delivered').length,
+    },
+    {
+      value: 'cancelled',
+      label: 'Đã hủy',
+      count: orders.filter((o) => o.status === 'cancelled').length,
+    },
+  ]
+
+  const filteredOrders = orders.filter((order) => {
     const matchesSearch =
       order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.items.some((item) =>
@@ -146,6 +149,35 @@ export function PurchaseHistoryPage() {
 
     return matchesSearch && matchesTab
   })
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-muted/30">
+        <div className="container mx-auto px-4 py-6 max-w-7xl">
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <Loader2 className="h-8 w-8 text-primary animate-spin mb-4" />
+            <p className="text-muted-foreground">
+              Đang tải danh sách đơn hàng...
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-muted/30">
+        <div className="container mx-auto px-4 py-6 max-w-7xl">
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <Package className="h-24 w-24 text-muted-foreground mb-4" />
+            <h3 className="text-xl font-semibold mb-2">Có lỗi xảy ra</h3>
+            <p className="text-muted-foreground mb-4">{error}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-muted/30">

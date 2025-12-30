@@ -18,6 +18,7 @@ export const API_ROUTES = {
   ORDER: {
     CREATE: '/orders',
     GET_ALL: '/orders',
+    GET_ALL_BY_USER: '/orders/user/:userId',
     GET_BY_ID: '/orders/:id',
   },
 } as const

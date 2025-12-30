@@ -7,6 +7,7 @@ export const API_ROUTES = {
     REGISTER: '/user/register',
     LOGIN: '/user/login',
     PROFILE: '/user/profile',
+    REFRESH_TOKEN: '/user/refresh-token',
   },
   PRODUCT: {
     GET_ALL: '/products',

@@ -11,14 +11,6 @@ export const createAsyncActions = (get: () => AuthStore) => ({
    */
   checkAuth: async () => {
     const { setUser, setLoading } = get()
-
-    // Only check profile if token exists
-    const token = localStorage.getItem('token')
-    if (!token) {
-      setLoading(false)
-      return
-    }
-
     try {
       const profile = await getProfile()
       setUser(profile)

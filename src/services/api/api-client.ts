@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { API_ROUTES } from './routes.api'
 import type { AxiosError, AxiosInstance } from 'axios'
-import type { ApiResponse } from './types'
+import type { ApiResponse, AuthResponse } from './types'
 import {
   getLocalStorage,
   removeLocalStorage,
@@ -37,6 +37,7 @@ const axiosInstance: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 })
 
 /**
@@ -93,22 +94,26 @@ async function apiClient<T = unknown>(
         error?: string
         errors?: Record<string, Array<string>>
       }>
+      console.log({ status: axiosError.response?.status })
 
-      const responseData = axiosError.response?.data
+      // handle refresh token if status is 401
+      if (axiosError.response?.status === 401) {
+        const response = await post<AuthResponse>(API_ROUTES.USER.REFRESH_TOKEN)
 
-      return {
-        error:
-          responseData?.message ||
-          responseData?.error ||
-          axiosError.message ||
-          'Request failed',
-        errors: responseData?.errors,
+        if (response.data) {
+          setToken(response.data.accessToken)
+          return apiClient<T>(endpoint, {
+            method: options.method || 'GET',
+            body: options.body,
+            headers: options.headers,
+          })
+        }
+      } else {
+        throw new Error(axiosError.message || 'Request failed')
       }
     }
 
-    return {
-      error: error instanceof Error ? error.message : 'Network error occurred',
-    }
+    throw new Error('Network error occurred')
   }
 }
 

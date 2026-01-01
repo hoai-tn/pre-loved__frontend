@@ -1,8 +1,8 @@
 export interface OrderItem {
   id: string
   productId: string
-  title: string
-  image: string
+  name: string
+  imageUrl: string
   price: number
   quantity: number
   category?: string

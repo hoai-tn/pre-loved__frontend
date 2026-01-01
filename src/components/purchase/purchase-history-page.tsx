@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Loader2, Package, Search } from 'lucide-react'
+import { Package, Search } from 'lucide-react'
 import { OrderCard } from './order-card'
+import { PurchaseHistoryPageSkeleton } from './purchase-history-skeleton'
 import type { Order } from './types'
 import type { ApiProduct, OrderResponse } from '@/services/api/types'
 import { getOrders } from '@/services/api/orders.api'
@@ -35,8 +36,8 @@ async function transformOrderToComponentOrder(
       return {
         id: item.id,
         productId: item.productId,
-        title: product?.name || `Sản phẩm #${item.productId}`,
-        image: product?.imageUrl || defaultImage,
+        name: product?.name || `Sản phẩm #${item.productId}`,
+        imageUrl: product?.imageUrl || defaultImage,
         price: item.price,
         quantity: item.quantity,
         category: product?.category?.name
@@ -80,13 +81,15 @@ export function PurchaseHistoryPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { user } = useAuthStore()
+
   useEffect(() => {
     async function fetchOrders() {
       try {
         setIsLoading(true)
         setError(null)
-          if (!user?.id) {
-            throw new Error('Đăng nhập để xem lịch sử mua hàng')
+
+        if (!user?.id) {
+          throw new Error('Đăng nhập để xem lịch sử mua hàng')
         }
 
         const apiOrders = await getOrders(user.id)
@@ -107,7 +110,7 @@ export function PurchaseHistoryPage() {
     }
 
     fetchOrders()
-  }, [])
+  }, [user?.id])
 
   // Calculate tab counts
   const orderTabs = [
@@ -142,7 +145,7 @@ export function PurchaseHistoryPage() {
     const matchesSearch =
       order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.items.some((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()),
       )
 
     const matchesTab = activeTab === 'all' || order.status === activeTab
@@ -151,18 +154,7 @@ export function PurchaseHistoryPage() {
   })
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-muted/30">
-        <div className="container mx-auto px-4 py-6 max-w-7xl">
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Loader2 className="h-8 w-8 text-primary animate-spin mb-4" />
-            <p className="text-muted-foreground">
-              Đang tải danh sách đơn hàng...
-            </p>
-          </div>
-        </div>
-      </div>
-    )
+    return <PurchaseHistoryPageSkeleton />
   }
 
   if (error) {

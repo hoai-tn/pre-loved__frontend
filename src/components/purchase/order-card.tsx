@@ -120,20 +120,20 @@ export function OrderCard({ order }: OrderCardProps) {
         <div className="space-y-4 mb-4">
           {order.items.map((item) => (
             <div key={item.id} className="flex gap-4">
-              {/* Product Image */}
-              <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border bg-muted">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            {/* Product Image */}
+            <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border bg-muted">
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-              {/* Product Info */}
-              <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-sm mb-1 line-clamp-2">
-                  {item.title}
-                </h4>
+            {/* Product Info */}
+            <div className="flex-1 min-w-0">
+              <h4 className="font-medium text-sm mb-1 line-clamp-2">
+                {item.name}
+              </h4>
                 {item.category && (
                   <p className="text-xs text-muted-foreground mb-2">
                     {item.category}

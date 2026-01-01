@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import type { ProductDetailData } from '@/components/product-detail'
 import type { ApiProduct } from '@/services/api'
-import { ProductDetail } from '@/components/product-detail'
+import { ProductDetail, ProductDetailSkeleton } from '@/components/product-detail'
 import { getProductById } from '@/services/api/products.api'
 
 /**
@@ -47,8 +47,8 @@ function mapApiProductToProductDetail(
     reviews: apiProduct.ratingCount,
     sold: 0, // API doesn't provide sold count, using 0
     seller: {
-      name: apiProduct.user.name || apiProduct.user.email || 'Người bán',
-      avatar: apiProduct.user.avatar || defaultAvatar,
+      name: 'Tech Store',
+      avatar: defaultAvatar,
       isOnline: false, // Not provided by API
       lastSeen: 'Không xác định',
       isMall: false, // Not provided by API
@@ -85,6 +85,7 @@ export const Route = createFileRoute('/products/$productId')({
     const productDetail = mapApiProductToProductDetail(apiProduct)
     return { productDetail }
   },
+  pendingComponent: ProductDetailSkeleton,
 })
 
 function ProductDetailPage() {

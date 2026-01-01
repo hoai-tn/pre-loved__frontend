@@ -28,8 +28,8 @@ const mockOrder: Order = {
     {
       id: '1',
       productId: 'p1',
-      title: 'Đồng Hồ Thông Minh HUAWEI WATCH GT6 Series',
-      image: '/api/placeholder/80/80',
+      name: 'Đồng Hồ Thông Minh HUAWEI WATCH GT6 Series',
+      imageUrl: '/api/placeholder/80/80',
       price: 8070000,
       quantity: 1,
       category: 'Phân loại: Pro Deri/Cao Sang',
@@ -37,8 +37,8 @@ const mockOrder: Order = {
     {
       id: '2',
       productId: 'p2',
-      title: 'iPhone 15 Pro Max 256GB - Chính Hãng VN/A',
-      image: '/api/placeholder/80/80',
+      name: 'iPhone 15 Pro Max 256GB - Chính Hãng VN/A',
+      imageUrl: '/api/placeholder/80/80',
       price: 29990000,
       quantity: 1,
       category: 'Phân loại: Titan Xanh',
@@ -208,29 +208,29 @@ export function OrderDetailPage() {
                   <div
                     key={item.id}
                     className="flex gap-4 pb-4 border-b last:border-0 last:pb-0"
-                  >
-                    <Link
-                      to="/products/$productId"
-                      params={{ productId: item.productId }}
-                      className="shrink-0"
                     >
-                      <div className="relative w-20 h-20 rounded-lg overflow-hidden border bg-muted hover:opacity-80 transition-opacity">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </Link>
-                    <div className="flex-1 min-w-0">
                       <Link
                         to="/products/$productId"
                         params={{ productId: item.productId }}
+                        className="shrink-0"
                       >
-                        <h4 className="font-medium text-sm mb-1 line-clamp-2 hover:text-primary">
-                          {item.title}
-                        </h4>
+                        <div className="relative w-20 h-20 rounded-lg overflow-hidden border bg-muted hover:opacity-80 transition-opacity">
+                          <img
+                            src={item.imageUrl}
+                            alt={item.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                       </Link>
+                      <div className="flex-1 min-w-0">
+                        <Link
+                          to="/products/$productId"
+                          params={{ productId: item.productId }}
+                        >
+                          <h4 className="font-medium text-sm mb-1 line-clamp-2 hover:text-primary">
+                            {item.name}
+                          </h4>
+                        </Link>
                       {item.category && (
                         <p className="text-xs text-muted-foreground mb-2">
                           {item.category}

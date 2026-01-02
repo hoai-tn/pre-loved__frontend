@@ -46,6 +46,13 @@ export async function login(payload: LoginRequest): Promise<AuthResponse> {
 }
 
 /**
+ * Logout user
+ */
+export async function logout(): Promise<void> {
+  await post<void>(API_ROUTES.USER.LOGOUT)
+}
+
+/**
  * Get user profile
  */
 export async function getProfile(): Promise<UserProfile> {

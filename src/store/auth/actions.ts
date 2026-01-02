@@ -26,6 +26,7 @@ export const createAuthActions: StateCreator<AuthStore, [], [], AuthStore> = (
 
   // Placeholders for async actions (implemented in asyncActions.ts)
   login: async () => {
+    console.log('login')
     // Placeholder
   },
 

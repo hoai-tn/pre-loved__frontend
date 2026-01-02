@@ -1,6 +1,6 @@
 import type { LoginRequest, RegisterRequest } from '@/services/api'
 import type { AuthStore } from './types'
-import { getProfile, login, register, removeToken } from '@/services/api'
+import * as apiClient from '@/services/api'
 
 /**
  * Async actions for auth store
@@ -12,7 +12,7 @@ export const createAsyncActions = (get: () => AuthStore) => ({
   checkAuth: async () => {
     const { setUser, setLoading } = get()
     try {
-      const profile = await getProfile()
+      const profile = await apiClient.getProfile()
       setUser(profile)
     } catch {
       // Not authenticated or token expired
@@ -33,7 +33,7 @@ export const createAsyncActions = (get: () => AuthStore) => ({
       setLoading(true)
       setError(null)
 
-      const authResponse = await login(data)
+      const authResponse = await apiClient.login(data)
       setUser(authResponse.user)
     } catch (error) {
       const errorMessage =
@@ -55,7 +55,7 @@ export const createAsyncActions = (get: () => AuthStore) => ({
       setLoading(true)
       setError(null)
 
-      await register(data)
+      await apiClient.register(data)
       // After registration, user needs to login
     } catch (error) {
       const errorMessage =
@@ -72,8 +72,8 @@ export const createAsyncActions = (get: () => AuthStore) => ({
    */
   logout: () => {
     const { setUser } = get()
-
-    removeToken()
+    apiClient.logout()
+    apiClient.removeToken()
     setUser(null)
   },
 
@@ -85,7 +85,7 @@ export const createAsyncActions = (get: () => AuthStore) => ({
 
     try {
       setError(null)
-      const profile = await getProfile()
+      const profile = await apiClient.getProfile()
       setUser(profile)
     } catch (error) {
       const errorMessage =

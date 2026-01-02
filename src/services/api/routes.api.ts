@@ -6,6 +6,7 @@ export const API_ROUTES = {
   USER: {
     REGISTER: '/user/register',
     LOGIN: '/user/login',
+    LOGOUT: '/user/logout',
     PROFILE: '/user/profile',
     REFRESH_TOKEN: '/user/refresh-token',
   },

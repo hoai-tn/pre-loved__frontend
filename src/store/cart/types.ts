@@ -18,8 +18,8 @@ export interface CartActions {
   getItemCount: () => number
 
   // Async actions
-  syncCartWithServer: () => Promise<void>
-  loadCartFromServer: () => Promise<void>
+  syncCartWithServer?: () => Promise<void>
+  loadCartFromServer?: () => Promise<void>
 
   // Internal state setters
   setLoading: (loading: boolean) => void

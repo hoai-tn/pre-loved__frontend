@@ -74,13 +74,4 @@ export const createCartActions: StateCreator<CartStore, [], [], CartStore> = (
   setError: (error: string | null) => {
     set({ error })
   },
-
-  // Placeholder for async actions (implemented in asyncActions.ts)
-  syncCartWithServer: async () => {
-    // Placeholder
-  },
-
-  loadCartFromServer: async () => {
-    // Placeholder
-  },
 })

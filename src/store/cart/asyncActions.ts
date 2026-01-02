@@ -1,4 +1,5 @@
 import type { CartStore } from './types'
+import { setLocalStorage } from '@/lib/storage'
 
 /**
  * Async actions for cart store
@@ -30,7 +31,7 @@ export const createAsyncActions = (
       })
 
       // Save to localStorage as fallback
-      localStorage.setItem('cart', JSON.stringify(items))
+      setLocalStorage('cart', JSON.stringify(items))
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to sync cart'

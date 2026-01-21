@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, lazy, useState } from 'react'
+import { Suspense, lazy, useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
   LogOut,
@@ -11,11 +11,21 @@ import {
   Search,
   ShoppingCart,
   User,
+  X,
 } from 'lucide-react'
 import { selectIsAuthenticated, selectUser, useAuthStore } from '@/store/auth'
 import { selectCartItemCount, useCartStore } from '@/store/cart'
+import {
+  selectSearchQuery,
+  selectSearchResults,
+  selectSearchIsLoading,
+  selectSearchError,
+  selectSearchIsOpen,
+  useSearchStore,
+} from '@/store/search'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { SearchResults } from './search-results'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,6 +57,61 @@ export function Navbar() {
   const isAuthenticated = useAuthStore(selectIsAuthenticated)
   const logout = useAuthStore((state) => state.logout)
   const navigate = useNavigate()
+
+  // Search state
+  const searchQuery = useSearchStore(selectSearchQuery)
+  const searchResults = useSearchStore(selectSearchResults)
+  const isSearchLoading = useSearchStore(selectSearchIsLoading)
+  const searchError = useSearchStore(selectSearchError)
+  const isSearchOpen = useSearchStore(selectSearchIsOpen)
+  const { setQuery, setIsOpen, clearSearch, searchProducts } = useSearchStore()
+
+  const searchRef = useRef<HTMLDivElement>(null)
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Close search results when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [setIsOpen])
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setQuery(value)
+
+    // Debounce search API call
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current)
+    }
+
+    searchTimeoutRef.current = setTimeout(() => {
+      if (value.trim()) {
+        searchProducts(value)
+      } else {
+        setIsOpen(false)
+      }
+    }, 300)
+  }
+
+  const handleClearSearch = () => {
+    clearSearch()
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current)
+    }
+  }
+
+  const handleSearchResultClick = () => {
+    setIsOpen(false)
+  }
 
   const handleLogout = () => {
     logout()
@@ -93,13 +158,41 @@ export function Navbar() {
 
           {/* Search Bar - Prominent feature */}
           <div className="flex-1 flex justify-center max-w-3xl mx-auto">
-            <div className="relative w-full max-w-2xl">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="relative w-full max-w-2xl" ref={searchRef}>
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
               <Input
                 type="search"
                 placeholder="Bạn muốn tìm gì?"
-                className="pl-10 pr-4 h-10 w-full"
+                className="pl-10 pr-10 h-10 w-full"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onFocus={() => {
+                  if (searchQuery.trim() && searchResults.length > 0) {
+                    setIsOpen(true)
+                  }
+                }}
               />
+              {searchQuery && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground hover:text-foreground z-10"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+
+              {/* Search Results Dropdown */}
+              {isSearchOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-background border rounded-lg shadow-lg z-50">
+                  <SearchResults
+                    results={searchResults}
+                    isLoading={isSearchLoading}
+                    error={searchError}
+                    onResultClick={handleSearchResultClick}
+                  />
+                </div>
+              )}
             </div>
           </div>
 

@@ -5,6 +5,7 @@ import {
   differenceInSeconds,
   format,
   isThisWeek,
+  isValid,
 } from 'date-fns'
 
 /**
@@ -15,7 +16,18 @@ import {
  * @returns Formatted Vietnamese relative time string
  */
 export function formatRelativeTime(dateString: string): string {
+  // Handle invalid or empty date strings
+  if (!dateString) {
+    return 'Ngày không hợp lệ'
+  }
+
   const date = new Date(dateString)
+
+  // Validate the date
+  if (!isValid(date)) {
+    return 'Ngày không hợp lệ'
+  }
+
   const now = new Date()
 
   // Calculate differences using date-fns functions

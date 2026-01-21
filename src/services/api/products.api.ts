@@ -1,18 +1,44 @@
 import { get } from './api-client'
 import { API_ROUTES } from './routes.api'
-import type { ApiProduct } from './types'
+import type {
+  ApiProduct,
+  GetProductsQueryDto,
+  PaginatedResponse,
+} from './types'
 
 /**
- * Get all products
+ * Get all products with query parameters
  */
-export async function getProducts(): Promise<Array<ApiProduct>> {
-  const response = await get<Array<ApiProduct>>(API_ROUTES.PRODUCT.GET_ALL)
+export async function getProducts(
+  query?: GetProductsQueryDto,
+): Promise<PaginatedResponse<ApiProduct>> {
+  const response = await get<PaginatedResponse<ApiProduct>>(
+    API_ROUTES.PRODUCT.GET_ALL,
+    query as Record<string, unknown>,
+  )
 
   if (response.error) {
     throw new Error(response.error)
   }
 
-  return response.data || []
+  return (
+    response.data || {
+      total: 0,
+      items: [],
+      page: 1,
+      limit: 10,
+      totalPages: 0,
+    }
+  )
+}
+
+/**
+ * Search products (alias for getProducts with search parameter)
+ */
+export async function searchProducts(
+  query: GetProductsQueryDto,
+): Promise<PaginatedResponse<ApiProduct>> {
+  return getProducts(query)
 }
 
 /**

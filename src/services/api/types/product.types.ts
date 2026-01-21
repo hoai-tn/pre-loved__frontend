@@ -33,6 +33,38 @@ export interface ProductUser {
 }
 
 /**
+ * Query parameters for getting products
+ */
+export interface GetProductsQueryDto {
+  page?: number
+  limit?: number
+  search?: string
+  categoryId?: number
+  brandId?: number
+  minPrice?: number
+  maxPrice?: number
+  isActive?: boolean
+  sortBy?: string
+  sortOrder?: 'ASC' | 'DESC'
+  isFeatured?: boolean
+  isTrending?: boolean
+  condition?: string
+  minRating?: number
+  maxRating?: number
+}
+
+/**
+ * Paginated response data structure
+ */
+export interface PaginatedResponse<T> {
+  total: number
+  items: T[]
+  page: number
+  limit: number
+  totalPages: number
+}
+
+/**
  * Product data from API
  */
 export interface ApiProduct {

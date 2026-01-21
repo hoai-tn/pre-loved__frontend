@@ -77,6 +77,7 @@ async function apiClient<T = unknown>(
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
     body?: unknown
     headers?: Record<string, string>
+    params?: Record<string, unknown>
   } = {},
 ): Promise<ApiResponse<T>> {
   try {
@@ -85,6 +86,7 @@ async function apiClient<T = unknown>(
       method: options.method || 'GET',
       data: options.body,
       headers: options.headers,
+      params: options.params,
     })
     return { data: response.data.data }
   } catch (error) {
@@ -106,6 +108,7 @@ async function apiClient<T = unknown>(
             method: options.method || 'GET',
             body: options.body,
             headers: options.headers,
+            params: options.params,
           })
         }
       } else {
@@ -122,8 +125,9 @@ async function apiClient<T = unknown>(
  */
 export async function get<T = unknown>(
   endpoint: string,
+  params?: Record<string, unknown>,
 ): Promise<ApiResponse<T>> {
-  return apiClient<T>(endpoint, { method: 'GET' })
+  return apiClient<T>(endpoint, { method: 'GET', params })
 }
 
 /**

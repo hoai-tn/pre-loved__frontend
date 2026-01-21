@@ -29,8 +29,8 @@ function mapApiProductToProduct(apiProduct: ApiProduct): Product {
 export const Route = createFileRoute('/')({
   component: App,
   loader: async () => {
-    const apiProducts = await getProducts()
-    const products = apiProducts.map(mapApiProductToProduct)
+    const response = await getProducts()
+    const products = response.items.map(mapApiProductToProduct)
     return { products }
   },
 })

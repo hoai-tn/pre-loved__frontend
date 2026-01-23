@@ -60,7 +60,7 @@ export function ProductImageCarousel({
                   className="embla__slide flex-[0_0_100%] min-w-0 relative"
                 >
                   <img
-                    src={mainImageUrl}
+                    src={'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + mainImageUrl}
                     alt={`${title} - ${index + 1}`}
                     className="w-full h-full object-contain"
                   />

@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, lazy, useState, useEffect, useRef } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
   LogOut,
@@ -15,15 +15,16 @@ import {
 } from 'lucide-react'
 import { selectIsAuthenticated, selectUser, useAuthStore } from '@/store/auth'
 import { selectCartItemCount, useCartStore } from '@/store/cart'
-import { getCategories, type CategoryResponse } from '@/services/api'
+import type { CategoryResponse } from '@/services/api'
+import { getCategories } from '@/services/api'
 import {
+  selectSearchError,
+  selectSearchIsLoading,
+  selectSearchIsOpen,
   selectSearchQuery,
   selectSearchResults,
-  selectSearchIsLoading,
-  selectSearchError,
-  selectSearchIsOpen,
-  useSearchStore,
-} from '@/store/search'
+  useProductStore,
+} from '@/store/products'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SearchResults } from './search-results'
@@ -53,7 +54,7 @@ export function Navbar() {
   const [authModalTab, setAuthModalTab] = useState<'signin' | 'signup'>(
     'signin',
   )
-  const [categories, setCategories] = useState<CategoryResponse[]>([])
+  const [categories, setCategories] = useState<Array<CategoryResponse>>([])
   const [isLoadingCategories, setIsLoadingCategories] = useState(true)
   const cartItemCount = useCartStore(selectCartItemCount)
   const user = useAuthStore(selectUser)
@@ -61,13 +62,13 @@ export function Navbar() {
   const logout = useAuthStore((state) => state.logout)
   const navigate = useNavigate()
 
-  // Search state
-  const searchQuery = useSearchStore(selectSearchQuery)
-  const searchResults = useSearchStore(selectSearchResults)
-  const isSearchLoading = useSearchStore(selectSearchIsLoading)
-  const searchError = useSearchStore(selectSearchError)
-  const isSearchOpen = useSearchStore(selectSearchIsOpen)
-  const { setQuery, setIsOpen, clearSearch, searchProducts } = useSearchStore()
+  // Search state from product store
+  const searchQuery = useProductStore(selectSearchQuery)
+  const searchResults = useProductStore(selectSearchResults)
+  const isSearchLoading = useProductStore(selectSearchIsLoading)
+  const searchError = useProductStore(selectSearchError)
+  const isSearchOpen = useProductStore(selectSearchIsOpen)
+  const { setSearchQuery, setSearchOpen, clearSearch, searchProducts } = useProductStore()
 
   const searchRef = useRef<HTMLDivElement>(null)
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -96,17 +97,17 @@ export function Navbar() {
         searchRef.current &&
         !searchRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false)
+        setSearchOpen(false)
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [setIsOpen])
+  }, [setSearchOpen])
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setQuery(value)
+    setSearchQuery(value)
 
     // Debounce search API call
     if (searchTimeoutRef.current) {
@@ -117,7 +118,7 @@ export function Navbar() {
       if (value.trim()) {
         searchProducts(value)
       } else {
-        setIsOpen(false)
+        setSearchOpen(false)
       }
     }, 300)
   }
@@ -130,7 +131,7 @@ export function Navbar() {
   }
 
   const handleSearchResultClick = () => {
-    setIsOpen(false)
+    setSearchOpen(false)
   }
 
   const handleLogout = () => {
@@ -141,17 +142,6 @@ export function Navbar() {
   const handleCartClick = () => {
     navigate({ to: '/cart' as any })
   }
-
-  const technologies = [
-    'Smartphones',
-    'Laptops & Computers',
-    'Smart Home',
-    'Audio & Headphones',
-    'Cameras & Drones',
-    'Gaming Consoles',
-    'Tablets & E-readers',
-    'Wearables',
-  ]
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background">
@@ -177,7 +167,7 @@ export function Navbar() {
                 onChange={handleSearchChange}
                 onFocus={() => {
                   if (searchQuery.trim() && searchResults.length > 0) {
-                    setIsOpen(true)
+                    setSearchOpen(true)
                   }
                 }}
               />
@@ -315,7 +305,7 @@ export function Navbar() {
       <div className="border-t bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide py-1">
-            {/* Technologies Dropdown */}
+            {/* All Categories Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -323,29 +313,7 @@ export function Navbar() {
                   className="h-10 gap-2 shrink-0 whitespace-nowrap font-semibold"
                 >
                   <Menu className="h-4 w-4" />
-                  <span>Technologies</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64 max-h-[400px] overflow-y-auto">
-                {technologies.map((tech, index) => (
-                  <DropdownMenuItem key={index}>
-                    <Link to="/" className="w-full">
-                      {tech}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Products Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="h-10 gap-2 shrink-0 whitespace-nowrap font-semibold"
-                >
-                  <Menu className="h-4 w-4" />
-                  <span>Categories</span>
+                  <span>All Categories</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-64 max-h-[400px] overflow-y-auto">
@@ -354,7 +322,11 @@ export function Navbar() {
                 ) : categories.length > 0 ? (
                   categories.map((category) => (
                     <DropdownMenuItem key={category.id}>
-                      <Link to="/" className="w-full">
+                      <Link 
+                        to="/" 
+                        search={{ categoryId: category.id }}
+                        className="w-full"
+                      >
                         {category.name}
                       </Link>
                     </DropdownMenuItem>
@@ -367,16 +339,23 @@ export function Navbar() {
 
             <div className="h-6 w-px bg-border mx-1" />
 
-            {/* Featured Technology Links - Horizontal Scroll */}
-            {technologies.slice(0, 5).map((tech, index) => (
-              <Link
-                key={index}
-                to="/"
-                className="h-10 px-4 flex items-center shrink-0 whitespace-nowrap text-sm font-medium hover:bg-accent rounded-md transition-colors"
-              >
-                {tech}
-              </Link>
-            ))}
+            {/* Main Category Tabs - Horizontal Scroll */}
+            {isLoadingCategories ? (
+              <div className="h-10 px-4 flex items-center text-sm text-muted-foreground">
+                Loading categories...
+              </div>
+            ) : (
+              categories.map((category) => (
+                <Link
+                  key={category.id}
+                  to="/"
+                  search={{ categoryId: category.id }}
+                  className="h-10 px-4 flex items-center shrink-0 whitespace-nowrap text-sm font-medium hover:bg-accent rounded-md transition-colors"
+                >
+                  {category.name}
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>

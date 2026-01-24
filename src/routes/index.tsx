@@ -1,12 +1,19 @@
 'use client'
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { ApiProduct } from '@/services/api/types'
 import type { Product } from '@/lib/mock-products'
 import { ProductGrid } from '@/components/product/product-grid'
 import { useCartStore } from '@/store/cart'
-import { getProducts } from '@/services/api/products.api'
+import {
+  selectCurrentPage,
+  selectIsLoading,
+  selectProducts,
+  selectTotal,
+  selectTotalPages,
+  useProductStore,
+} from '@/store/products'
 import { Button } from '@/components/ui/button'
 
 /**
@@ -21,49 +28,46 @@ function mapApiProductToProduct(apiProduct: ApiProduct): Product {
     image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + apiProduct.imageUrl || defaultImage,
     title: apiProduct.name,
     price: apiProduct.price,
-      postedAt: apiProduct.createdAt,
-      location: undefined, // API doesn't provide location, can be added later
+    postedAt: apiProduct.createdAt,
+    location: undefined, // API doesn't provide location, can be added later
   }
 }
 
 export const Route = createFileRoute('/')({
   component: App,
-  loader: async () => {
-    const response = await getProducts({ limit: 20, page: 1 })
-    const products = response.items.map(mapApiProductToProduct)
-    return { 
-      products,
-      total: response.total,
-      totalPages: response.totalPages,
-      currentPage: response.page,
+  validateSearch: (search: Record<string, unknown>): { categoryId?: string } => {
+    return {
+      categoryId: search.categoryId as string | undefined,
     }
   },
 })
 
 function App() {
-  const loaderData = Route.useLoaderData()
-  const [allProducts, setAllProducts] = useState<Product[]>(loaderData.products)
-  const [currentPage, setCurrentPage] = useState(loaderData.currentPage)
-  const [isLoading, setIsLoading] = useState(false)
+  const { categoryId } = Route.useSearch()
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const addItem = useCartStore((state) => state.addItem)
 
-  const totalProducts = loaderData.total
+  // Product store selectors
+  const apiProducts = useProductStore(selectProducts)
+  const isLoading = useProductStore(selectIsLoading)
+  const currentPage = useProductStore(selectCurrentPage)
+  const totalPages = useProductStore(selectTotalPages)
+  const totalProducts = useProductStore(selectTotal)
+  const { fetchProducts, loadMoreProducts, setCategoryFilter } = useProductStore()
+
+  // Map API products to UI products
+  const allProducts = apiProducts.map(mapApiProductToProduct)
   const remainingProducts = totalProducts - allProducts.length
 
+  // Fetch products on mount and when category changes
+  useEffect(() => {
+    const categoryIdNum = categoryId ? Number(categoryId) : null
+    setCategoryFilter(categoryIdNum)
+    fetchProducts()
+  }, [categoryId, fetchProducts, setCategoryFilter])
+
   const handleLoadMore = async () => {
-    setIsLoading(true)
-    try {
-      const nextPage = currentPage + 1
-      const response = await getProducts({ limit: 30, page: nextPage })
-      const newProducts = response.items.map(mapApiProductToProduct)
-      setAllProducts((prev) => [...prev, ...newProducts])
-      setCurrentPage(nextPage)
-    } catch (error) {
-      console.error('Error loading more products:', error)
-    } finally {
-      setIsLoading(false)
-    }
+    await loadMoreProducts()
   }
 
   const handleFavoriteToggle = (id: string) => {
@@ -113,7 +117,7 @@ function App() {
         onBuy={handleBuy}
       />
       
-      {remainingProducts > 0 && (
+      {remainingProducts > 0 && currentPage < totalPages && (
         <div className="mt-8 flex justify-center">
           <Button
             onClick={handleLoadMore}

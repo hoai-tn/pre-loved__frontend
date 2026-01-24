@@ -23,4 +23,7 @@ export const API_ROUTES = {
     GET_ALL_BY_USER: '/orders/user/:userId',
     GET_BY_ID: '/orders/:id',
   },
+  CATEGORY: {
+    GET_ALL: '/category',
+  },
 } as const

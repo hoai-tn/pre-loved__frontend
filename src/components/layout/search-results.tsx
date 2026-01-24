@@ -52,7 +52,7 @@ export function SearchResults({
         >
           {product.imageUrl ? (
             <img
-              src={product.imageUrl}
+              src={'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + product.imageUrl}
               alt={product.name}
               className="w-12 h-12 object-cover rounded"
             />

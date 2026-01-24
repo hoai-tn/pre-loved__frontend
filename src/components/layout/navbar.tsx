@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { selectIsAuthenticated, selectUser, useAuthStore } from '@/store/auth'
 import { selectCartItemCount, useCartStore } from '@/store/cart'
+import { getCategories, type CategoryResponse } from '@/services/api'
 import {
   selectSearchQuery,
   selectSearchResults,
@@ -52,6 +53,8 @@ export function Navbar() {
   const [authModalTab, setAuthModalTab] = useState<'signin' | 'signup'>(
     'signin',
   )
+  const [categories, setCategories] = useState<CategoryResponse[]>([])
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true)
   const cartItemCount = useCartStore(selectCartItemCount)
   const user = useAuthStore(selectUser)
   const isAuthenticated = useAuthStore(selectIsAuthenticated)
@@ -68,6 +71,23 @@ export function Navbar() {
 
   const searchRef = useRef<HTMLDivElement>(null)
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Fetch categories on mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setIsLoadingCategories(true)
+        const data = await getCategories()
+        setCategories(data)
+      } catch (error) {
+        console.error('Failed to fetch categories:', error)
+      } finally {
+        setIsLoadingCategories(false)
+      }
+    }
+
+    fetchCategories()
+  }, [])
 
   // Close search results when clicking outside
   useEffect(() => {
@@ -131,17 +151,6 @@ export function Navbar() {
     'Gaming Consoles',
     'Tablets & E-readers',
     'Wearables',
-  ]
-
-  const products = [
-    'Electronics',
-    'Appliances',
-    'Home & Furniture',
-    'Fashion & Accessories',
-    'Sports & Outdoors',
-    'Books & Media',
-    'Toys & Games',
-    'Health & Beauty',
   ]
 
   return (
@@ -336,17 +345,23 @@ export function Navbar() {
                   className="h-10 gap-2 shrink-0 whitespace-nowrap font-semibold"
                 >
                   <Menu className="h-4 w-4" />
-                  <span>Products</span>
+                  <span>Categories</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-64 max-h-[400px] overflow-y-auto">
-                {products.map((product, index) => (
-                  <DropdownMenuItem key={index}>
-                    <Link to="/" className="w-full">
-                      {product}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
+                {isLoadingCategories ? (
+                  <DropdownMenuItem disabled>Loading...</DropdownMenuItem>
+                ) : categories.length > 0 ? (
+                  categories.map((category) => (
+                    <DropdownMenuItem key={category.id}>
+                      <Link to="/" className="w-full">
+                        {category.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))
+                ) : (
+                  <DropdownMenuItem disabled>No categories</DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
 

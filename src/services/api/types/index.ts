@@ -17,3 +17,8 @@ export * from './product.types'
  * Order types
  */
 export * from './order.types'
+
+/**
+ * Category types
+ */
+export * from './category.types'

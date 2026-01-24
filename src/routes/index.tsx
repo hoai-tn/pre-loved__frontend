@@ -7,6 +7,7 @@ import type { Product } from '@/lib/mock-products'
 import { ProductGrid } from '@/components/product/product-grid'
 import { useCartStore } from '@/store/cart'
 import { getProducts } from '@/services/api/products.api'
+import { Button } from '@/components/ui/button'
 
 /**
  * Map API product to Product interface for components
@@ -17,27 +18,53 @@ function mapApiProductToProduct(apiProduct: ApiProduct): Product {
     'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop'
   return {
     id: apiProduct.id,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + apiProduct?.image_url || defaultImage,
+    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + apiProduct.imageUrl || defaultImage,
     title: apiProduct.name,
     price: apiProduct.price,
-    postedAt: apiProduct.createdAt,
-    location: undefined, // API doesn't provide location, can be added later
+      postedAt: apiProduct.createdAt,
+      location: undefined, // API doesn't provide location, can be added later
   }
 }
 
 export const Route = createFileRoute('/')({
   component: App,
   loader: async () => {
-    const response = await getProducts()
+    const response = await getProducts({ limit: 20, page: 1 })
     const products = response.items.map(mapApiProductToProduct)
-    return { products }
+    return { 
+      products,
+      total: response.total,
+      totalPages: response.totalPages,
+      currentPage: response.page,
+    }
   },
 })
 
 function App() {
-  const { products } = Route.useLoaderData()
+  const loaderData = Route.useLoaderData()
+  const [allProducts, setAllProducts] = useState<Product[]>(loaderData.products)
+  const [currentPage, setCurrentPage] = useState(loaderData.currentPage)
+  const [isLoading, setIsLoading] = useState(false)
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const addItem = useCartStore((state) => state.addItem)
+
+  const totalProducts = loaderData.total
+  const remainingProducts = totalProducts - allProducts.length
+
+  const handleLoadMore = async () => {
+    setIsLoading(true)
+    try {
+      const nextPage = currentPage + 1
+      const response = await getProducts({ limit: 30, page: nextPage })
+      const newProducts = response.items.map(mapApiProductToProduct)
+      setAllProducts((prev) => [...prev, ...newProducts])
+      setCurrentPage(nextPage)
+    } catch (error) {
+      console.error('Error loading more products:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleFavoriteToggle = (id: string) => {
     setFavorites((prev) => {
@@ -52,7 +79,7 @@ function App() {
   }
 
   const handleAddToCart = (id: string) => {
-    const product = products.find((p) => p.id === id)
+    const product = allProducts.find((p) => p.id === id)
     if (product) {
       addItem({
         id: `cart-${id}-${Date.now()}`,
@@ -79,12 +106,26 @@ function App() {
         </p>
       </div>
       <ProductGrid
-        products={products}
+        products={allProducts}
         favorites={favorites}
         onFavoriteToggle={handleFavoriteToggle}
         onAddToCart={handleAddToCart}
         onBuy={handleBuy}
       />
+      
+      {remainingProducts > 0 && (
+        <div className="mt-8 flex justify-center">
+          <Button
+            onClick={handleLoadMore}
+            disabled={isLoading}
+            variant="outline"
+            size="lg"
+            className="min-w-[200px]"
+          >
+            {isLoading ? 'Đang tải...' : `Xem thêm ${remainingProducts} sản phẩm`}
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

@@ -6,6 +6,7 @@ export interface Product {
   price: number
   postedAt: string
   location?: string
+  isTrending?: boolean
 }
 
 export const mockProducts: Array<Product> = [

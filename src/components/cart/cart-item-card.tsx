@@ -1,7 +1,7 @@
 'use client'
 
 import { Minus, Plus, Trash2 } from 'lucide-react'
-import type { CartItem } from '@/lib/types/cart'
+import type { CartItem } from '@/store/cart/types'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'

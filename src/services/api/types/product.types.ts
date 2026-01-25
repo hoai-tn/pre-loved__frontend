@@ -54,6 +54,26 @@ export interface GetProductsQueryDto {
 }
 
 /**
+ * Query parameters for getting products by category
+ */
+export interface GetProductsByCategoryQueryDto {
+  page?: number
+  limit?: number
+  search?: string
+  brandId?: number
+  minPrice?: number
+  maxPrice?: number
+  isActive?: boolean
+  sortBy?: string
+  sortOrder?: 'ASC' | 'DESC'
+  isFeatured?: boolean
+  isTrending?: boolean
+  condition?: string
+  minRating?: number
+  maxRating?: number
+}
+
+/**
  * Paginated response data structure
  */
 export interface PaginatedResponse<T> {

@@ -12,6 +12,7 @@ export const API_ROUTES = {
   },
   PRODUCT: {
     GET_ALL: '/products',
+    GET_BY_CATEGORY: '/products/category/:categoryId',
     GET_BY_ID: '/products/:id',
     CREATE: '/products',
     UPDATE: '/products/:id',

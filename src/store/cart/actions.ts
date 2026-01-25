@@ -1,5 +1,5 @@
 import { initialCartState } from './state'
-import type { CartItem } from '@/lib/types/cart'
+import type { CartItem } from '@/store/cart/types'
 import type { StateCreator } from 'zustand'
 import type { CartStore } from './types'
 

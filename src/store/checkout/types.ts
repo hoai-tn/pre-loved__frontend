@@ -1,4 +1,4 @@
-import type { CartItem } from '@/lib/types/cart'
+import type { CartItem } from '@/store/cart/types'
 
 export type ShippingMethod = 'nhanh' | 'tietkiem'
 export type PaymentMethod = 'cod' | 'bank' | 'card'

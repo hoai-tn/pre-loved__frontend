@@ -1,4 +1,4 @@
-import type { CartItem } from '@/lib/types/cart'
+import type { CartItem } from '@/store/cart/types'
 import type { CheckoutStore } from './types'
 import { useCartStore } from '@/store/cart'
 import { createOrder } from '@/services/api'

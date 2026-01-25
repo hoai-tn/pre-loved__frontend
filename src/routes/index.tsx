@@ -100,14 +100,14 @@ function App() {
   ]
 
   const categories: Array<Category> = [
-    { id: 1, name: 'Điện Thoại', icon: 'smartphone', link: '/?categoryId=1' },
-    { id: 2, name: 'Laptop', icon: 'laptop', link: '/?categoryId=2' },
-    { id: 3, name: 'Đồng Hồ', icon: 'watch', link: '/?categoryId=3' },
-    { id: 4, name: 'Tai Nghe', icon: 'headphones', link: '/?categoryId=4' },
-    { id: 5, name: 'Camera', icon: 'camera', link: '/?categoryId=5' },
-    { id: 6, name: 'TV', icon: 'tv', link: '/?categoryId=6' },
-    { id: 7, name: 'Nhà Cửa', icon: 'home', link: '/?categoryId=7' },
-    { id: 8, name: 'Khác', icon: 'shopping', link: '/?categoryId=8' },
+    { id: 1, name: 'Điện Thoại', icon: 'smartphone', link: '/categories/phone' },
+    { id: 2, name: 'Laptop', icon: 'laptop', link: '/categories/laptop' },
+    { id: 3, name: 'Đồng Hồ', icon: 'watch', link: '/categories/watch' },
+    { id: 4, name: 'Tai Nghe', icon: 'headphones', link: '/categories/headphones' },
+    { id: 5, name: 'Camera', icon: 'camera', link: '/categories/camera' },
+    { id: 6, name: 'TV', icon: 'tv', link: '/categories/tv' },
+    { id: 7, name: 'Nhà Cửa', icon: 'home', link: '/categories/home-living' },
+    { id: 8, name: 'Khác', icon: 'shopping', link: '/' },
   ]
 
   // Flash sale products (mock - first 6 products with discount)
@@ -164,8 +164,8 @@ function App() {
           page: 1,
           limit: 12,
           isTrending: true,
-          sortBy: 'createdAt',
-          sortOrder: 'DESC',
+          // sortBy: 'createdAt',
+          // sortOrder: 'DESC',
         })
         setTrendingProducts(response.items.map(mapApiProductToProduct))
       } catch (error) {

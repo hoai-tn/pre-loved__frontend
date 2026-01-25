@@ -13,10 +13,12 @@ import {
   User,
   X,
 } from 'lucide-react'
+import { SearchResults } from './search-results'
+import type { CategoryResponse } from '@/services/api'
 import { selectIsAuthenticated, selectUser, useAuthStore } from '@/store/auth'
 import { selectCartItemCount, useCartStore } from '@/store/cart'
-import type { CategoryResponse } from '@/services/api'
 import { getCategories } from '@/services/api'
+import { CATEGORY_SLUG_MAP } from '@/routes/categories.$slug'
 import {
   selectSearchError,
   selectSearchIsLoading,
@@ -27,7 +29,6 @@ import {
 } from '@/store/products'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { SearchResults } from './search-results'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,6 +50,16 @@ const AuthModal = lazy(() =>
   })),
 )
 
+// Helper function to get slug from category ID
+function getCategorySlug(categoryId: number) : string {
+  for (const [slug, data] of Object.entries(CATEGORY_SLUG_MAP)) {
+    if (data.id === categoryId) {
+      return slug
+    }
+  }
+  return 'products'
+}
+
 export function Navbar() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalTab, setAuthModalTab] = useState<'signin' | 'signup'>(
@@ -68,7 +79,8 @@ export function Navbar() {
   const isSearchLoading = useProductStore(selectSearchIsLoading)
   const searchError = useProductStore(selectSearchError)
   const isSearchOpen = useProductStore(selectSearchIsOpen)
-  const { setSearchQuery, setSearchOpen, clearSearch, searchProducts } = useProductStore()
+  const { setSearchQuery, setSearchOpen, clearSearch, searchProducts } =
+    useProductStore()
 
   const searchRef = useRef<HTMLDivElement>(null)
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -321,11 +333,11 @@ export function Navbar() {
                   <DropdownMenuItem disabled>Loading...</DropdownMenuItem>
                 ) : categories.length > 0 ? (
                   categories.map((category) => (
-                    <DropdownMenuItem key={category.id}>
-                      <Link 
-                        to="/" 
-                        search={{ categoryId: category.id }}
-                        className="w-full"
+                    <DropdownMenuItem key={category.id} asChild>
+                      <Link
+                        to="/categories/$slug"
+                        params={{ slug: getCategorySlug(Number(category.id)) }}
+                        className="w-full cursor-pointer"
                       >
                         {category.name}
                       </Link>
@@ -348,8 +360,8 @@ export function Navbar() {
               categories.map((category) => (
                 <Link
                   key={category.id}
-                  to="/"
-                  search={{ categoryId: category.id }}
+                  to="/categories/$slug"
+                  params={{ slug: getCategorySlug(Number(category.id)) }}
                   className="h-10 px-4 flex items-center shrink-0 whitespace-nowrap text-sm font-medium hover:bg-accent rounded-md transition-colors"
                 >
                   {category.name}

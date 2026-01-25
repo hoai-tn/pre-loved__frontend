@@ -8,17 +8,32 @@ import { ProductGrid } from '@/components/product/product-grid'
 import { Button } from '@/components/ui/button'
 import { useCartStore } from '@/store/cart'
 
+export interface ValidateSearch {
+  sort?: string
+  minPrice?: number
+  maxPrice?: number
+  condition?: string
+  minRating?: number
+}
+
+export interface CategorySlug {
+  id: number
+  name: string
+}
+// Static slug to category ID mapping
+export const CATEGORY_SLUG_MAP: Record<string, CategorySlug> = {
+  laptop: { id: 2, name: 'Laptop' },
+  phone: { id: 1, name: 'Điện Thoại' },
+  watch: { id: 3, name: 'Đồng Hồ' },
+  headphones: { id: 4, name: 'Tai Nghe' },
+  camera: { id: 5, name: 'Camera' },
+  tv: { id: 6, name: 'TV' },
+}
+
+
 export const Route = createFileRoute('/categories/$slug')({
   component: CategoryPage,
-  validateSearch: (
-    search: Record<string, unknown>,
-  ): {
-    sort?: string
-    minPrice?: number
-    maxPrice?: number
-    condition?: string
-    minRating?: number
-  } => {
+  validateSearch: (search: Record<string, unknown>): ValidateSearch => {
     return {
       sort: (search.sort as string) || 'newest',
       minPrice: search.minPrice as number | undefined,
@@ -28,16 +43,6 @@ export const Route = createFileRoute('/categories/$slug')({
     }
   },
 })
-
-// Static slug to category ID mapping
-const CATEGORY_SLUG_MAP: Record<string, { id: number; name: string }> = {
-  laptop: { id: 2, name: 'Laptop' },
-  phone: { id: 1, name: 'Điện Thoại' },
-  watch: { id: 3, name: 'Đồng Hồ' },
-  headphones: { id: 4, name: 'Tai Nghe' },
-  camera: { id: 5, name: 'Camera' },
-  tv: { id: 6, name: 'TV' },
-}
 
 function slugToCategoryId(slug: string): number {
   const record = CATEGORY_SLUG_MAP[slug.toLowerCase()]
@@ -215,33 +220,33 @@ function CategoryPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        {/* Category Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold">{categoryName}</h1>
-          <p className="text-muted-foreground mt-2">
-            Tìm thấy {totalProducts} sản phẩm
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1">
-            <CategoryFilters
-              onSortChange={handleSortChange}
-              onPriceChange={handlePriceChange}
-              onConditionChange={handleConditionChange}
-              onRatingChange={handleRatingChange}
-              activeSort={sort}
-              activeCondition={condition}
-              activeRating={minRating}
-              activeMinPrice={minPrice}
-              activeMaxPrice={maxPrice}
-              onClearFilters={handleClearFilters}
-            />
-          </div>
+          {/* Sticky category info + filters on the left for desktop */}
+          <aside className="lg:col-span-1 order-1">
+            <div className="lg:sticky lg:top-24 space-y-6">
+              <div className="bg-card rounded-lg border p-5 md:p-6">
+                <h1 className="text-2xl md:text-3xl font-bold">{categoryName}</h1>
+                <p className="text-muted-foreground mt-2">
+                  Tìm thấy {totalProducts} sản phẩm
+                </p>
+              </div>
+              <CategoryFilters
+                onSortChange={handleSortChange}
+                onPriceChange={handlePriceChange}
+                onConditionChange={handleConditionChange}
+                onRatingChange={handleRatingChange}
+                activeSort={sort}
+                activeCondition={condition}
+                activeRating={minRating}
+                activeMinPrice={minPrice}
+                activeMaxPrice={maxPrice}
+                onClearFilters={handleClearFilters}
+              />
+            </div>
+          </aside>
 
           {/* Products Grid */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 order-2">
             {isLoading && products.length === 0 && (
               <div className="text-center text-muted-foreground">
                 Đang tải sản phẩm...

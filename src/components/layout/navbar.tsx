@@ -209,23 +209,6 @@ export function Navbar() {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-2 shrink-0">
-            {/* Location Selector */}
-            <div className="hidden md:flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-              <Select defaultValue="hcm">
-                <SelectTrigger className="w-[140px] h-9 border-none shadow-none hover:bg-accent">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="hcm">TP. Hồ Chí Minh</SelectItem>
-                  <SelectItem value="hn">Hà Nội</SelectItem>
-                  <SelectItem value="dn">Đà Nẵng</SelectItem>
-                  <SelectItem value="hp">Hải Phòng</SelectItem>
-                  <SelectItem value="ct">Cần Thơ</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
             {/* Post Listing Button */}
             <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
               <Plus className="h-4 w-4 mr-1" />

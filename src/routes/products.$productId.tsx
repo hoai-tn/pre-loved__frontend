@@ -14,9 +14,13 @@ function mapApiProductToProductDetail(
   const defaultImage =
     'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=800&fit=crop'
 
-  // Use imageUrl or default, duplicate for carousel if only one image
-  const mainImage = apiProduct.imageUrl || defaultImage
-  const images = [mainImage, mainImage, mainImage, mainImage] // Duplicate for carousel
+  // Use thumbnailUrl or default as fallback
+  const mainImage = apiProduct.thumbnailUrl || defaultImage
+  
+  // Use catalogImagesUrl if available, otherwise fall back to thumbnailUrl
+  const images = apiProduct.catalogImagesUrl.length > 0
+    ? apiProduct.catalogImagesUrl
+    : [mainImage]
 
   // Calculate original price and discount (10% discount as default)
   const originalPrice = Math.round(apiProduct.price * 1.1)
@@ -46,19 +50,7 @@ function mapApiProductToProductDetail(
     rating,
     reviews: apiProduct.ratingCount,
     sold: 0, // API doesn't provide sold count, using 0
-    seller: {
-      name: 'Tech Store',
-      avatar: defaultAvatar,
-      isOnline: false, // Not provided by API
-      lastSeen: 'Không xác định',
-      isMall: false, // Not provided by API
-      rating: 4.5, // Default rating
-      products: 0, // Not provided by API
-      responseRate: 90, // Default
-      responseTime: 'trong vài giờ',
-      joined: 'Không xác định',
-      followers: 0, // Not provided by API
-    },
+
     shipping: {
       fee: 0,
       estimatedDays: '2-7 ngày',
@@ -74,7 +66,6 @@ function mapApiProductToProductDetail(
     warranty:
       apiProduct.sellerNotes ||
       'Trả hàng miễn phí 15 ngày - Chính hãng 100% - Miễn phí vận chuyển',
-    postedAt: apiProduct.createdAt,
   }
 }
 

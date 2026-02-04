@@ -37,10 +37,9 @@ function mapApiProductToProduct(apiProduct: ApiProduct): Product {
     'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop'
   return {
     id: apiProduct.id,
-    image: 'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + apiProduct.imageUrl || defaultImage,
+    image: apiProduct.thumbnailUrl || defaultImage,
     title: apiProduct.name,
     price: apiProduct.price,
-    postedAt: apiProduct.createdAt,
     isTrending: apiProduct.isTrending,
     location: undefined, // API doesn't provide location, can be added later
   }

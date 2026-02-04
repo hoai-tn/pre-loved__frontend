@@ -123,7 +123,7 @@ export function OrderCard({ order }: OrderCardProps) {
             {/* Product Image */}
             <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border bg-muted">
               <img
-                src={'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + item.imageUrl}
+                src={item.imageUrl}
                 alt={item.name}
                 className="w-full h-full object-cover"
               />

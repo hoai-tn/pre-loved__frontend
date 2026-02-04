@@ -3,7 +3,7 @@ import { Loader2, Package } from 'lucide-react'
 import type { ApiProduct } from '@/services/api/types'
 
 interface SearchResultsProps {
-  results: ApiProduct[]
+  results: Array<ApiProduct>
   isLoading: boolean
   error: string | null
   onResultClick: () => void
@@ -25,9 +25,7 @@ export function SearchResults({
 
   if (error) {
     return (
-      <div className="py-4 px-3 text-sm text-destructive">
-        Error: {error}
-      </div>
+      <div className="py-4 px-3 text-sm text-destructive">Error: {error}</div>
     )
   }
 
@@ -50,9 +48,9 @@ export function SearchResults({
           onClick={onResultClick}
           className="flex items-center gap-3 px-3 py-3 hover:bg-accent transition-colors border-b last:border-b-0"
         >
-          {product.imageUrl ? (
+          {product.thumbnailUrl ? (
             <img
-              src={'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' + product.imageUrl}
+              src={product.thumbnailUrl}
               alt={product.name}
               className="w-12 h-12 object-cover rounded"
             />

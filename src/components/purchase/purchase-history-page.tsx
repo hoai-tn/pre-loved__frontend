@@ -37,7 +37,7 @@ async function transformOrderToComponentOrder(
         id: item.id,
         productId: item.productId,
         name: product?.name || `Sản phẩm #${item.productId}`,
-        imageUrl: product?.imageUrl || defaultImage,
+        imageUrl: product?.thumbnailUrl || defaultImage,
         price: item.price,
         quantity: item.quantity,
         category: product?.category?.name

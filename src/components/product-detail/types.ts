@@ -5,20 +5,6 @@ export interface ColorOption {
   available: boolean
 }
 
-export interface Seller {
-  name: string
-  avatar: string
-  isOnline: boolean
-  lastSeen: string
-  isMall: boolean
-  rating: number
-  products: number
-  responseRate: number
-  responseTime: string
-  joined: string
-  followers: number
-}
-
 export interface Shipping {
   fee: number
   estimatedDays: string
@@ -38,7 +24,6 @@ export interface ProductDetailData {
   rating: number
   reviews: number
   sold: number
-  seller: Seller
   shipping: Shipping
   vouchers: Array<{ label: string; value: number }>
   installment: {
@@ -48,5 +33,4 @@ export interface ProductDetailData {
   }
   warranty: string
   location?: string
-  postedAt: string
 }

@@ -44,11 +44,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
         {/* Product Info Section */}
         <div className="space-y-6">
-          <ProductHeader
-            title={product.title}
-            sold={product.sold}
-            isMall={product.seller.isMall}
-          />
+          <ProductHeader title={product.title} sold={product.sold} />
 
           <ProductPricing
             price={product.price}
@@ -84,8 +80,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
           />
         </div>
       </div>
-
-      <ProductSellerInfo seller={product.seller} />
     </div>
   )
 }

@@ -11,7 +11,6 @@ interface ProductCardProps {
   image: string
   title: string
   price: number
-  postedAt: string
   location?: string
   isFavorite?: boolean
   onFavoriteToggle?: (id: string) => void
@@ -25,7 +24,6 @@ export function ProductCard({
   image,
   title,
   price,
-  postedAt,
   location,
   isFavorite = false,
   onFavoriteToggle,
@@ -118,9 +116,6 @@ export function ProductCard({
             <div className="flex-1">
               <p className="text-lg font-bold text-primary">
                 {formatPrice(price)}
-              </p>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {formatRelativeTime(postedAt)}
               </p>
             </div>
           </div>

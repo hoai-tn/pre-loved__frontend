@@ -189,27 +189,6 @@ export function CategoryFilters({
 
         <div className="h-px bg-border" />
 
-        {/* Condition */}
-        <div>
-          <h3 className="font-semibold mb-3 text-sm">Tình trạng</h3>
-          <RadioGroup
-            value={activeCondition || ''}
-            onValueChange={handleConditionChange}
-          >
-            {['new', 'like-new', 'good', 'fair'].map((cond) => (
-              <div key={cond} className="flex items-center space-x-2">
-                <RadioGroupItem value={cond} id={cond} />
-                <Label
-                  htmlFor={cond}
-                  className="font-normal cursor-pointer text-sm"
-                >
-                  {conditionLabel(cond)}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-
         <div className="h-px bg-border" />
 
         {/* Rating */}

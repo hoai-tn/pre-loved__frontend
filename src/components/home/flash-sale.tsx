@@ -13,7 +13,6 @@ interface FlashSaleProduct {
   discount: number
   sold: number
   stock: number
-  postedAt: string
   location?: string
 }
 

@@ -97,7 +97,8 @@ export interface ApiProduct {
   brandId: string
   categoryId: string
   userId: string
-  imageUrl: string | null
+  thumbnailUrl: string | null
+  catalogImagesUrl: Array<string>
   isActive: boolean
   likesCount: number
   commentsCount: number

@@ -6,7 +6,6 @@ interface Product {
   image: string
   title: string
   price: number
-  postedAt: string
   location?: string
 }
 

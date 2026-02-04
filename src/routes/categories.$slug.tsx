@@ -196,8 +196,7 @@ function CategoryPage() {
         id: `cart-${id}-${Date.now()}`,
         productId: id,
         image:
-          'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' +
-            product.imageUrl ||
+          product.imageUrl ||
           'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop',
         title: product.name,
         price: product.price,
@@ -265,12 +264,10 @@ function CategoryPage() {
                   products={products.map((p) => ({
                     id: p.id,
                     image:
-                      'https://cdn2.cellphones.com.vn/insecure/rs:fill:300:300/q:90/plain/https://cellphones.com.vn/media/catalog/product' +
-                        p.imageUrl ||
+                      p.imageUrl ||
                       'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop',
                     title: p.name,
                     price: p.price,
-                    postedAt: p.createdAt,
                     isTrending: p.isTrending,
                   }))}
                   favorites={favorites}

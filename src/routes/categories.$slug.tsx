@@ -30,7 +30,6 @@ export const CATEGORY_SLUG_MAP: Record<string, CategorySlug> = {
   tv: { id: 6, name: 'TV' },
 }
 
-
 export const Route = createFileRoute('/categories/$slug')({
   component: CategoryPage,
   validateSearch: (search: Record<string, unknown>): ValidateSearch => {
@@ -195,9 +194,7 @@ function CategoryPage() {
       addItem({
         id: `cart-${id}-${Date.now()}`,
         productId: id,
-        image:
-          product.imageUrl ||
-          'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop',
+        image: product.thumbnailUrl,
         title: product.name,
         price: product.price,
       })
@@ -224,7 +221,9 @@ function CategoryPage() {
           <aside className="lg:col-span-1 order-1">
             <div className="lg:sticky lg:top-24 space-y-6">
               <div className="bg-card rounded-lg border p-5 md:p-6">
-                <h1 className="text-2xl md:text-3xl font-bold">{categoryName}</h1>
+                <h1 className="text-2xl md:text-3xl font-bold">
+                  {categoryName}
+                </h1>
                 <p className="text-muted-foreground mt-2">
                   Tìm thấy {totalProducts} sản phẩm
                 </p>
@@ -263,9 +262,7 @@ function CategoryPage() {
                 <ProductGrid
                   products={products.map((p) => ({
                     id: p.id,
-                    image:
-                      p.imageUrl ||
-                      'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop',
+                    image: p.thumbnailUrl,
                     title: p.name,
                     price: p.price,
                     isTrending: p.isTrending,
@@ -274,6 +271,7 @@ function CategoryPage() {
                   onFavoriteToggle={handleFavoriteToggle}
                   onAddToCart={handleAddToCart}
                   onBuy={handleBuy}
+                  linkSearch={{ cat: slug }}
                 />
 
                 {remainingProducts > 0 && currentPage < totalPages && (

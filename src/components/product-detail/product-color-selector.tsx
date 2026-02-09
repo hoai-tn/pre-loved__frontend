@@ -17,7 +17,7 @@ export function ProductColorSelector({
 }: ProductColorSelectorProps) {
   return (
     <div className="space-y-3">
-      <div className="text-sm font-medium">Màu Sắc</div>
+      {/* <div className="text-sm font-medium">Màu Sắc</div> */}
       <div className="flex flex-wrap gap-2">
         {colors.map((color) => (
           <button

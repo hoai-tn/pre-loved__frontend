@@ -71,6 +71,9 @@ function mapApiProductToProductDetail(
 
 export const Route = createFileRoute('/products/$productId')({
   component: ProductDetailPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    cat: (search.cat as string) || undefined,
+  }),
   loader: async ({ params }) => {
     const apiProduct = await getProductById(params.productId)
     const productDetail = mapApiProductToProductDetail(apiProduct)
@@ -81,5 +84,6 @@ export const Route = createFileRoute('/products/$productId')({
 
 function ProductDetailPage() {
   const { productDetail } = Route.useLoaderData()
-  return <ProductDetail product={productDetail} />
+  const { cat } = Route.useSearch()
+  return <ProductDetail product={productDetail} categorySlug={cat} />
 }

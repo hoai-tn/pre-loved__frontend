@@ -12,6 +12,132 @@ import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuthStore } from '@/store/auth'
 
+// TODO: Remove mock data when API is ready
+const MOCK_ORDERS: Array<Order> = [
+  {
+    id: 'ORD-2024-001',
+    orderDate: '2024-12-20T10:30:00',
+    status: 'delivered',
+    items: [
+      {
+        id: '1',
+        productId: 'p1',
+        name: 'Đồng Hồ Thông Minh HUAWEI WATCH GT6 Series',
+        imageUrl:
+          'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
+        price: 8070000,
+        quantity: 1,
+        category: 'Phân loại: Pro Deri/Cao Sang',
+      },
+    ],
+    total: 8070000,
+    shippingFee: 0,
+    deliveryAddress: {
+      name: 'Trần Ngọc Hoài',
+      phone: '(+84) 342 219 503',
+      address:
+        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
+    },
+    paymentMethod: 'Thanh toán khi nhận hàng (COD)',
+    shippingMethod: 'Nhanh',
+  },
+  {
+    id: 'ORD-2024-002',
+    orderDate: '2024-12-22T15:45:00',
+    status: 'shipping',
+    items: [
+      {
+        id: '2',
+        productId: 'p2',
+        name: 'iPhone 15 Pro Max 256GB - Chính Hãng VN/A',
+        imageUrl:
+          'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop',
+        price: 29990000,
+        quantity: 1,
+        category: 'Phân loại: Titan Xanh',
+      },
+    ],
+    total: 29990000,
+    shippingFee: 0,
+    trackingNumber: 'SPX987654321',
+    estimatedDelivery: '2024-12-27',
+    deliveryAddress: {
+      name: 'Trần Ngọc Hoài',
+      phone: '(+84) 342 219 503',
+      address:
+        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
+    },
+    paymentMethod: 'Ví MoMo',
+    shippingMethod: 'Nhanh',
+  },
+  {
+    id: 'ORD-2024-003',
+    orderDate: '2024-12-18T09:00:00',
+    status: 'cancelled',
+    items: [
+      {
+        id: '3',
+        productId: 'p3',
+        name: 'Laptop ASUS ROG Strix G16 2024',
+        imageUrl:
+          'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop',
+        price: 35990000,
+        quantity: 1,
+        category: 'Phân loại: RTX 4060',
+      },
+    ],
+    total: 35990000,
+    shippingFee: 0,
+    cancelledAt: '2024-12-19T11:00:00',
+    cancelReason: 'Đổi ý không muốn mua',
+    deliveryAddress: {
+      name: 'Trần Ngọc Hoài',
+      phone: '(+84) 342 219 503',
+      address:
+        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
+    },
+    paymentMethod: 'Thanh toán khi nhận hàng (COD)',
+    shippingMethod: 'Tiêu chuẩn',
+  },
+  {
+    id: 'ORD-2024-004',
+    orderDate: '2024-12-25T08:15:00',
+    status: 'processing',
+    items: [
+      {
+        id: '4',
+        productId: 'p4',
+        name: 'Tai Nghe Sony WH-1000XM5 Chống Ồn',
+        imageUrl:
+          'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=400&fit=crop',
+        price: 6990000,
+        quantity: 1,
+        category: 'Phân loại: Đen',
+      },
+      {
+        id: '5',
+        productId: 'p5',
+        name: 'Bàn Phím Cơ Keychron K8 Pro',
+        imageUrl:
+          'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop',
+        price: 2490000,
+        quantity: 1,
+        category: 'Phân loại: Brown Switch',
+      },
+    ],
+    total: 9480000,
+    shippingFee: 0,
+    deliveryAddress: {
+      name: 'Trần Ngọc Hoài',
+      phone: '(+84) 342 219 503',
+      address:
+        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
+    },
+    paymentMethod: 'Thẻ tín dụng',
+    shippingMethod: 'Nhanh',
+  },
+]
+
 /**
  * Transform API order response to component Order type
  */
@@ -89,7 +215,9 @@ export function PurchaseHistoryPage() {
         setError(null)
 
         if (!user?.id) {
-          throw new Error('Đăng nhập để xem lịch sử mua hàng')
+          // TODO: Remove mock fallback when API is ready
+          setOrders(MOCK_ORDERS)
+          return
         }
 
         const apiOrders = await getOrders(user.id)
@@ -98,12 +226,9 @@ export function PurchaseHistoryPage() {
         )
         setOrders(transformedOrders)
       } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : 'Không thể tải danh sách đơn hàng',
-        )
-        console.error('Error fetching orders:', err)
+        // TODO: Remove mock fallback when API is ready
+        console.warn('API failed, using mock data:', err)
+        setOrders(MOCK_ORDERS)
       } finally {
         setIsLoading(false)
       }

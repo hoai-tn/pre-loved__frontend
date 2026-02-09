@@ -17,6 +17,7 @@ interface ProductCardProps {
   onAddToCart?: (id: string) => void
   onBuy?: (id: string) => void
   className?: string
+  linkSearch?: Record<string, string>
 }
 
 export function ProductCard({
@@ -30,6 +31,7 @@ export function ProductCard({
   onAddToCart,
   // onBuy,
   className,
+  linkSearch,
 }: ProductCardProps) {
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -66,6 +68,7 @@ export function ProductCard({
       <Link
         to="/products/$productId"
         params={{ productId: id }}
+        search={linkSearch}
         className="block"
       >
         {/* Image Container with Icons */}

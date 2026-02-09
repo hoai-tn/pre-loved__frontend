@@ -15,9 +15,10 @@ import type { ProductDetailData } from './types'
 
 interface ProductDetailProps {
   product: ProductDetailData
+  categorySlug?: string
 }
 
-export function ProductDetail({ product }: ProductDetailProps) {
+export function ProductDetail({ product, categorySlug }: ProductDetailProps) {
   const [selectedColor, setSelectedColor] = useState(
     product.colors[0]?.id || '',
   )
@@ -33,11 +34,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-7xl">
-      <ProductBreadcrumb title={product.title} />
+      <ProductBreadcrumb title={product.title} categorySlug={categorySlug} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 lg:items-start">
         {/* Image Carousel Section */}
-        <div className="space-y-4">
+        <div className="space-y-4 lg:sticky lg:top-4">
           <ProductImageCarousel images={product.images} title={product.title} />
           <ProductShareActions />
         </div>

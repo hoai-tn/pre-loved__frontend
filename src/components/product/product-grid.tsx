@@ -16,6 +16,7 @@ interface ProductGridProps {
   onAddToCart?: (id: string) => void
   onBuy?: (id: string) => void
   className?: string
+  linkSearch?: Record<string, string>
 }
 
 export function ProductGrid({
@@ -25,6 +26,7 @@ export function ProductGrid({
   onAddToCart,
   onBuy,
   className,
+  linkSearch,
 }: ProductGridProps) {
   return (
     <div
@@ -41,6 +43,7 @@ export function ProductGrid({
           onFavoriteToggle={onFavoriteToggle}
           onAddToCart={onAddToCart}
           onBuy={onBuy}
+          linkSearch={linkSearch}
         />
       ))}
     </div>

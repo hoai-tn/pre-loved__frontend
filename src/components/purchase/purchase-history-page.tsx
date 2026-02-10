@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react'
 import { Package, Search } from 'lucide-react'
 import { OrderCard } from './order-card'
 import { PurchaseHistoryPageSkeleton } from './purchase-history-skeleton'
-import type { Order } from './types'
-import type { ApiProduct, OrderResponse } from '@/services/api/types'
+import type { Order, OrderStatus } from './types'
+import type { OrderResponse } from '@/services/api/types'
 import { getOrders } from '@/services/api/orders.api'
-import { getProductById } from '@/services/api/products.api'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuthStore } from '@/store/auth'
@@ -15,188 +14,100 @@ import { useAuthStore } from '@/store/auth'
 // TODO: Remove mock data when API is ready
 const MOCK_ORDERS: Array<Order> = [
   {
-    id: 'ORD-2024-001',
-    orderDate: '2024-12-20T10:30:00',
-    status: 'delivered',
+    id: 31,
+    user_id: '7',
+    status: 'pending',
+    total: '10000000.00',
+    created_at: '2026-01-01T00:39:56.373Z',
+    updated_at: '2026-01-01T00:39:56.373Z',
     items: [
       {
-        id: '1',
-        productId: 'p1',
-        name: 'Đồng Hồ Thông Minh HUAWEI WATCH GT6 Series',
-        imageUrl:
-          'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
-        price: 8070000,
-        quantity: 1,
-        category: 'Phân loại: Pro Deri/Cao Sang',
+        id: 45,
+        order_id: 31,
+        product_id: '9',
+        quantity: 2,
+        price: '10000000.00',
       },
     ],
-    total: 8070000,
-    shippingFee: 0,
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    paymentMethod: 'Thanh toán khi nhận hàng (COD)',
-    shippingMethod: 'Nhanh',
   },
   {
-    id: 'ORD-2024-002',
-    orderDate: '2024-12-22T15:45:00',
+    id: 32,
+    user_id: '7',
     status: 'shipping',
+    total: '29990000.00',
+    created_at: '2026-01-02T15:45:00.000Z',
+    updated_at: '2026-01-02T15:45:00.000Z',
     items: [
       {
-        id: '2',
-        productId: 'p2',
-        name: 'iPhone 15 Pro Max 256GB - Chính Hãng VN/A',
-        imageUrl:
-          'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop',
-        price: 29990000,
+        id: 46,
+        order_id: 32,
+        product_id: '12',
         quantity: 1,
-        category: 'Phân loại: Titan Xanh',
+        price: '29990000.00',
       },
     ],
-    total: 29990000,
-    shippingFee: 0,
-    trackingNumber: 'SPX987654321',
-    estimatedDelivery: '2024-12-27',
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    paymentMethod: 'Ví MoMo',
-    shippingMethod: 'Nhanh',
   },
   {
-    id: 'ORD-2024-003',
-    orderDate: '2024-12-18T09:00:00',
+    id: 33,
+    user_id: '7',
     status: 'cancelled',
+    total: '35990000.00',
+    created_at: '2025-12-18T09:00:00.000Z',
+    updated_at: '2025-12-19T11:00:00.000Z',
     items: [
       {
-        id: '3',
-        productId: 'p3',
-        name: 'Laptop ASUS ROG Strix G16 2024',
-        imageUrl:
-          'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop',
-        price: 35990000,
+        id: 47,
+        order_id: 33,
+        product_id: '15',
         quantity: 1,
-        category: 'Phân loại: RTX 4060',
+        price: '35990000.00',
       },
     ],
-    total: 35990000,
-    shippingFee: 0,
-    cancelledAt: '2024-12-19T11:00:00',
-    cancelReason: 'Đổi ý không muốn mua',
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    paymentMethod: 'Thanh toán khi nhận hàng (COD)',
-    shippingMethod: 'Tiêu chuẩn',
   },
   {
-    id: 'ORD-2024-004',
-    orderDate: '2024-12-25T08:15:00',
-    status: 'processing',
+    id: 34,
+    user_id: '7',
+    status: 'delivered',
+    total: '9480000.00',
+    created_at: '2025-12-25T08:15:00.000Z',
+    updated_at: '2025-12-28T14:30:00.000Z',
     items: [
       {
-        id: '4',
-        productId: 'p4',
-        name: 'Tai Nghe Sony WH-1000XM5 Chống Ồn',
-        imageUrl:
-          'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=400&fit=crop',
-        price: 6990000,
+        id: 48,
+        order_id: 34,
+        product_id: '20',
         quantity: 1,
-        category: 'Phân loại: Đen',
+        price: '6990000.00',
       },
       {
-        id: '5',
-        productId: 'p5',
-        name: 'Bàn Phím Cơ Keychron K8 Pro',
-        imageUrl:
-          'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop',
-        price: 2490000,
+        id: 49,
+        order_id: 34,
+        product_id: '21',
         quantity: 1,
-        category: 'Phân loại: Brown Switch',
+        price: '2490000.00',
       },
     ],
-    total: 9480000,
-    shippingFee: 0,
-    deliveryAddress: {
-      name: 'Trần Ngọc Hoài',
-      phone: '(+84) 342 219 503',
-      address:
-        'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-    },
-    paymentMethod: 'Thẻ tín dụng',
-    shippingMethod: 'Nhanh',
   },
 ]
 
 /**
  * Transform API order response to component Order type
  */
-async function transformOrderToComponentOrder(
-  apiOrder: OrderResponse,
-): Promise<Order> {
-  // Default placeholder image
-  const defaultImage =
-    'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop'
-
-  // Fetch product details for each item
-  const items = await Promise.all(
-    apiOrder.items.map(async (item) => {
-      let product: ApiProduct | null = null
-      try {
-        product = await getProductById(item.productId)
-      } catch (error) {
-        // If product fetch fails, use placeholder data
-        console.warn(`Failed to fetch product ${item.productId}:`, error)
-      }
-
-      return {
-        id: item.id,
-        productId: item.productId,
-        name: product?.name || `Sản phẩm #${item.productId}`,
-        imageUrl: product?.thumbnailUrl || defaultImage,
-        price: item.price,
-        quantity: item.quantity,
-        category: product?.category?.name
-          ? `Phân loại: ${product.category.name}`
-          : undefined,
-      }
-    }),
-  )
-
-  // Map status from API to component status
-  const statusMap: Record<string, Order['status']> = {
-    pending: 'pending',
-    processing: 'processing',
-    shipping: 'shipping',
-    delivered: 'delivered',
-    cancelled: 'cancelled',
-    refunded: 'refunded',
-  }
-
-  const orderStatus: Order['status'] = statusMap[apiOrder.status] ?? 'pending'
-
+function transformOrderToComponentOrder(apiOrder: OrderResponse): Order {
   return {
-    id: apiOrder.id,
-    orderDate: apiOrder.createdAt,
-    status: orderStatus,
-    items,
-    total: apiOrder.totalAmount,
-    shippingFee: 0, // API doesn't provide shipping fee separately
-    deliveryAddress: {
-      name: 'Người nhận',
-      phone: 'Chưa cập nhật',
-      address: 'Chưa cập nhật',
-    },
+    id: Number(apiOrder.id),
+    user_id: String(apiOrder.userId),
+    status: (apiOrder.status as OrderStatus) ?? 'pending',
+    total: String(apiOrder.totalAmount),
+    created_at: apiOrder.createdAt,
+    updated_at: apiOrder.updatedAt,
+    items: apiOrder.items.map((item) => ({
+      id: Number(item.id),
+      order_id: Number(apiOrder.id),
+      product_id: item.productId,
+      quantity: item.quantity,
+      price: String(item.price),
+    })),
   }
 }
 
@@ -221,9 +132,7 @@ export function PurchaseHistoryPage() {
         }
 
         const apiOrders = await getOrders(user.id)
-        const transformedOrders = await Promise.all(
-          apiOrders.map(transformOrderToComponentOrder),
-        )
+        const transformedOrders = apiOrders.map(transformOrderToComponentOrder)
         setOrders(transformedOrders)
       } catch (err) {
         // TODO: Remove mock fallback when API is ready
@@ -267,10 +176,11 @@ export function PurchaseHistoryPage() {
   ]
 
   const filteredOrders = orders.filter((order) => {
+    const query = searchQuery.toLowerCase()
     const matchesSearch =
-      order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      String(order.id).includes(query) ||
       order.items.some((item) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        item.product_id.toLowerCase().includes(query),
       )
 
     const matchesTab = activeTab === 'all' || order.status === activeTab

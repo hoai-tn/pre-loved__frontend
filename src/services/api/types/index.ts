@@ -22,3 +22,8 @@ export * from './order.types'
  * Category types
  */
 export * from './category.types'
+
+/**
+ * Address types
+ */
+export * from './address.types'

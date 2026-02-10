@@ -1,8 +1,7 @@
 'use client'
 
-import { createFileRoute } from '@tanstack/react-router'
-import { PurchaseHistoryPage } from '@/components/purchase/purchase-history-page'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/user/purchase')({
-  component: PurchaseHistoryPage,
+  component: () => <Outlet />,
 })

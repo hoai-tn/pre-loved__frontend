@@ -1,6 +1,7 @@
 /**
  * API services exports
  */
+export * from './addresses.api'
 export * from './api-client'
 export * from './auth.api'
 export * from './category.api'

@@ -1,11 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { DeliveryAddressSection } from './delivery-address-section'
 import { ProductListSection } from './product-list-section'
 import { ShippingMethodSection } from './shipping-method-section'
 import { PaymentMethodSection } from './payment-method-section'
 import { OrderSummarySection } from './order-summary-section'
+import type { AddressResponse } from '@/services/api'
 import type { PaymentMethod, ShippingMethod } from '@/store/checkout/types'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -15,19 +17,11 @@ import { useAuthStore } from '@/store/auth'
 import { selectCartItems, useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
 
-// Mock data - will be replaced with store data later
-const mockUser = {
-  name: 'Trần Ngọc Hoài',
-  phone: '(+84) 342 219 503',
-  address:
-    'Tòa nhà VCN đường A1, Vĩnh Điềm Trung, Xã Vĩnh Hiệp, Thành Phố Nha Trang, Khánh Hòa',
-  isDefault: true,
-}
-
 export function CheckoutPage() {
   const navigate = useNavigate()
   const { user } = useAuthStore()
   const cartItems = useCartStore(selectCartItems)
+  const [, setSelectedAddress] = useState<AddressResponse | null>(null)
 
   // Checkout store
   const {
@@ -86,8 +80,7 @@ export function CheckoutPage() {
           <div className="lg:col-span-2 space-y-4">
             {/* Delivery Address */}
             <DeliveryAddressSection
-              user={mockUser}
-              onEdit={() => console.log('Edit address')}
+              onAddressChange={(address) => setSelectedAddress(address)}
             />
 
             {/* Product List */}

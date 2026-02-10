@@ -27,4 +27,10 @@ export const API_ROUTES = {
   CATEGORY: {
     GET_ALL: '/category',
   },
+  ADDRESS: {
+    GET_ALL: '/addresses',
+    CREATE: '/addresses',
+    UPDATE: '/addresses/:id',
+    DELETE: '/addresses/:id',
+  },
 } as const

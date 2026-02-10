@@ -97,12 +97,12 @@ export function OrderCard({ order }: OrderCardProps) {
         <div className="flex items-center gap-4">
           <div>
             <span className="text-sm text-muted-foreground">Mã đơn hàng:</span>
-            <span className="ml-2 font-semibold">{order.id}</span>
+            <span className="ml-2 font-semibold">#{order.id}</span>
           </div>
           <div className="h-4 w-px bg-border" />
           <div>
             <span className="text-sm text-muted-foreground">
-              {formatDate(order.orderDate)}
+              {formatDate(order.created_at)}
             </span>
           </div>
         </div>
@@ -120,31 +120,24 @@ export function OrderCard({ order }: OrderCardProps) {
         <div className="space-y-4 mb-4">
           {order.items.map((item) => (
             <div key={item.id} className="flex gap-4">
-            {/* Product Image */}
-            <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border bg-muted">
-              <img
-                src={item.imageUrl}
-                alt={item.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
+              {/* Product Image */}
+              <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border bg-muted">
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                  <Package className="h-8 w-8" />
+                </div>
+              </div>
 
-            {/* Product Info */}
-            <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-sm mb-1 line-clamp-2">
-                {item.name}
-              </h4>
-                {item.category && (
-                  <p className="text-xs text-muted-foreground mb-2">
-                    {item.category}
-                  </p>
-                )}
+              {/* Product Info */}
+              <div className="flex-1 min-w-0">
+                <h4 className="font-medium text-sm mb-1 line-clamp-2">
+                  Sản phẩm #{item.product_id}
+                </h4>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">
                     x{item.quantity}
                   </span>
                   <span className="font-semibold text-primary">
-                    {formatPrice(item.price)}
+                    {formatPrice(Number(item.price))}
                   </span>
                 </div>
               </div>
@@ -157,7 +150,7 @@ export function OrderCard({ order }: OrderCardProps) {
           <span className="text-sm text-muted-foreground">Tổng tiền:</span>
           <div className="text-right">
             <span className="text-2xl font-bold text-primary">
-              {formatPrice(order.total)}
+              {formatPrice(Number(order.total))}
             </span>
             <p className="text-xs text-muted-foreground mt-1">
               {order.items.length} sản phẩm
@@ -196,7 +189,7 @@ export function OrderCard({ order }: OrderCardProps) {
         </div>
         <Link
           to="/user/purchase/$orderId"
-          params={{ orderId: order.id }}
+          params={{ orderId: String(order.id) }}
           className="inline-flex"
         >
           <Button variant="ghost" size="sm">

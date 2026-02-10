@@ -1,17 +1,12 @@
+/**
+ * Order item from API response
+ */
 export interface OrderItem {
-  id: string
-  productId: string
-  name: string
-  imageUrl: string
-  price: number
+  id: number
+  order_id: number
+  product_id: string
   quantity: number
-  category?: string
-}
-
-export interface DeliveryAddress {
-  name: string
-  phone: string
-  address: string
+  price: string
 }
 
 export type OrderStatus =
@@ -22,22 +17,40 @@ export type OrderStatus =
   | 'cancelled'
   | 'refunded'
 
+/**
+ * Order from API response
+ */
 export interface Order {
-  id: string
-  orderDate: string
+  id: number
+  user_id: string
   status: OrderStatus
+  total: string
+  created_at: string
+  updated_at: string
   items: Array<OrderItem>
-  total: number
-  shippingFee: number
-  discount?: number
-  deliveryAddress: DeliveryAddress
+}
+
+/**
+ * Mocked shipping info (not yet from API)
+ */
+export interface ShippingInfo {
+  name: string
+  phone: string
+  address: string
+  method: string
   trackingNumber?: string
   estimatedDelivery?: string
   deliveredAt?: string
-  cancelledAt?: string
-  cancelReason?: string
-  paymentMethod?: string
-  shippingMethod?: string
+  fee: number
+}
+
+/**
+ * Mocked payment info (not yet from API)
+ */
+export interface PaymentInfo {
+  method: string
+  status: string
+  paidAt?: string
 }
 
 export interface OrderStatusInfo {

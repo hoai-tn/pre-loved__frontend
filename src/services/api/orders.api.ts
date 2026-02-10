@@ -69,7 +69,7 @@ export async function getOrders(userId: string): Promise<Array<OrderResponse>> {
  */
 export async function getOrderById(id: string): Promise<OrderResponse> {
   const endpoint = API_ROUTES.ORDER.GET_BY_ID.replace(':id', id)
-  const response = await get<OrderResponse>(endpoint)
+  const response = await get<ApiOrder>(endpoint)
 
   if (response.error) {
     throw new Error(response.error)
@@ -79,5 +79,5 @@ export async function getOrderById(id: string): Promise<OrderResponse> {
     throw new Error('Order not found')
   }
 
-  return response.data
+  return transformApiOrder(response.data)
 }

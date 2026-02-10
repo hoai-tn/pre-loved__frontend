@@ -5,4 +5,10 @@ export {
   PurchaseHistoryPageSkeleton,
   OrderCardSkeleton,
 } from './purchase-history-skeleton'
-export type { Order, OrderItem, OrderStatus, DeliveryAddress } from './types'
+export type {
+  Order,
+  OrderItem,
+  OrderStatus,
+  ShippingInfo,
+  PaymentInfo,
+} from './types'

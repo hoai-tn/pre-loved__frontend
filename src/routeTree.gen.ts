@@ -17,6 +17,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserPurchaseRouteImport } from './routes/user/purchase'
 import { Route as ProductsProductIdRouteImport } from './routes/products.$productId'
 import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
+import { Route as UserPurchaseIndexRouteImport } from './routes/user/purchase/index'
 import { Route as UserPurchaseOrderIdRouteImport } from './routes/user/purchase/$orderId'
 
 const SignupRoute = SignupRouteImport.update({
@@ -59,6 +60,11 @@ const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
   path: '/categories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserPurchaseIndexRoute = UserPurchaseIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UserPurchaseRoute,
+} as any)
 const UserPurchaseOrderIdRoute = UserPurchaseOrderIdRouteImport.update({
   id: '/$orderId',
   path: '/$orderId',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/products/$productId': typeof ProductsProductIdRoute
   '/user/purchase': typeof UserPurchaseRouteWithChildren
   '/user/purchase/$orderId': typeof UserPurchaseOrderIdRoute
+  '/user/purchase/': typeof UserPurchaseIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,8 +91,8 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/products/$productId': typeof ProductsProductIdRoute
-  '/user/purchase': typeof UserPurchaseRouteWithChildren
   '/user/purchase/$orderId': typeof UserPurchaseOrderIdRoute
+  '/user/purchase': typeof UserPurchaseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +105,7 @@ export interface FileRoutesById {
   '/products/$productId': typeof ProductsProductIdRoute
   '/user/purchase': typeof UserPurchaseRouteWithChildren
   '/user/purchase/$orderId': typeof UserPurchaseOrderIdRoute
+  '/user/purchase/': typeof UserPurchaseIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +119,7 @@ export interface FileRouteTypes {
     | '/products/$productId'
     | '/user/purchase'
     | '/user/purchase/$orderId'
+    | '/user/purchase/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,8 +129,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/categories/$slug'
     | '/products/$productId'
-    | '/user/purchase'
     | '/user/purchase/$orderId'
+    | '/user/purchase'
   id:
     | '__root__'
     | '/'
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/products/$productId'
     | '/user/purchase'
     | '/user/purchase/$orderId'
+    | '/user/purchase/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -204,6 +214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/purchase/': {
+      id: '/user/purchase/'
+      path: '/'
+      fullPath: '/user/purchase/'
+      preLoaderRoute: typeof UserPurchaseIndexRouteImport
+      parentRoute: typeof UserPurchaseRoute
+    }
     '/user/purchase/$orderId': {
       id: '/user/purchase/$orderId'
       path: '/$orderId'
@@ -216,10 +233,12 @@ declare module '@tanstack/react-router' {
 
 interface UserPurchaseRouteChildren {
   UserPurchaseOrderIdRoute: typeof UserPurchaseOrderIdRoute
+  UserPurchaseIndexRoute: typeof UserPurchaseIndexRoute
 }
 
 const UserPurchaseRouteChildren: UserPurchaseRouteChildren = {
   UserPurchaseOrderIdRoute: UserPurchaseOrderIdRoute,
+  UserPurchaseIndexRoute: UserPurchaseIndexRoute,
 }
 
 const UserPurchaseRouteWithChildren = UserPurchaseRoute._addFileChildren(

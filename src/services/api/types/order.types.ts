@@ -22,9 +22,10 @@ export interface CreateOrderRequest {
 export interface ApiOrderItem {
   id: number
   order_id: number
-  product_id: string
+  product_id: number
   quantity: number
   price: string
+  thumbnail_url?: string | null
 }
 
 /**
@@ -68,9 +69,10 @@ export interface GetOrdersResponse {
  */
 export interface OrderItemResponse {
   id: string
-  productId: string
+  productId: number
   quantity: number
   price: number
+  thumbnailUrl?: string | null
   product?: ApiProduct
 }
 

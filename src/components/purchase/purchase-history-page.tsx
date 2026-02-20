@@ -101,12 +101,14 @@ function transformOrderToComponentOrder(apiOrder: OrderResponse): Order {
     total: String(apiOrder.totalAmount),
     created_at: apiOrder.createdAt,
     updated_at: apiOrder.updatedAt,
+    thumbnail_url: apiOrder.items[0]?.thumbnailUrl ?? null,
     items: apiOrder.items.map((item) => ({
       id: Number(item.id),
       order_id: Number(apiOrder.id),
       product_id: item.productId,
       quantity: item.quantity,
       price: String(item.price),
+      thumbnail_url: item.thumbnailUrl ?? null,
     })),
   }
 }

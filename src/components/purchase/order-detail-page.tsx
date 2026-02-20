@@ -127,12 +127,14 @@ export function OrderDetailPage() {
           total: String(data.totalAmount),
           created_at: data.createdAt,
           updated_at: data.updatedAt,
+          thumbnail_url: data.items[0]?.thumbnailUrl ?? null,
           items: data.items.map((item) => ({
             id: Number(item.id),
             order_id: Number(data.id),
             product_id: item.productId,
             quantity: item.quantity,
             price: String(item.price),
+            thumbnail_url: item.thumbnailUrl ?? null,
           })),
         }
 
@@ -278,9 +280,17 @@ export function OrderDetailPage() {
                       className="shrink-0"
                     >
                       <div className="relative w-20 h-20 rounded-lg overflow-hidden border bg-muted hover:opacity-80 transition-opacity">
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                          <Package className="h-8 w-8" />
-                        </div>
+                        {item.thumbnail_url ? (
+                          <img
+                            src={item.thumbnail_url}
+                            alt={`Sản phẩm #${item.product_id}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                            <Package className="h-8 w-8" />
+                          </div>
+                        )}
                       </div>
                     </Link>
                     <div className="flex-1 min-w-0">

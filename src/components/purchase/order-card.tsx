@@ -122,9 +122,17 @@ export function OrderCard({ order }: OrderCardProps) {
             <div key={item.id} className="flex gap-4">
               {/* Product Image */}
               <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border bg-muted">
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  <Package className="h-8 w-8" />
-                </div>
+                {item.thumbnail_url ? (
+                  <img
+                    src={item.thumbnail_url}
+                    alt={`Sản phẩm #${item.product_id}`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                    <Package className="h-8 w-8" />
+                  </div>
+                )}
               </div>
 
               {/* Product Info */}

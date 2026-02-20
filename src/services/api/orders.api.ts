@@ -37,9 +37,10 @@ function transformApiOrder(apiOrder: ApiOrder): OrderResponse {
     totalAmount: parseFloat(apiOrder.total),
     items: apiOrder.items.map((item) => ({
       id: String(item.id),
-      productId: String(item.product_id),
+      productId: item.product_id,
       quantity: item.quantity,
       price: parseFloat(item.price),
+      thumbnailUrl: item.thumbnail_url ?? null,
     })),
     createdAt: apiOrder.created_at,
     updatedAt: apiOrder.updated_at,

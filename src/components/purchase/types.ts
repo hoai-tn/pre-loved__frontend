@@ -7,6 +7,7 @@ export interface OrderItem {
   product_id: string
   quantity: number
   price: string
+  thumbnail_url?: string | null
 }
 
 export type OrderStatus =
@@ -27,6 +28,7 @@ export interface Order {
   total: string
   created_at: string
   updated_at: string
+  thumbnail_url?: string | null
   items: Array<OrderItem>
 }
 

@@ -31,10 +31,12 @@ export function CheckoutPage() {
     voucherCode,
     isLoading,
     error,
+    buyNowItem,
     setShippingMethod,
     setPaymentMethod,
     setNote,
     setVoucherCode,
+    clearBuyNowItem,
     getSubtotal,
     getShippingFee,
     getDiscount,
@@ -42,11 +44,13 @@ export function CheckoutPage() {
     placeOrder,
   } = useCheckoutStore()
 
+  const checkoutItems = buyNowItem ? [buyNowItem] : cartItems
+
   // Calculate totals using store methods
-  const subtotal = getSubtotal(cartItems)
+  const subtotal = getSubtotal(checkoutItems)
   const shippingFee = getShippingFee()
   const discount = getDiscount()
-  const total = getTotal(cartItems)
+  const total = getTotal(checkoutItems)
 
   const handlePlaceOrder = async () => {
     if (!user?.id) {
@@ -54,7 +58,8 @@ export function CheckoutPage() {
     }
 
     try {
-      await placeOrder(cartItems, Number(user.id))
+      await placeOrder(checkoutItems, Number(user.id))
+      clearBuyNowItem()
       // Navigate to success page or order confirmation
       // TODO: Navigate to order success page when available
       navigate({ to: '/user/purchase' })
@@ -85,7 +90,7 @@ export function CheckoutPage() {
 
             {/* Product List */}
             <ProductListSection
-              products={cartItems.map((item) => ({
+              products={checkoutItems.map((item) => ({
                 id: item.id,
                 title: item.title,
                 image: item.image,

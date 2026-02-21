@@ -10,6 +10,7 @@ export interface CheckoutState {
   voucherCode: string
   isLoading: boolean
   error: string | null
+  buyNowItem: CartItem | null
 }
 
 export interface CheckoutActions {
@@ -18,6 +19,8 @@ export interface CheckoutActions {
   setPaymentMethod: (method: PaymentMethod) => void
   setNote: (note: string) => void
   setVoucherCode: (code: string) => void
+  setBuyNowItem: (item: CartItem) => void
+  clearBuyNowItem: () => void
 
   // Computed values (calculated from cart items)
   getSubtotal: (items: Array<CartItem>) => number

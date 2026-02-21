@@ -66,13 +66,13 @@ export function ProductScroller<T extends { id: string | number }>({
   const canScrollRight = scrollPosition < (items.length - itemsPerView.desktop) * 200
 
   return (
-    <div className={cn('relative group', className)}>
+    <div className={cn('relative group/scroller', className)}>
       {/* Left Arrow */}
       {canScrollLeft && (
         <Button
           size="icon"
           variant="ghost"
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover/scroller:opacity-100 transition-opacity"
           onClick={() => scroll('left')}
         >
           <ChevronLeft className="size-6" />
@@ -104,7 +104,7 @@ export function ProductScroller<T extends { id: string | number }>({
         <Button
           size="icon"
           variant="ghost"
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover/scroller:opacity-100 transition-opacity"
           onClick={() => scroll('right')}
         >
           <ChevronRight className="size-6" />

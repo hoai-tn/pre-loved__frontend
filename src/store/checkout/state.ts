@@ -7,4 +7,5 @@ export const initialCheckoutState: CheckoutState = {
   voucherCode: '',
   isLoading: false,
   error: null,
+  buyNowItem: null,
 }

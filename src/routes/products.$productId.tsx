@@ -40,6 +40,7 @@ function mapApiProductToProductDetail(
 
   return {
     id: apiProduct.id,
+    categoryId: apiProduct.categoryId,
     title: apiProduct.name,
     price: apiProduct.price,
     originalPrice,

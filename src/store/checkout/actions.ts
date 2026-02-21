@@ -28,6 +28,14 @@ export const createCheckoutActions: StateCreator<
     set({ voucherCode: code })
   },
 
+  setBuyNowItem: (item) => {
+    set({ buyNowItem: item })
+  },
+
+  clearBuyNowItem: () => {
+    set({ buyNowItem: null })
+  },
+
   // Computed values
   getSubtotal: (items: Array<CartItem>) => {
     return items.reduce((sum, item) => sum + item.price * item.quantity, 0)

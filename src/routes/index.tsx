@@ -269,6 +269,8 @@ function App() {
                   onFavoriteToggle={handleFavoriteToggle}
                   onAddToCart={handleAddToCart}
                   onBuy={handleBuy}
+                  isHideFavoriteButton={true}
+                  isHideHeartButton={true}
                 />
               )}
             />

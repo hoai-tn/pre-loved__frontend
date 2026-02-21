@@ -11,6 +11,7 @@ import { ProductColorSelector } from './product-color-selector'
 import { ProductQuantitySelector } from './product-quantity-selector'
 import { ProductActionButtons } from './product-action-buttons'
 import { ProductSellerInfo } from './product-seller-info'
+import { ProductRelated } from './product-related'
 import type { ProductDetailData } from './types'
 
 interface ProductDetailProps {
@@ -78,9 +79,12 @@ export function ProductDetail({ product, categorySlug }: ProductDetailProps) {
             title={product.title}
             price={product.price}
             location={product.location}
+            quantity={quantity}
           />
         </div>
       </div>
+
+      <ProductRelated categoryId={product.categoryId} excludeProductId={product.id} />
     </div>
   )
 }

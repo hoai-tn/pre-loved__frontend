@@ -4,6 +4,7 @@ import { ShoppingCart } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { useCartStore } from '@/store/cart'
+import { useCheckoutStore } from '@/store/checkout'
 
 interface ProductActionButtonsProps {
   productId: string
@@ -11,6 +12,7 @@ interface ProductActionButtonsProps {
   title: string
   price: number
   location?: string
+  quantity?: number
 }
 
 const formatPrice = (amount: number) => {
@@ -26,24 +28,30 @@ export function ProductActionButtons({
   title,
   price,
   location,
+  quantity = 1,
 }: ProductActionButtonsProps) {
   const addItem = useCartStore((state) => state.addItem)
+  const setBuyNowItem = useCheckoutStore((state) => state.setBuyNowItem)
   const navigate = useNavigate()
 
   const handleAddToCart = () => {
-    addItem({
-      id: `cart-${productId}-${Date.now()}`,
-      productId,
-      image,
-      title,
-      price,
-      location,
-    })
+    const id = `cart-${productId}-${Date.now()}`
+    for (let i = 0; i < quantity; i++) {
+      addItem({ id, productId: Number(productId), image, title, price, location })
+    }
   }
 
   const handleBuyNow = () => {
-    handleAddToCart()
-    navigate({ to: '/cart' })
+    setBuyNowItem({
+      id: `buy-now-${productId}`,
+      productId: Number(productId),
+      image,
+      title,
+      price,
+      quantity,
+      location,
+    })
+    navigate({ to: '/checkout' })
   }
 
   return (

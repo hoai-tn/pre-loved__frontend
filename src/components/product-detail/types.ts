@@ -14,6 +14,7 @@ export interface Shipping {
 
 export interface ProductDetailData {
   id: string
+  categoryId?: string
   title: string
   price: number
   originalPrice: number

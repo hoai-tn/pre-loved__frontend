@@ -96,6 +96,8 @@ export function FlashSale({
             <ProductCard
               {...product}
               isFavorite={favorites.has(product.id)}
+              isHideFavoriteButton={true}
+              isHideHeartButton={true}
               onFavoriteToggle={onFavoriteToggle}
               onAddToCart={onAddToCart}
               onBuy={onBuy}

@@ -13,6 +13,8 @@ interface ProductCardProps {
   price: number
   location?: string
   isFavorite?: boolean
+  isHideFavoriteButton?: boolean
+  isHideHeartButton?: boolean
   onFavoriteToggle?: (id: string) => void
   onAddToCart?: (id: string) => void
   onBuy?: (id: string) => void
@@ -27,6 +29,8 @@ export function ProductCard({
   price,
   location,
   isFavorite = false,
+  isHideFavoriteButton = false,
+  isHideHeartButton = false,
   onFavoriteToggle,
   onAddToCart,
   // onBuy,
@@ -80,26 +84,30 @@ export function ProductCard({
           />
 
           {/* Heart Icon - Top Right */}
-          <ProductCardIconButton
-            icon={Heart}
-            onClick={handleFavoriteClick}
-            ariaLabel={isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}
-            position="top-right"
-            iconClassName={cn(
-              isFavorite
-                ? 'fill-red-500 text-red-500'
-                : 'text-muted-foreground group-hover:text-red-500',
-            )}
-          />
+          {!isHideHeartButton && (
+            <ProductCardIconButton
+              icon={Heart}
+              onClick={handleFavoriteClick}
+              ariaLabel={isFavorite ? 'Bỏ yêu thích' : 'Yêu thích'}
+              position="top-right"
+              iconClassName={cn(
+                isFavorite
+                  ? 'fill-red-500 text-red-500'
+                  : 'text-muted-foreground group-hover:text-red-500',
+              )}
+            />
+          )}
 
           {/* Add to Cart Icon - Top Left */}
-          <ProductCardIconButton
-            icon={ShoppingCart}
-            onClick={handleAddToCartClick}
-            ariaLabel="Thêm vào giỏ hàng"
-            position="top-left"
-            iconClassName="text-muted-foreground group-hover:text-primary"
-          />
+          {/* {!isHideFavoriteButton && (
+            <ProductCardIconButton
+              icon={ShoppingCart}
+              onClick={handleAddToCartClick}
+              ariaLabel="Thêm vào giỏ hàng"
+              position="top-left"
+              iconClassName="text-muted-foreground group-hover:text-primary"
+            />
+          )} */}
         </div>
 
         {/* Content */}

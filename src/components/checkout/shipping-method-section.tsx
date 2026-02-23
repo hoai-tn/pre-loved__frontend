@@ -58,14 +58,14 @@ export function ShippingMethodSection({
             const isSelected = selectedMethod === method.id
 
             return (
-              <div
+              <label
                 key={method.id}
+                htmlFor={method.id}
                 className={`relative flex items-start gap-3 p-3 rounded-lg border-2 transition-colors cursor-pointer ${
                   isSelected
                     ? 'border-primary bg-primary/5'
                     : 'border-border hover:border-primary/50'
                 }`}
-                onClick={() => onMethodChange(method.id)}
               >
                 <RadioGroupItem
                   value={method.id}
@@ -94,7 +94,7 @@ export function ShippingMethodSection({
                 <span className="font-semibold text-primary">
                   {formatPrice(method.price)}
                 </span>
-              </div>
+              </label>
             )
           })}
         </div>

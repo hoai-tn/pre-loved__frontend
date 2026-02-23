@@ -31,7 +31,7 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Về chúng tôi</h3>
             <ul className="space-y-2">
               {footerLinks.about.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     to={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -48,7 +48,7 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Hỗ trợ</h3>
             <ul className="space-y-2">
               {footerLinks.support.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     to={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -65,7 +65,7 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Theo dõi chúng tôi</h3>
             <ul className="space-y-2">
               {footerLinks.follow.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     to={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -83,7 +83,7 @@ export function Footer() {
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>Email: support@pre-loved.com</p>
               <p>Hotline: 1900-xxxx</p>
-              <p className="mt-4">
+              <p className="mt-4" suppressHydrationWarning>
                 © {new Date().getFullYear()} Pre-Loved. All rights reserved.
               </p>
             </div>

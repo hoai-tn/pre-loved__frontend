@@ -114,11 +114,16 @@ function App() {
     ...product,
     originalPrice: product.price * 1.5,
     discount: 30 + index * 5,
-    sold: Math.floor(Math.random() * 100),
+    sold: 50 + index * 10,
     stock: 150,
   }))
 
-  const flashSaleEndTime = new Date(Date.now() + 3 * 60 * 60 * 1000) // 3 hours from now
+  // Use a stable end time based on the current day to avoid hydration mismatch
+  const [flashSaleEndTime] = useState(() => {
+    const now = new Date()
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+    return endOfDay
+  })
 
   const promoBanners = [
     {

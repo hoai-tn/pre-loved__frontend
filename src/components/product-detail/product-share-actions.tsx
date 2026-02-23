@@ -11,13 +11,13 @@ export function ProductShareActions() {
   return (
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon-sm" className="h-8 w-8">
+        <Button variant="ghost" size="icon-sm" className="h-8 w-8" aria-label="Chia sẻ Facebook">
           <Facebook className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon-sm" className="h-8 w-8">
+        <Button variant="ghost" size="icon-sm" className="h-8 w-8" aria-label="Nhắn tin">
           <MessageCircle className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon-sm" className="h-8 w-8">
+        <Button variant="ghost" size="icon-sm" className="h-8 w-8" aria-label="Chia sẻ">
           <Share2 className="h-4 w-4" />
         </Button>
       </div>

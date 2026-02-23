@@ -23,6 +23,7 @@ export function ProductQuantitySelector({
           <button
             onClick={() => onQuantityChange(-1)}
             disabled={quantity <= 1}
+            aria-label="Giảm số lượng"
             className="p-2 hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Minus className="h-4 w-4" />
@@ -31,16 +32,19 @@ export function ProductQuantitySelector({
             type="number"
             min="1"
             max={stock}
+            name="quantity"
+            aria-label="Số lượng"
             value={quantity}
             onChange={(e) => {
               const val = parseInt(e.target.value) || 1
               onQuantityInputChange(Math.max(1, Math.min(stock, val)))
             }}
-            className="w-16 text-center border-0 focus:outline-none focus:ring-0"
+            className="w-16 text-center border-0"
           />
           <button
             onClick={() => onQuantityChange(1)}
             disabled={quantity >= stock}
+            aria-label="Tăng số lượng"
             className="p-2 hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Plus className="h-4 w-4" />

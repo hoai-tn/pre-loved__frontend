@@ -14,6 +14,9 @@ export function ProductSellerInfo({ seller }: ProductSellerInfoProps) {
           <img
             src={seller.avatar}
             alt={seller.name}
+            width={64}
+            height={64}
+            loading="lazy"
             className="w-16 h-16 rounded-full object-cover"
           />
           {seller.isMall && (

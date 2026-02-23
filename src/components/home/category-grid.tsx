@@ -61,6 +61,9 @@ export function CategoryGrid({ categories, className }: CategoryGridProps) {
                 <img
                   src={category.image}
                   alt={category.name}
+                  width={48}
+                  height={48}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>

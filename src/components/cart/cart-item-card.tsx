@@ -45,6 +45,8 @@ export function CartItemCard({
           <img
             src={item.image}
             alt={item.title}
+            width={96}
+            height={96}
             className="w-full h-full object-cover"
           />
         </div>
@@ -73,6 +75,7 @@ export function CartItemCard({
               <button
                 onClick={() => handleQuantityChange(-1)}
                 disabled={item.quantity <= 1}
+                aria-label="Giảm số lượng"
                 className={cn(
                   'p-2 hover:bg-muted transition-colors',
                   item.quantity <= 1 && 'opacity-50 cursor-not-allowed',
@@ -83,12 +86,15 @@ export function CartItemCard({
               <input
                 type="number"
                 min="1"
+                name="quantity"
+                aria-label="Số lượng"
                 value={item.quantity}
                 onChange={handleQuantityInputChange}
-                className="w-16 text-center border-0 focus:outline-none focus:ring-0 bg-transparent"
+                className="w-16 text-center border-0 bg-transparent"
               />
               <button
                 onClick={() => handleQuantityChange(1)}
+                aria-label="Tăng số lượng"
                 className="p-2 hover:bg-muted transition-colors"
               >
                 <Plus className="h-4 w-4" />

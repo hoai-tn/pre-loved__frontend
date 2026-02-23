@@ -1,6 +1,6 @@
 'use client'
 
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import type { RegisterRequest } from '@/services/api'
@@ -92,6 +92,8 @@ function SignUpPage() {
                     <FormControl>
                       <Input
                         placeholder="Nhập tên đăng nhập"
+                        autoComplete="username"
+                        spellCheck={false}
                         {...field}
                         disabled={isLoading}
                       />
@@ -118,6 +120,8 @@ function SignUpPage() {
                       <Input
                         type="email"
                         placeholder="Nhập email"
+                        autoComplete="email"
+                        spellCheck={false}
                         {...field}
                         disabled={isLoading}
                       />
@@ -144,6 +148,7 @@ function SignUpPage() {
                       <Input
                         type="password"
                         placeholder="Nhập mật khẩu"
+                        autoComplete="new-password"
                         {...field}
                         disabled={isLoading}
                       />
@@ -168,13 +173,9 @@ function SignUpPage() {
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-muted-foreground">
             Đã có tài khoản?{' '}
-            <Button
-              variant="link"
-              className="p-0 h-auto font-semibold"
-              onClick={() => navigate({ to: '/signin' })}
-            >
+            <Link to="/signin" className="font-semibold text-primary hover:underline">
               Đăng nhập ngay
-            </Button>
+            </Link>
           </div>
         </CardFooter>
       </Card>

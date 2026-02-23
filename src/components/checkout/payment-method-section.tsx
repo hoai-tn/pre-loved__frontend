@@ -54,8 +54,9 @@ export function PaymentMethodSection({
             const isDisabled = method.disabled
 
             return (
-              <div
+              <label
                 key={method.id}
+                htmlFor={method.id}
                 className={`relative flex items-start gap-3 p-3 rounded-lg border-2 transition-colors ${
                   isDisabled
                     ? 'opacity-50 cursor-not-allowed bg-muted/50'
@@ -65,7 +66,6 @@ export function PaymentMethodSection({
                     ? 'border-primary bg-primary/5'
                     : 'border-border hover:border-primary/50'
                 }`}
-                onClick={() => !isDisabled && onMethodChange(method.id)}
               >
                 <RadioGroupItem
                   value={method.id}
@@ -87,7 +87,7 @@ export function PaymentMethodSection({
                     {method.description}
                   </p>
                 </div>
-              </div>
+              </label>
             )
           })}
         </div>

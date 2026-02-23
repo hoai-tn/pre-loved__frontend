@@ -18,11 +18,23 @@ export const Route = createRootRoute({
       {
         title: 'Pre-Loved - Mua bán đồ cũ, đồ second-hand',
       },
+      {
+        name: 'theme-color',
+        content: '#ffffff',
+      },
+      {
+        name: 'color-scheme',
+        content: 'light',
+      },
     ],
     links: [
       {
         rel: 'stylesheet',
         href: appCss,
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://images.unsplash.com',
       },
     ],
   }),

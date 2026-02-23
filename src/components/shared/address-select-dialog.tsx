@@ -178,6 +178,7 @@ export function AddressSelectDialog({
                       size="sm"
                       onClick={() => handleEdit(address)}
                       disabled={isSubmitting}
+                      aria-label="Sửa địa chỉ"
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
@@ -186,6 +187,7 @@ export function AddressSelectDialog({
                       size="sm"
                       onClick={() => handleDelete(address.id)}
                       disabled={isSubmitting}
+                      aria-label="Xóa địa chỉ"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -203,6 +205,8 @@ export function AddressSelectDialog({
                   <Label htmlFor="province">Tỉnh/Thành phố *</Label>
                   <Input
                     id="province"
+                    name="province"
+                    autoComplete="address-level1"
                     value={formData.province}
                     onChange={(e) =>
                       setFormData({ ...formData, province: e.target.value })
@@ -214,6 +218,8 @@ export function AddressSelectDialog({
                   <Label htmlFor="district">Quận/Huyện *</Label>
                   <Input
                     id="district"
+                    name="district"
+                    autoComplete="address-level2"
                     value={formData.district}
                     onChange={(e) =>
                       setFormData({ ...formData, district: e.target.value })
@@ -228,6 +234,8 @@ export function AddressSelectDialog({
                   <Label htmlFor="ward">Phường/Xã *</Label>
                   <Input
                     id="ward"
+                    name="ward"
+                    autoComplete="address-level3"
                     value={formData.ward}
                     onChange={(e) =>
                       setFormData({ ...formData, ward: e.target.value })
@@ -239,7 +247,9 @@ export function AddressSelectDialog({
                   <Label htmlFor="phone">Số điện thoại *</Label>
                   <Input
                     id="phone"
+                    name="phone"
                     type="tel"
+                    autoComplete="tel"
                     value={formData.phone}
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
@@ -253,6 +263,8 @@ export function AddressSelectDialog({
                 <Label htmlFor="street">Tên đường *</Label>
                 <Input
                   id="street"
+                  name="street"
+                  autoComplete="street-address"
                   value={formData.street}
                   onChange={(e) =>
                     setFormData({ ...formData, street: e.target.value })
@@ -265,6 +277,7 @@ export function AddressSelectDialog({
                 <Label htmlFor="detail">Chi tiết (số nhà, tòa, tầng...)</Label>
                 <Input
                   id="detail"
+                  name="detail"
                   value={formData.detail}
                   onChange={(e) =>
                     setFormData({ ...formData, detail: e.target.value })

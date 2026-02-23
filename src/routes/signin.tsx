@@ -1,6 +1,6 @@
 'use client'
 
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import type { LoginRequest } from '@/services/api'
@@ -87,6 +87,8 @@ function SignInPage() {
                     <FormControl>
                       <Input
                         placeholder="Nhập tên đăng nhập"
+                        autoComplete="username"
+                        spellCheck={false}
                         {...field}
                         disabled={isLoading}
                       />
@@ -109,6 +111,7 @@ function SignInPage() {
                       <Input
                         type="password"
                         placeholder="Nhập mật khẩu"
+                        autoComplete="current-password"
                         {...field}
                         disabled={isLoading}
                       />
@@ -133,13 +136,9 @@ function SignInPage() {
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-muted-foreground">
             Chưa có tài khoản?{' '}
-            <Button
-              variant="link"
-              className="p-0 h-auto font-semibold"
-              onClick={() => navigate({ to: '/signup' })}
-            >
+            <Link to="/signup" className="font-semibold text-primary hover:underline">
               Đăng ký ngay
-            </Button>
+            </Link>
           </div>
         </CardFooter>
       </Card>

@@ -37,6 +37,9 @@ export function ProductListSection({ products }: ProductListSectionProps) {
               <img
                 src={product.image}
                 alt={product.title}
+                width={80}
+                height={80}
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </div>

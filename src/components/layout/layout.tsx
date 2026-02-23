@@ -8,8 +8,11 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-background focus:text-foreground">
+        Chuyển đến nội dung chính
+      </a>
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1">{children}</main>
       <Footer />
     </div>
   )

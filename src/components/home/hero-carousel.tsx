@@ -74,6 +74,8 @@ export function HeroCarousel({
             <img
               src={banner.image}
               alt={banner.title || `Banner ${index + 1}`}
+              width={1200}
+              height={400}
               className="w-full h-full object-cover"
             />
             {(banner.title || banner.subtitle) && (
@@ -110,6 +112,7 @@ export function HeroCarousel({
             variant="ghost"
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={goToPrevious}
+            aria-label="Slide trước"
           >
             <ChevronLeft className="size-6" />
           </Button>
@@ -118,6 +121,7 @@ export function HeroCarousel({
             variant="ghost"
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={goToNext}
+            aria-label="Slide tiếp theo"
           >
             <ChevronRight className="size-6" />
           </Button>

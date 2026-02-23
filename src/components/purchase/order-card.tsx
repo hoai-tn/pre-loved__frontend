@@ -189,7 +189,16 @@ export function OrderCard({ order }: OrderCardProps) {
             </Button>
           )}
           {order.status === 'processing' && (
-            <Button variant="outline" size="sm" className="text-red-600">
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-red-600"
+              onClick={() => {
+                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+                  // TODO: Implement cancel order API
+                }
+              }}
+            >
               <XCircle className="h-4 w-4 mr-1" />
               Hủy đơn hàng
             </Button>

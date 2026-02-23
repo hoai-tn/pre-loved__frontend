@@ -236,6 +236,7 @@ export function OrderDetailPage() {
                 size="sm"
                 className="h-6 w-6 p-0 ml-1"
                 onClick={() => copyToClipboard(String(order.id))}
+                aria-label="Sao chép mã đơn hàng"
               >
                 <Copy className="h-3 w-3" />
               </Button>
@@ -359,6 +360,7 @@ export function OrderDetailPage() {
                         onClick={() =>
                           copyToClipboard(shipping.trackingNumber!)
                         }
+                        aria-label="Sao chép mã vận đơn"
                       >
                         <Copy className="h-3 w-3" />
                       </Button>
@@ -424,7 +426,15 @@ export function OrderDetailPage() {
                   </Button>
                 )}
                 {order.status === 'processing' && (
-                  <Button className="w-full" variant="destructive">
+                  <Button
+                    className="w-full"
+                    variant="destructive"
+                    onClick={() => {
+                      if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+                        // TODO: Implement cancel order API
+                      }
+                    }}
+                  >
                     <XCircle className="h-4 w-4 mr-2" />
                     Hủy đơn hàng
                   </Button>

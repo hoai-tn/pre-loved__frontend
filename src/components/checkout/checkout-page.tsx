@@ -127,6 +127,9 @@ export function CheckoutPage() {
               </div>
               <div className="flex gap-2">
                 <Input
+                  name="voucherCode"
+                  autoComplete="off"
+                  aria-label="Mã voucher"
                   placeholder="Nhập mã voucher"
                   value={voucherCode}
                   onChange={(e) => setVoucherCode(e.target.value)}

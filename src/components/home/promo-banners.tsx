@@ -36,6 +36,9 @@ export function PromoBanners({ banners, className }: PromoBannersProps) {
           <img
             src={banner.image}
             alt={banner.title}
+            width={600}
+            height={300}
+            loading="lazy"
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-end p-6">

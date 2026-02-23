@@ -74,6 +74,7 @@ export function ProductScroller<T extends { id: string | number }>({
           variant="ghost"
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover/scroller:opacity-100 transition-opacity"
           onClick={() => scroll('left')}
+          aria-label="Cuộn sang trái"
         >
           <ChevronLeft className="size-6" />
         </Button>
@@ -106,6 +107,7 @@ export function ProductScroller<T extends { id: string | number }>({
           variant="ghost"
           className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover/scroller:opacity-100 transition-opacity"
           onClick={() => scroll('right')}
+          aria-label="Cuộn sang phải"
         >
           <ChevronRight className="size-6" />
         </Button>

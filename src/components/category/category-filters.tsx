@@ -84,6 +84,7 @@ export function CategoryFilters({
               <button
                 onClick={() => onConditionChange?.(null)}
                 className="ml-1 hover:text-foreground"
+                aria-label="Xóa bộ lọc tình trạng"
               >
                 <X className="size-3" />
               </button>
@@ -98,6 +99,7 @@ export function CategoryFilters({
               <button
                 onClick={() => onRatingChange?.(null)}
                 className="ml-1 hover:text-foreground"
+                aria-label="Xóa bộ lọc đánh giá"
               >
                 <X className="size-3" />
               </button>
@@ -118,6 +120,7 @@ export function CategoryFilters({
                   onPriceChange?.(0, 999999999)
                 }}
                 className="ml-1 hover:text-foreground"
+                aria-label="Xóa bộ lọc giá"
               >
                 <X className="size-3" />
               </button>
@@ -163,6 +166,8 @@ export function CategoryFilters({
             <div className="flex gap-2">
               <Input
                 type="number"
+                name="minPrice"
+                aria-label="Giá tối thiểu"
                 placeholder="Từ"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
@@ -170,6 +175,8 @@ export function CategoryFilters({
               />
               <Input
                 type="number"
+                name="maxPrice"
+                aria-label="Giá tối đa"
                 placeholder="Đến"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}

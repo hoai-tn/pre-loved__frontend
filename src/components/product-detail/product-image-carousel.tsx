@@ -62,6 +62,8 @@ export function ProductImageCarousel({
                   <img
                     src={mainImageUrl}
                     alt={`${title} - ${index + 1}`}
+                    width={800}
+                    height={800}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -94,6 +96,9 @@ export function ProductImageCarousel({
                 <img
                   src={thumbnailUrl}
                   alt={`Thumbnail ${index + 1}`}
+                  width={80}
+                  height={80}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </button>

@@ -52,6 +52,9 @@ export function SearchResults({
             <img
               src={product.thumbnailUrl}
               alt={product.name}
+              width={48}
+              height={48}
+              loading="lazy"
               className="w-12 h-12 object-cover rounded"
             />
           ) : (

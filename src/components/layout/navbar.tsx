@@ -173,6 +173,8 @@ export function Navbar() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
               <Input
                 type="search"
+                name="search"
+                autoComplete="off"
                 placeholder="Bạn muốn tìm gì?"
                 className="pl-10 pr-10 h-10 w-full"
                 value={searchQuery}
@@ -210,7 +212,7 @@ export function Navbar() {
           {/* Right Side Actions */}
           <div className="flex items-center gap-2 shrink-0">
             {/* Post Listing Button */}
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground" aria-label="Đăng tin">
               <Plus className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">Đăng tin</span>
             </Button>
@@ -221,6 +223,7 @@ export function Navbar() {
               size="icon"
               className="h-9 w-9 relative"
               onClick={handleCartClick}
+              aria-label="Giỏ hàng"
             >
               <ShoppingCart className="h-5 w-5" />
               {cartItemCount > 0 && (
@@ -233,7 +236,7 @@ export function Navbar() {
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Tài khoản">
                   <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>

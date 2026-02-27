@@ -81,10 +81,10 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Liên hệ</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>Email: support@pre-loved.com</p>
+              <p>Email: support@Nart Tech.com</p>
               <p>Hotline: 1900-xxxx</p>
               <p className="mt-4" suppressHydrationWarning>
-                © {new Date().getFullYear()} Pre-Loved. All rights reserved.
+                © {new Date().getFullYear()} Nart Tech. All rights reserved.
               </p>
             </div>
           </div>

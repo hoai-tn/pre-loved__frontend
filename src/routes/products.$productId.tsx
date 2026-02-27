@@ -1,7 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import type { ProductDetailData } from '@/components/product-detail'
 import type { ApiProduct } from '@/services/api'
-import { ProductDetail, ProductDetailSkeleton } from '@/components/product-detail'
+import {
+  ProductDetail,
+  ProductDetailSkeleton,
+} from '@/components/product-detail'
 import { getProductById } from '@/services/api/products.api'
 
 /**
@@ -16,11 +19,12 @@ function mapApiProductToProductDetail(
 
   // Use thumbnailUrl or default as fallback
   const mainImage = apiProduct.thumbnailUrl || defaultImage
-  
+
   // Use catalogImagesUrl if available, otherwise fall back to thumbnailUrl
-  const images = apiProduct.catalogImagesUrl.length > 0
-    ? apiProduct.catalogImagesUrl
-    : [mainImage]
+  const images =
+    apiProduct.catalogImagesUrl.length > 0
+      ? apiProduct.catalogImagesUrl
+      : [mainImage]
 
   // Calculate original price and discount (10% discount as default)
   const originalPrice = Math.round(apiProduct.price * 1.1)
@@ -46,6 +50,7 @@ function mapApiProductToProductDetail(
     originalPrice,
     discount,
     images,
+    thumbnail_url: apiProduct.thumbnailUrl || defaultImage,
     colors: [], // API doesn't provide colors, can be empty or add defaults
     stock: apiProduct.stockQuantity,
     rating,

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the best practices and patterns for creating Zustand stores in the Pre-Loved frontend application. All stores follow a consistent modular architecture for maintainability and scalability.
+This document outlines the best practices and patterns for creating Zustand stores in the Nart Tech frontend application. All stores follow a consistent modular architecture for maintainability and scalability.
 
 ## Standard Store Structure
 

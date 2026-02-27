@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Pre-Loved is a Vietnamese second-hand marketplace frontend (e-commerce). Built with TanStack Start (SSR framework), React 19, TypeScript, and Tailwind CSS v4.
+Nart Tech is a Vietnamese second-hand marketplace frontend (e-commerce). Built with TanStack Start (SSR framework), React 19, TypeScript, and Tailwind CSS v4.
 
 ## Commands
 

@@ -163,7 +163,7 @@ export function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <span className="hidden sm:inline-block text-xl font-bold text-primary">
-              Pre-Loved
+              Nart Tech
             </span>
           </Link>
 
@@ -211,12 +211,6 @@ export function Navbar() {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-2 shrink-0">
-            {/* Post Listing Button */}
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground" aria-label="Đăng tin">
-              <Plus className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">Đăng tin</span>
-            </Button>
-
             {/* Cart Button */}
             <Button
               variant="ghost"

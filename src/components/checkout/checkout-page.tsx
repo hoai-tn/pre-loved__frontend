@@ -54,6 +54,7 @@ export function CheckoutPage() {
 
   const handlePlaceOrder = async () => {
     if (!user?.id) {
+      // open login dialog or navigate to login page
       return
     }
 

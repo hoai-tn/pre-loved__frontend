@@ -1,7 +1,7 @@
 'use client'
 
 import { ShoppingBag } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { AuthButton } from '@/components/shared/auth-button'
 import { Card } from '@/components/ui/card'
 
 interface OrderSummarySectionProps {
@@ -75,14 +75,14 @@ export function OrderSummarySection({
       </div>
 
       {/* Place Order Button */}
-      <Button
+      <AuthButton
         size="lg"
         className="w-full bg-primary hover:bg-primary/90 text-white font-semibold"
-        onClick={onPlaceOrder}
+        onAuthenticatedClick={onPlaceOrder}
         disabled={isLoading}
       >
         {isLoading ? 'Đang xử lý...' : 'Đặt hàng'}
-      </Button>
+      </AuthButton>
 
       {/* Additional Info */}
       <div className="mt-4 space-y-2">

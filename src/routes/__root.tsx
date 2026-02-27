@@ -16,7 +16,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Pre-Loved - Mua bán đồ cũ, đồ second-hand',
+        title: 'Nart Tech - Mua bán đồ cũ, đồ second-hand',
       },
       {
         name: 'theme-color',

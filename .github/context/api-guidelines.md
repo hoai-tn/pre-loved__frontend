@@ -1,6 +1,6 @@
 # API Implementation Guide
 
-This guide provides step-by-step instructions for implementing new API endpoints in the pre-loved frontend application following the existing architectural patterns.
+This guide provides step-by-step instructions for implementing new API endpoints in the Nart Tech frontend application following the existing architectural patterns.
 
 ## Table of Contents
 
@@ -535,4 +535,4 @@ export async function functionName(
 ---
 
 **Last Updated:** January 2026
-**Maintained By:** Pre-loved Development Team
+**Maintained By:** Nart Tech Development Team

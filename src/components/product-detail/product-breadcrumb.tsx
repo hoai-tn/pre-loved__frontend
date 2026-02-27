@@ -22,7 +22,7 @@ export function ProductBreadcrumb({ title, categorySlug }: ProductBreadcrumbProp
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="/">Pre-Loved</Link>
+            <Link to="/">Nart Tech</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         {category && (

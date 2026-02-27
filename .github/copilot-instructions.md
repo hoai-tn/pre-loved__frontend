@@ -1,4 +1,4 @@
-# Copilot Instructions - Pre-Loved Frontend
+# Copilot Instructions - Nart Tech Frontend
 
 ## Commands
 

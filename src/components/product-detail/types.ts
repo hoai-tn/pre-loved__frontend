@@ -21,6 +21,7 @@ export interface ProductDetailData {
   discount: number
   images: Array<string>
   colors: Array<ColorOption>
+  thumbnail_url: string
   stock: number
   rating: number
   reviews: number

@@ -10,7 +10,6 @@ import { ProductShippingInfo } from './product-shipping-info'
 import { ProductColorSelector } from './product-color-selector'
 import { ProductQuantitySelector } from './product-quantity-selector'
 import { ProductActionButtons } from './product-action-buttons'
-import { ProductSellerInfo } from './product-seller-info'
 import { ProductRelated } from './product-related'
 import type { ProductDetailData } from './types'
 
@@ -75,7 +74,7 @@ export function ProductDetail({ product, categorySlug }: ProductDetailProps) {
 
           <ProductActionButtons
             productId={product.id}
-            image={product.images[0] || ''}
+            image={product.thumbnail_url}
             title={product.title}
             price={product.price}
             location={product.location}
@@ -84,7 +83,10 @@ export function ProductDetail({ product, categorySlug }: ProductDetailProps) {
         </div>
       </div>
 
-      <ProductRelated categoryId={product.categoryId} excludeProductId={product.id} />
+      <ProductRelated
+        categoryId={product.categoryId}
+        excludeProductId={product.id}
+      />
     </div>
   )
 }

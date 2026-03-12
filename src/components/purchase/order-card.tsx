@@ -83,7 +83,11 @@ const getStatusInfo = (status: OrderStatus) => {
     },
   }
 
-  return statusMap[status]
+  if (status in statusMap) {
+    return statusMap[status]
+  }
+
+  return statusMap.pending
 }
 
 export function OrderCard({ order }: OrderCardProps) {

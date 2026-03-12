@@ -34,7 +34,7 @@ export const Route = createFileRoute('/categories/$slug')({
   component: CategoryPage,
   validateSearch: (search: Record<string, unknown>): ValidateSearch => {
     return {
-      sort: (search.sort as string) || 'newest',
+      sort: (search.sort as string) || 'price-desc',
       minPrice: search.minPrice as number | undefined,
       maxPrice: search.maxPrice as number | undefined,
       condition: search.condition as string | undefined,

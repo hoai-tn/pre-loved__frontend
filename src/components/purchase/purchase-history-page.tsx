@@ -134,7 +134,7 @@ export function PurchaseHistoryPage() {
         }
 
         const apiOrders = await getOrders(user.id)
-        const transformedOrders = apiOrders.map(transformOrderToComponentOrder)
+        const transformedOrders = apiOrders.map(transformOrderToComponentOrder).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
         setOrders(transformedOrders)
       } catch (err) {
         // TODO: Remove mock fallback when API is ready

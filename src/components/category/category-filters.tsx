@@ -31,7 +31,7 @@ export function CategoryFilters({
   onPriceChange,
   onConditionChange,
   onRatingChange,
-  activeSort = 'newest',
+  activeSort = 'price-desc',
   activeCondition = null,
   activeRating = null,
   activeMinPrice = null,

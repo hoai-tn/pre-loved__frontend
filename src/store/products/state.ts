@@ -9,7 +9,7 @@ export const initialProductState: ProductState = {
   total: 0,
   currentPage: 1,
   totalPages: 0,
-  limit: 20,
+  limit: 30,
 
   // Loading and error states
   isLoading: false,

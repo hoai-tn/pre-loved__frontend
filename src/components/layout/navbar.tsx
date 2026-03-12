@@ -172,7 +172,7 @@ export function Navbar() {
             <div className="relative w-full max-w-2xl" ref={searchRef}>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
               <Input
-                type="search"
+                type="text"
                 name="search"
                 autoComplete="off"
                 placeholder="Bạn muốn tìm gì?"

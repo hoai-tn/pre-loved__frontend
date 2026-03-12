@@ -85,7 +85,11 @@ const getStatusInfo = (status: OrderStatus) => {
     },
   }
 
-  return statusMap[status as keyof typeof statusMap]
+  if (status in statusMap) {
+    return statusMap[status as keyof typeof statusMap]
+  }
+
+  return statusMap.pending
 }
 
 export function OrderDetailPage() {
@@ -131,7 +135,7 @@ export function OrderDetailPage() {
           items: data.items.map((item) => ({
             id: Number(item.id),
             order_id: Number(data.id),
-            product_id: item.productId,
+            product_id: String(item.productId),
             quantity: item.quantity,
             price: String(item.price),
             thumbnail_url: item.thumbnailUrl ?? null,

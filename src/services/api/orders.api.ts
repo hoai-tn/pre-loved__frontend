@@ -7,6 +7,18 @@ import type {
   OrderResponse,
 } from './types'
 
+const ORDER_STATUS_ALIASES = {
+  delivering: 'shipping',
+} as const
+
+function normalizeOrderStatus(status: string): string {
+  if (status in ORDER_STATUS_ALIASES) {
+    return ORDER_STATUS_ALIASES[status as keyof typeof ORDER_STATUS_ALIASES]
+  }
+
+  return status
+}
+
 /**
  * Create a new order
  */
@@ -33,7 +45,7 @@ function transformApiOrder(apiOrder: ApiOrder): OrderResponse {
   return {
     id: String(apiOrder.id),
     userId: Number(apiOrder.user_id),
-    status: apiOrder.status,
+    status: normalizeOrderStatus(apiOrder.status),
     totalAmount: parseFloat(apiOrder.total),
     items: apiOrder.items.map((item) => ({
       id: String(item.id),
